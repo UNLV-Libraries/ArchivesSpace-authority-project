@@ -1,0 +1,1 @@
+DigitalObject.include(Places)

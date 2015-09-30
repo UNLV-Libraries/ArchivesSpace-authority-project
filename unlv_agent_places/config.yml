@@ -1,0 +1,25 @@
+parents:
+  abstract_agent:
+    name: places
+    cardinality: zero_to_many
+  agent_person:
+    name: places
+    cardinality: zero_to_many
+  agent_family:
+    name: places
+    cardinality: zero_to_many
+  agent_corporate_entity:
+    name: places
+    cardinality: zero_to_many
+  agent_software:
+    name: places
+    cardinality: zero_to_many
+  accession:
+    name: places
+    cardinality: zero_to_many
+  resource:
+    name: places
+    cardinality: zero_to_many
+  digital_object:
+    name: places
+    cardinality: zero_to_many
