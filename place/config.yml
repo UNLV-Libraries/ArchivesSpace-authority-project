@@ -1,7 +1,4 @@
 parents:
-  abstract_agent:
-    name: places
-    cardinality: zero_to_many
   agent_person:
     name: places
     cardinality: zero_to_many
