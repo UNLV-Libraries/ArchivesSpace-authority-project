@@ -1,4 +1,3 @@
-
 require_relative 'unlv_marcxml_basemap_patch'
 
 class UNLVMarcXMLAgentsConverter < MarcXMLConverter
@@ -17,7 +16,7 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		@agent_uris = []
 
 		@batch.record_filter = ->(record) {
-		  if record['jsonmodel_type'] == 'accession'
+		  if record['jsonmodel_type'] == 'resource'
 			record['linked_agents'].reject! {|la| !@agent_uris.include?(la[:ref])}
 		  end
 
@@ -34,8 +33,16 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 			# Log.debug(authority_id)
 		  # end
 		  Log.debug(record)
+
 		  if other
-				other['names'].concat(record['names'])
+        record['names'].each do |name|
+          name.to_hash.each do |k, v|
+            next if k == 'jsonmodel_type'
+            next if k == 'name_order'
+            next unless other['names'][0][k].is_a? String
+            other['names'][0][k] << " #{v}"
+          end
+        end
 			false
 		  else
 			@agent_uris << record['uri']
@@ -55,6 +62,7 @@ end
 
 UNLVMarcXMLAgentsConverter.configure do |config|
 
+  config.doc_frag_nodes.uniq! 
 	
 	config["/record"][:map]["controlfield[@tag='001']"] =  UNLVMarcXMLAgentsConverter.mix(UNLVMarcXMLAgentsConverter.person_template,UNLVMarcXMLAgentsConverter.authority)
 	# config["/record"][:map]["controlfield[@tag='001']"] = -> resource, node {
