@@ -1,0 +1,1 @@
+{ "places" => {"type" => "array", "items" => {"type" => "JSONModel(:place) object"}} }

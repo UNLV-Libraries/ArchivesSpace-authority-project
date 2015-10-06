@@ -1,0 +1,30 @@
+<%
+   section_id = "places" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3>TEST</h3>
+  <div class="accordion details" id="places_accordion">
+    <% places.each_with_index do | place, index | %>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#places_accordion" href="#place_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span2">
+             Test
+            </div>
+            <div class="span6">
+              <%= place['role'] %>
+            </div>
+          </div>
+        </div>
+        <div id="place_<%= index %>" class="accordion-body collapse">
+          <%= read_only_view(place, :plugin => true) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

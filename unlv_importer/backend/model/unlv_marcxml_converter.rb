@@ -1,4 +1,3 @@
-
 require_relative 'unlv_marcxml_basemap_patch'
 
 class UNLVMarcXMLAgentsConverter < MarcXMLConverter
@@ -17,31 +16,38 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		@agent_uris = []
 
 		@batch.record_filter = ->(record) {
-		  if record['jsonmodel_type'] == 'accession'
+		  if record['jsonmodel_type'] == 'resource'
 			record['linked_agents'].reject! {|la| !@agent_uris.include?(la[:ref])}
 		  end
 
 
 		  return true unless record['jsonmodel_type'] == 'agent_person' 
 
+			  Log.debug("HERE2")
+			  Log.debug(record)
 		  other = @batch.working_area.find {|rec| rec['jsonmodel_type'] == 'agent_person'}
-		  # Log.debug("HELP")
-		  # Log.debug(other)
-		  # Log.debug(other['names'])
-		  # record['names'].each do |name| 
-			# Log.debug(name)
-			# authority_id = name['authority_id']
-			# Log.debug(authority_id)
-		  # end
-		  Log.debug(record)
+		  
 		  if other
-				other['names'].concat(record['names'])
+			record['names'].each do |name|
+			  Log.debug(name.to_hash(:raw))
+			  name.to_hash(:raw).each do |k, v|
+			   if k == 'authority_id'
+				other['names'][0][k] = " " end
+				next if k == 'jsonmodel_type'
+				next if k == 'name_order'
+				next unless other['names'][0][k].is_a? String
+				other['names'][0][k] << " #{v}"
+			  end
+			end
 			false
 		  else
 			@agent_uris << record['uri']
 			true
 		  end
 		  
+			  Log.debug("HERE3")
+			  Log.debug(other)
+			  Log.debug(record)
 		}
 	  end
 	def self.instance_for(type, input_file)
@@ -55,6 +61,7 @@ end
 
 UNLVMarcXMLAgentsConverter.configure do |config|
 
+  config.doc_frag_nodes.uniq! 
 	
 	config["/record"][:map]["controlfield[@tag='001']"] =  UNLVMarcXMLAgentsConverter.mix(UNLVMarcXMLAgentsConverter.person_template,UNLVMarcXMLAgentsConverter.authority)
 	# config["/record"][:map]["controlfield[@tag='001']"] = -> resource, node {

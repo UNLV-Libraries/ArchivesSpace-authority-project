@@ -1,0 +1,13 @@
+en:
+  plugins:
+    place: 
+      label: Place
+      _singular: Places 
+      _plural: Places 
+      title: Places 
+      role: Role 
+      role_tooltip: |
+          <p>REQUIRED FIELD: The place.</p>
+      _frontend:
+        action:
+          add: Add Places
