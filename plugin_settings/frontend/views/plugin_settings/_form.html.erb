@@ -1,0 +1,15 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @plugin_setting, :form => form} %>
+
+<% define_template("plugin_setting", jsonmodel_definition(:plugin_setting)) do |form| %>
+  <section id="basic_information">
+    <fieldset>
+    <%= form.label_and_textfield "ead_loc_text", {:plugin => true} %>
+    </fieldset>
+  </section>
+<% end %>
+
+<% form.emit_template("plugin_setting") %>
+
+<div class="form-actions">
+  <button type="submit" class="btn btn-primary"><%= I18n.t("plugins.plugin_settings.save") %></button>
+</div>

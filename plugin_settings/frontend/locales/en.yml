@@ -1,0 +1,16 @@
+en:
+   plugins:
+      plugin_settings:
+        label: Plugin Settings
+        title: Plugin Settings
+        save: Save Settings
+        clear: Clear Settings
+        return: Return to Settings
+        _frontend:
+           messages:
+             error_update: Error updating
+             updated: Updated settings
+             error_create: Error creating
+             create: Created settings
+      plugin_setting:
+        ead_loc_text: EAD Loc Text
