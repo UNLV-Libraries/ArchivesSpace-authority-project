@@ -12,5 +12,16 @@ en:
              updated: Updated settings
              error_create: Error creating
              create: Created settings
-      plugin_setting:
-        ead_loc_text: EAD Loc Text
+      plugin_setting: &plugin_setting_attributes
+        global: Global Plugin Settings Defaults
+        global_message: Edit these values to set system-wide user plugin settings defaults. These values can be overridden by repository defaults or a user's own plugin settings.
+        repo: User Plugin Settings Defaults
+        repo_message: Edit these values to set user plugin settings defaults for the current repository. These values can be overridden by a user's own plugin settings.
+        user_global: My Global Plugin Settings
+        user_global_message: Edit these values to set your system-wide user plugin settings. These values can be overridden by repository defaults or by your own plugin settings for a repository.
+        user_repo: My Repository Plugin Settings
+        user_repo_message: Edit these values to set your user plugin settings for this repository. These values cannot be overridden.
+        _singular: Plugin Setting
+        _plural: Plugin Settingss
+
+     
