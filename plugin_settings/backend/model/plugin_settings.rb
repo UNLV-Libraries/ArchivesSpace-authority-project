@@ -115,7 +115,6 @@ class PluginSettings < Sequel::Model(:plugin_settings)
     RequestContext.in_global_repo do
       filter = {:repo_id => Repository.global_repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
 	  
-		Log.debug("HEREa")
 		
       self.filter(filter).each do |setting|
         if setting.user_uniq == 'GLOBAL_USER'
@@ -134,7 +133,6 @@ class PluginSettings < Sequel::Model(:plugin_settings)
         json_settings["settings_#{k}"] = json_settings['settings'].clone
        end
     end
-	Log.debug("que")
     json_settings['settings'].delete('jsonmodel_type')
 	Log.debug(json_settings)
     json_settings
