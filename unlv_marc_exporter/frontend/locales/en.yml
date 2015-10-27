@@ -1,0 +1,52 @@
+en:
+   plugins:
+      marc_export_settings:
+        label: UNLV Marc Export Settings
+        title: UNLV Marc Export Settings
+        save: Save Settings
+        clear: Clear Settings
+        return: Return to Settings
+        _frontend:
+           messages:
+             error_update: Error updating
+             updated: Updated settings
+             error_create: Error creating
+             create: Created settings
+      marc_export_setting: &marc_export_settings_attributes
+        global: Global Marc Export Settings Defaults
+        global_message: Edit these values to set system-wide user marc export settings defaults. These values can be overridden by repository defaults or a user's own marc export settings.
+        repo: User Marc Export Settings Defaults
+        repo_message: Edit these values to set user marc export settings defaults for the current repository. These values can be overridden by a user's own marc export settings.
+        user_global: My Global Marc Export Settings
+        user_global_message: Edit these values to set your system-wide user marc export settings. These values can be overridden by repository defaults or by your own marc export settings for a repository.
+        user_repo: My Repository Marc Export Settings
+        user_repo_message: Edit these values to set your user marc export settings for this repository. These values cannot be overridden.
+        _singular: Marc Export Setting
+        _plural: Marc Export Settings
+      m_export_settings:
+        tag_041: Tag 041
+        tag_099: Tag 099
+        tag_245: Tag 245
+        tag_245_sc_f: Subfield Code f
+        tag_351: Tag 351
+        tag_500: Tag 500
+        tag_506: Tag 506
+        tag_520: Tag 520
+        tag_520_in1_2: ind1 = "2"
+        tag_520_in1_3: ind1 = "3"
+        tag_535: Tag 535
+        tag_541: Tag 541
+        tag_544: Tag 544
+        tag_555: Tag 555
+        tag_610: Tag 610
+        tag_852: Tag 852
+        tag_856: Tag 856
+        tag_ss_1: Strip hard returns
+        tag_ss_2: Replace period with dash for identifier
+        tag_506_sc_a_ss_1: Search for html and create additional Tag 856
+        tag_555_ss_1: Change finding aid text for Tag 555
+        tag_856_ss_1: Change finding aid text for Tag 856
+        tag_610_sc_a_ss_1: Unite qualifier with name for Tag 610
+        enable_tags_section: Enable Tags Settings
+        special_settings_section: Special Settings
+     
