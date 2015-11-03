@@ -1,11 +1,11 @@
 class PluginSettingsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :edit, :update]
+									
   def index
 	 redirect_to(:controller => :plugin_settings,
                   :action => :edit,
-                  :id => 0,
-				  :repo => true)
+                  :id => 0)
   end
   def edit
     scope = params['global'] ? 'global' : 'repo'
@@ -23,12 +23,13 @@ class PluginSettingsController < ApplicationController
       opts[:repo_id] = global_repo_id
     end
 
+
     if @current_settings["#{user_prefix}#{scope}"]
       setting = JSONModel(:plugin_settings).from_hash(@current_settings["#{user_prefix}#{scope}"])
     else
       setting = JSONModel(:plugin_settings).new({
-                                          :settings => {},
-                                          :user_id => params['repo'] ? nil : JSONModel(:user).id_for(session[:user_uri])
+											:settings => {},
+											:user_id => params['repo'] ? nil : JSONModel(:user).id_for(session[:user_uri])
                                         })
       setting.save(opts)
     end
@@ -39,34 +40,33 @@ class PluginSettingsController < ApplicationController
       redirect_to(:controller => :plugin_settings,
                   :action => :edit,
                   :id => setting.id,
-                  :global => params['global'],
                   :repo => params['repo'])
     end
   end
 
 
   def update
-    prefs, global_repo_id = current_plugin_settings
-    opts = {}
-    opts[:repo_id] = global_repo_id if params['global']
-    handle_crud(:instance => :plugin_settings,
-                :model => JSONModel(:plugin_settings),
-                :obj => JSONModel(:plugin_settings).find(params['id'], opts),
-                :find_opts => opts,
-                :save_opts => opts,
-                :replace => false,
-                :on_invalid => ->(){
+     prefs, global_repo_id = current_plugin_settings
+     opts = {}
+     opts[:repo_id] = global_repo_id if params['global']
+     handle_crud(:instance => :plugin_settings,
+                 :model => JSONModel(:plugin_settings),
+                 :obj => JSONModel(:plugin_settings).find(params['id'], opts),
+                 :find_opts => opts,
+                 :save_opts => opts,
+                 :replace => false,
+                 :on_invalid => ->(){
                   return render action: "edit"
-                },
-                :on_valid => ->(id){
-                  flash[:success] = I18n.t("plugins.plugin_settings._frontend.messages.updated",
-                                           JSONModelI18nWrapper.new(:plugin_settings => @setting))
-                  redirect_to(:controller => :plugin_settings,
-                              :action => :edit,
-                              :id => id,
-                              :global => params['global'],
-                              :repo => params['repo'])
-                })
+                 },
+                 :on_valid => ->(id){
+                   flash[:success] = I18n.t("plugins.plugin_settings._frontend.messages.updated",
+                                            JSONModelI18nWrapper.new(:plugin_settings => @plugin_settings))
+                   redirect_to(:controller => :plugin_settings,
+                               :action => :edit,
+                               :id => id,
+                               :global => params['global'],
+                               :repo => params['repo'])
+                 })
   end
 
 

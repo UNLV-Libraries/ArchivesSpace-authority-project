@@ -1,19 +1,19 @@
 <%
   if params['global']
     if params['repo']
-      title = I18n.t('plugin.plugin_settings.global')
-      message = I18n.t('plugin.plugin_settings.global_message')
+      title = I18n.t('plugins.plugin_setting.global')
+      message = I18n.t('plugins.plugin_setting.global_message')
     else
-      title = I18n.t('plugin.plugin_settings.user_global')
-      message = I18n.t('plugin.plugin_settings.user_global_message')
+      title = I18n.t('plugins.plugin_setting.user_global')
+      message = I18n.t('plugins.plugin_setting.user_global_message')
     end
   else
     if params['repo']
-      title = I18n.t('plugin.plugin_settings.repo')
-      message = I18n.t('plugin.plugin_settings.repo_message')
+      title = I18n.t('plugins.plugin_setting.repo')
+      message = I18n.t('plugins.plugin_setting.repo_message')
     else
-      title = I18n.t('plugin.plugin_settings.user_repo')
-      message = I18n.t('plugin.plugin_settings.user_repo_message')
+      title = I18n.t('plugins.plugin_setting.user_repo')
+      message = I18n.t('plugins.plugin_setting.user_repo_message')
     end
     title += " -- #{current_repo['repo_code']}"
   end
@@ -22,7 +22,7 @@
 <%= setup_context(:title => title) %>
 
 <%= form_for @plugin_settings, :as => "plugin_settings", :url => {:action => :update, :id => @plugin_settings.id},
-    :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@plugin_settings)) do |f| %>
+    :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@plugin_settings))  do |f| %>
 
 <% if params['global'] %>
   <input type="hidden" name="global" value="true">

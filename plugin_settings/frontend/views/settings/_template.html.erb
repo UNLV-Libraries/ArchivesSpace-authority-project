@@ -1,6 +1,6 @@
 <% define_template("settings", jsonmodel_definition(:settings)) do |form| %>
   <div class="subrecord-form-fields">
-      <%= form.label_and_textfield "ead_loc_text", {}, form.default_for("ead_loc_text") %>
+      <%= form.label_and_textfield "ead_loc_text", {:plugin => true}%>
 
       <%= form.hidden_input "junk", "bin me please" %>
    </div>

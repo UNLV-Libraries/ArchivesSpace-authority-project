@@ -8,6 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
 		.returns([200, :created],
 				 [400, :error]) \
 	do
+	  Log.debug("update61aa2")
 		 check_permissions(params)
 		 handle_create(PluginSettings, params[:plugin_settings])
 	end
@@ -19,6 +20,7 @@ class ArchivesSpaceService < Sinatra::Base
 		.permissions([])
 		.returns([200, "(settings)"]) \
     do
+	  Log.debug("update61a2")
 	 	json_response(PluginSettings.settings_for(params[:repo_id], params[:username]))
 	end
 	
@@ -29,6 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
 		.permissions([])
 		.returns([200, "(:plugin_settings)"]) \
 	do
+	  Log.debug("update612")
 		json = PluginSettings.to_jsonmodel(params[:id])
 
 		json_response(json)
@@ -40,6 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
       .permissions([])
       .returns([200, "{(:plugin_settings)}"]) \
     do
+	  Log.debug("update68")
       json = PluginSettings.current_plugin_settings(params[:repo_id])
    
       json_response(json)
@@ -51,6 +55,7 @@ class ArchivesSpaceService < Sinatra::Base
       .permissions([])
       .returns([200, "{(:plugin_settings)}"]) \
     do
+	  Log.debug("update6")
       json = PluginSettings.current_plugin_settings(Repository.global_repo_id)
    
       json_response(json)
@@ -65,6 +70,7 @@ class ArchivesSpaceService < Sinatra::Base
       .returns([200, :updated],
                [400, :error]) \
     do
+	  Log.debug("update")
       check_permissions(params)
       handle_update(PluginSettings, params[:id], params[:plugin_settings])
     end
@@ -77,6 +83,7 @@ class ArchivesSpaceService < Sinatra::Base
       .permissions([:view_repository])
       .returns([200, "[(:plugin_settings)]"]) \
     do
+	  Log.debug("update1")
       handle_unlimited_listing(PluginSettings, params)
     end
 
@@ -88,6 +95,7 @@ class ArchivesSpaceService < Sinatra::Base
       .permissions([:delete_archival_record])
       .returns([200, :deleted]) \
     do
+	  Log.debug("delete")
       check_permissions(params)
       handle_delete(PluginSettings, params[:id])
     end

@@ -1,41 +1,40 @@
 class PluginSettings < Sequel::Model(:plugin_settings)
-	include ASModel
-	
-	set_model_scope :global
-	corresponds_to JSONModel(:plugin_settings)
-	
-	def self.init
-		defs_file = File.join(File.dirname(__FILE__), '..', '..', "config", "plugin_settings_settings.rb")
-		settings = {}
-		if File.exists?(defs_file)
-		  found_defs_file = true
-		  Log.info("Loading plugin settings settings file at #{defs_file}")
-		  settings = eval(File.read(defs_file))
-		else
-		  Log.info("Plugin Settings settings file at #{defs_file} not found")
-		end
+  include ASModel
+  corresponds_to JSONModel(:plugin_settings)
 
-		RequestContext.in_global_repo do
-		  filter = {:repo_id => Repository.global_repo_id}
-		  if self.filter(filter).count == 0
-			Log.info("Creating system plugin settings")
-			PluginSettings.create_from_json(JSONModel(:plugin_settings).from_hash({
-																		   :user_id => nil,
-																		   :settings => settings
-																		 }),
-										:repo_id => Repository.global_repo_id)
-		  else
-			if found_defs_file
-			  Log.info("Updating system plugin settings")
-			  pref = self.filter(filter).first
-			  pref.update_from_json(JSONModel(:plugin_settings).from_hash({:settings => settings}),
-									:lock_version => pref.lock_version)
-			end
-		  end
-		end    
-	  end
-  
-	
+  set_model_scope :repository
+
+  def self.init
+	defs_file = File.join(File.dirname(__FILE__), '..', '..', "config", "plugin_settings_settings.rb")
+    settings = {}
+    if File.exists?(defs_file)
+      found_defs_file = true
+      Log.info("Loading Plugin Settings settings settings file at #{defs_file}")
+      settings = eval(File.read(defs_file))
+    else
+		 Log.info("Plugin Settings settings file at #{defs_file} not found")
+	end
+    RequestContext.in_global_repo do
+      filter = {:repo_id => Repository.global_repo_id, :user_id => nil}
+      if self.filter(filter).count == 0
+        Log.info("Creating system Plugin Settings")
+        PluginSettings.create_from_json(JSONModel(:plugin_settings).from_hash({
+                                                                       :user_id => nil,
+                                                                       :settings => settings
+                                                                     }),
+                                    :repo_id => Repository.global_repo_id)
+      else
+        if found_defs_file
+          Log.info("Updating system Plugin Settings")
+          pref = self.filter(filter).first
+          pref.update_from_json(JSONModel(:plugin_settings).from_hash({:settings => settings}),
+                                :lock_version => pref.lock_version)
+        end
+      end
+    end    
+  end
+
+
   def before_save
     super
     self.user_uniq = self.user_id || 'GLOBAL_USER'
@@ -43,7 +42,7 @@ class PluginSettings < Sequel::Model(:plugin_settings)
 
 
   def after_save
-    Notifications.notify("REFRESH_SETTINGS")
+    Notifications.notify("REFRESH_PLUGIN_SETTINGS")
   end
 
 
@@ -97,45 +96,44 @@ class PluginSettings < Sequel::Model(:plugin_settings)
 
     user_id = User[:username => RequestContext.get(:current_username)].id
     filter = {:repo_id => repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
-    json_settings = {'settings' => {}}
+    json_prefs = {'settings' => {}}
+    prefs = {}
     settings = {}
 
     if repo_id != Repository.global_repo_id
-      self.filter(filter).each do |setting|
-        if setting.user_uniq == 'GLOBAL_USER'
-          json_settings['repo'] = self.to_jsonmodel(setting)
-          settings[:repo] = setting
+      self.filter(filter).each do |pref|
+        if pref.user_uniq == 'GLOBAL_USER'
+          json_prefs['repo'] = self.to_jsonmodel(pref)
+          prefs[:repo] = pref
         else
-          json_settings['user_repo'] = self.to_jsonmodel(setting)
-          settings[:user_repo] = setting
+          json_prefs['user_repo'] = self.to_jsonmodel(pref)
+          prefs[:user_repo] = pref
+        end
+      end
+    end
+    RequestContext.in_global_repo do
+      filter = {:repo_id => Repository.global_repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
+      self.filter(filter).each do |pref|
+        if pref.user_uniq == 'GLOBAL_USER'
+          json_prefs['global'] = self.to_jsonmodel(pref)
+          prefs[:global] = pref
+        else
+          json_prefs['user_global'] = self.to_jsonmodel(pref)
+          prefs[:user_global] = pref
         end
       end
     end
 
-    RequestContext.in_global_repo do
-      filter = {:repo_id => Repository.global_repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
-	  
-		
-      self.filter(filter).each do |setting|
-        if setting.user_uniq == 'GLOBAL_USER'
-          json_settings['global'] = self.to_jsonmodel(setting)
-          settings[:global] = setting
-        else
-          json_settings['user_global'] = self.to_jsonmodel(setting)
-          settings[:user_global] = setting
-        end
+    [:global, :user_global, :repo, :user_repo].each do |k|
+      if prefs[k]
+        json_prefs['settings'].merge!(prefs[k].parsed_settings)
+        json_prefs["settings_#{k}"] = json_prefs['settings'].clone
       end
     end
-	
-    [:global, :user_global, :repo, :user_repo].each do |k|
-       if settings[k]
-        json_settings['settings'].merge!(settings[k].parsed_settings)
-        json_settings["settings_#{k}"] = json_settings['settings'].clone
-       end
-    end
-    json_settings['settings'].delete('jsonmodel_type')
-	Log.debug(json_settings)
-    json_settings
+    json_prefs['settings'].delete('jsonmodel_type')
+
+	Log.debug(json_prefs)
+    json_prefs
   end
 
 

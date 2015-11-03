@@ -22,6 +22,8 @@ en:
         user_repo: My Repository Plugin Settings
         user_repo_message: Edit these values to set your user plugin settings for this repository. These values cannot be overridden.
         _singular: Plugin Setting
-        _plural: Plugin Settingss
+        _plural: Plugin Settings
+      settings:
+        ead_loc_text: EAD Loc Text
 
      
