@@ -44,6 +44,9 @@
       <div class="alert alert-info">
         <%= message.force_encoding("UTF-8") %>
       </div>
+      <div class="alert alert-info">
+        <%= I18n.t('plugins.marc_export_setting.help_message')%>
+      </div>
 
          <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

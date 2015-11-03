@@ -20,33 +20,81 @@ en:
         user_global: My Global Marc Export Settings
         user_global_message: Edit these values to set your system-wide user marc export settings. These values can be overridden by repository defaults or by your own marc export settings for a repository.
         user_repo: My Repository Marc Export Settings
-        user_repo_message: Edit these values to set your user marc export settings for this repository. These values cannot be overridden.
+        user_repo_message: Edit these values to set your user marc export settings for this repository.
+        help_message: Hover over tags for a description of its mapping to ArchivesSpace and its description in http://www.loc.gov/marc/bibliographic/.
         _singular: Marc Export Setting
         _plural: Marc Export Settings
-      m_export_settings:
-        tag_041: Tag 041
-        tag_099: Tag 099
-        tag_245: Tag 245
-        tag_245_sc_f: Subfield Code f
-        tag_351: Tag 351
-        tag_500: Tag 500
-        tag_506: Tag 506
-        tag_520: Tag 520
-        tag_520_in1_2: ind1 = "2"
-        tag_520_in1_3: ind1 = "3"
-        tag_535: Tag 535
-        tag_541: Tag 541
-        tag_544: Tag 544
-        tag_555: Tag 555
-        tag_610: Tag 610
-        tag_852: Tag 852
-        tag_856: Tag 856
-        tag_ss_1: Strip hard returns
-        tag_ss_2: Replace period with dash for identifier
-        tag_506_sc_a_ss_1: Search for html and create additional Tag 856
-        tag_555_ss_1: Change finding aid text for Tag 555
-        tag_856_ss_1: Change finding aid text for Tag 856
-        tag_610_sc_a_ss_1: Unite qualifier with name for Tag 610
+      m_export_settings: &m_export_settings_attributes
         enable_tags_section: Enable Tags Settings
         special_settings_section: Special Settings
+        tag_041: Tag 041
+        tag_041_tooltip: |
+            <p>Archivesspace & LOC: Lanugage Code</p>
+        tag_099: Tag 099
+        tag_099_tooltip: |
+            <p>ArchivesSpace: Identifier</p> 
+            <p>LOC: Local Call Numbers</p>
+        tag_245_sc_f: Tag 245 subfield code f
+        tag_245_sc_f_tooltip: |
+            <p>Archivesspace & LOC: Inclusive Dates</p>
+        tag_351: Tag 351
+        tag_351_tooltip: |
+            <p>Archivesspace: Arrangement (Note) </p>
+            <p>LOC: Organization and Arrangement of Materials </p>
+        tag_500: Tag 500
+        tag_500_tooltip: |
+            <p>LOC: General Note</p> 
+            <p>ArchivesSpace: </p>
+            <ul><li>General</li><li>Dimensions</li><li>Physical Description</li>
+            <li>Materials Specific Details</li><li>Physical Location</li><li>Physical Characteristics and Technical Requirements</li>
+            <li>Processing Information</li><li>Separated Materials</li></ul>
+        tag_506: Tag 506
+        tag_506_tooltip: |
+            <p>Archivesspace: Conditions Governing Access (Note)</p>
+            <p>LOC: Restrictions on Access</p>
+        tag_520: Tag 520
+        tag_520_tooltip: |
+            <p>Archivesspace: Abstract (Note)</p>
+            <p>LOC: Summary</p>
+        tag_520_ind1_3: Tag 520 with ind1 = 3
+        tag_520_ind1_3_tooltip: |
+            <p>Archivesspace: Scope and Contents (Note)</p>
+            <p>LOC: Summary</p>
+        tag_535: Tag 535
+        tag_535_tooltip: |
+            <p>LOC: Location of Originals/Duplicates (Note) </p>
+            <p>Archivesspace: </p>
+            <ul><li>Existence and Location of Copies</li><li>Existence and Location of Originals</li></ul>
+        tag_541: Tag 541
+        tag_541_tooltip: |
+            <p>Archivesspace & LOC: Immediate Source of Acquisition (Note)</p>
+        tag_544: Tag 544
+        tag_544_tooltip: |
+            <p>Archivesspace: Related Materials (Note)</p>
+            <p>LOC: Location of Other Archival Materials</p>
+        tag_555: Tag 555
+        tag_555_tooltip: |
+            <p>Archivesspace: Finding Aid Data</p>
+            <p>LOC: Cumulative Index/Finding Aids</p>
+        tag_610: Tag 610
+        tag_610_tooltip: |
+            <p>Archivesspace: Subject, Corporate Entity </p> 
+            <p>LOC: Subject Added Entry - Corporate Name</p>
+        tag_852: Tag 852
+        tag_852_tooltip: |
+            <p>Archivesspace: Repository, Location, Identifier</p>
+            <p>LOC: Location</p>
+        tag_856: Tag 856
+        tag_856_tooltip: |
+             <p>Archivesspace: EAD Location</p>
+             <p>LOC: Location</p>
+        tag_ss_1: Strip hard returns
+        tag_ss_2: Replace period with dash in identifier
+        tag_506_sc_a_ss_1: Search for url in Tag 506 and create additional Tag 856
+        tag_ss_3: Change label for created Tag 856
+        tag_ss_3_tooltip: | 
+            <p>Only availabe if special setting for creating additional 856 Tag is enabled</p>
+        tag_555_ss_1: Change label for finding aid content Tag 555
+        tag_856_ss_1: Change label for finding aid content Tag 856
+        tag_610_sc_a_ss_1: Unite qualifier with name for Tag 610
      

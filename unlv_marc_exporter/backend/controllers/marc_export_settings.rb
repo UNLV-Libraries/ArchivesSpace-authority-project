@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
 		.returns([200, :created],
 				 [400, :error]) \
 	do
-		 check_permissions(params)
+		 check_marc_permissions(params)
 		 handle_create(MarcExportSettings, params[:marc_export_settings])
 	end
 	
@@ -65,7 +65,7 @@ class ArchivesSpaceService < Sinatra::Base
       .returns([200, :updated],
                [400, :error]) \
     do
-      check_permissions(params)
+      check_marc_permissions(params)
       handle_update(MarcExportSettings, params[:id], params[:marc_export_settings])
     end
 
@@ -90,12 +90,12 @@ class ArchivesSpaceService < Sinatra::Base
       .returns([200, :deleted]) \
     do
 	  Log.debug("delete")
-      check_permissions(params)
+      check_marc_permissions(params)
       handle_delete(MarcExportSettings, params[:id])
     end
 
 
-    def check_permissions(params)
+    def check_marc_permissions(params)
       if (params.has_key?(:marc_export_settings))
         marc_export_user_id = params[:marc_export_settings]['marc_export_user_id']
         repo_id = params[:marc_export_settings]['repo_id']
