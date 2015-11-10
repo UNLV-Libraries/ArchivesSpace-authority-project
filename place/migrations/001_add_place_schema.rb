@@ -26,9 +26,6 @@ Sequel.migration do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
-	  add_foreign_key([:accession_id], :accession, :key => :id)
-      add_foreign_key([:resource_id], :resource, :key => :id)
-      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
     end
 
   end

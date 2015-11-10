@@ -1,4 +1,10 @@
 parents:
+  abstract_agent:
+    name: places
+    cardinality: zero_to_many
+  agent:
+    name: places
+    cardinality: zero_to_many
   agent_person:
     name: places
     cardinality: zero_to_many
@@ -9,14 +15,5 @@ parents:
     name: places
     cardinality: zero_to_many
   agent_software:
-    name: places
-    cardinality: zero_to_many
-  accession:
-    name: places
-    cardinality: zero_to_many
-  resource:
-    name: places
-    cardinality: zero_to_many
-  digital_object:
     name: places
     cardinality: zero_to_many
