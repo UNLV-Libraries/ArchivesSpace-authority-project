@@ -14,9 +14,7 @@
 		"tag_506" => {"type" => "boolean", "default" => true},	
 		"tag_520_ind1_3" => {"type" => "boolean", "default" => true},
 		"tag_541" => {"type" => "boolean", "default" => true},	
-		"tag_544" => {"type" => "boolean", "default" => true},
 		"tag_555" => {"type" => "boolean", "default" => true},	
-		"tag_610" => {"type" => "boolean", "default" => true},	
 		"tag_852" => {"type" => "boolean", "default" => true},	
 		"tag_856" => {"type" => "boolean", "default" => true},	
 		

@@ -334,11 +334,14 @@ class MARCModel < ASpaceExport::ExportModel
 					if(marc_args[0] == '506')
 						if( MarcExportSettings.m_export_settings['tag_506_sc_a_ss_1'])
 							urls = text.split(/\s+/).find_all { |u| u =~ /^https?:/ }
-							ead_text = if MarcExportSettings.m_export_settings['tag_856_ss_1'].nil? then MarcExportSettings.m_export_settings['tag_856_ss_1'] else  "Finding aid online:" end
-							df('856', '4', '2').with_sfs(
-									['a', ead_text],
-									['u', urls[0]]
+							unless urls.empty?
+							   text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
+							   ead_text = if MarcExportSettings.m_export_settings['tag_856_ss_1'].nil? then MarcExportSettings.m_export_settings['tag_856_ss_1'] else  "Finding aid online:" end
+							   df('856', '4', '2').with_sfs(
+							    	['a', ead_text],
+								   	['u', urls[0]]
 								)
+							end
 						end
 					end
 					df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
@@ -438,11 +441,14 @@ class MARCModel < ASpaceExport::ExportModel
 				if(marc_args[0] == '506')
 						if( MarcExportSettings.m_export_settings['tag_506_sc_a_ss_1'])
 							urls = text.split(/\s+/).find_all { |u| u =~ /^https?:/ }
-							ead_text = if MarcExportSettings.m_export_settings['tag_ss_3'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_ss_3'] end
-							df('856', '4', '0').with_sfs(
-									['a', ead_text],
-									['z', urls[0]]
-								)
+							unless urls.empty?
+							    text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
+								ead_text = if MarcExportSettings.m_export_settings['tag_ss_3'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_ss_3'] end
+								df('856', '4', '0').with_sfs(
+										['a', ead_text],
+										['z', urls[0]]
+									)
+							end
 						end
 					end
 				df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])

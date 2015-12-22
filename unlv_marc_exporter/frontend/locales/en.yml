@@ -29,21 +29,21 @@ en:
         special_settings_section: Special Settings
         tag_041: Tag 041
         tag_041_tooltip: |
-            <p>Archivesspace & LOC: Lanugage Code</p>
+            <p>Archivesspace & MARC: Lanugage Code</p>
         tag_099: Tag 099
         tag_099_tooltip: |
             <p>ArchivesSpace: Identifier</p> 
-            <p>LOC: Local Call Numbers</p>
+            <p>MARC: Local Call Numbers</p>
         tag_245_sc_f: Tag 245 subfield code f
         tag_245_sc_f_tooltip: |
-            <p>Archivesspace & LOC: Inclusive Dates</p>
+            <p>Archivesspace & MARC: Inclusive Dates</p>
         tag_351: Tag 351
         tag_351_tooltip: |
             <p>Archivesspace: Arrangement (Note) </p>
-            <p>LOC: Organization and Arrangement of Materials </p>
+            <p>MARC: Organization and Arrangement of Materials </p>
         tag_500: Tag 500
         tag_500_tooltip: |
-            <p>LOC: General Note</p> 
+            <p>MARC: General Note</p> 
             <p>ArchivesSpace: </p>
             <ul><li>General</li><li>Dimensions</li><li>Physical Description</li>
             <li>Materials Specific Details</li><li>Physical Location</li><li>Physical Characteristics and Technical Requirements</li>
@@ -51,43 +51,35 @@ en:
         tag_506: Tag 506
         tag_506_tooltip: |
             <p>Archivesspace: Conditions Governing Access (Note)</p>
-            <p>LOC: Restrictions on Access</p>
+            <p>MARC: Restrictions on Access</p>
         tag_520: Tag 520
         tag_520_tooltip: |
             <p>Archivesspace: Abstract (Note)</p>
-            <p>LOC: Summary</p>
+            <p>MARC: Summary</p>
         tag_520_ind1_3: Tag 520 with ind1 = 3
         tag_520_ind1_3_tooltip: |
             <p>Archivesspace: Scope and Contents (Note)</p>
-            <p>LOC: Summary</p>
+            <p>MARC: Summary</p>
         tag_535: Tag 535
         tag_535_tooltip: |
-            <p>LOC: Location of Originals/Duplicates (Note) </p>
+            <p>MARC: Location of Originals/Duplicates (Note) </p>
             <p>Archivesspace: </p>
             <ul><li>Existence and Location of Copies</li><li>Existence and Location of Originals</li></ul>
         tag_541: Tag 541
         tag_541_tooltip: |
-            <p>Archivesspace & LOC: Immediate Source of Acquisition (Note)</p>
-        tag_544: Tag 544
-        tag_544_tooltip: |
-            <p>Archivesspace: Related Materials (Note)</p>
-            <p>LOC: Location of Other Archival Materials</p>
+            <p>Archivesspace & MARC: Immediate Source of Acquisition (Note)</p>
         tag_555: Tag 555
         tag_555_tooltip: |
             <p>Archivesspace: Finding Aid Data</p>
-            <p>LOC: Cumulative Index/Finding Aids</p>
-        tag_610: Tag 610
-        tag_610_tooltip: |
-            <p>Archivesspace: Subject, Corporate Entity </p> 
-            <p>LOC: Subject Added Entry - Corporate Name</p>
+            <p>MARC: Cumulative Index/Finding Aids</p>
         tag_852: Tag 852
         tag_852_tooltip: |
             <p>Archivesspace: Repository, Location, Identifier</p>
-            <p>LOC: Location</p>
+            <p>MARC: Location</p>
         tag_856: Tag 856
         tag_856_tooltip: |
              <p>Archivesspace: EAD Location</p>
-             <p>LOC: Location</p>
+             <p>MARC: Location</p>
         tag_ss_1: Strip hard returns
         tag_ss_2: Replace period with dash in identifier
         tag_506_sc_a_ss_1: Search for url in Tag 506 and create additional Tag 856
