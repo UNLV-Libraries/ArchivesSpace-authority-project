@@ -1,0 +1,19 @@
+<%= setup_context :title => "Overlay" %>
+
+
+<div class="row">
+  <div class="col-md-8">
+    <%= render_aspace_partial :partial => "shared/flash_messages" %>
+	<%= form_tag({:controller => :overlay, :action => :overlay}, {:id => "overlay", :class => "form-search", :method => "POST"}) do |form| %>
+	<div class='control-group form-group'> 
+	  	 <%=
+			 render_aspace_partial :partial => "overlay/form",
+					:locals => {
+					:controller => :overlay,
+					:confirmation_title => I18n.t("actions.merge_confirm_title"),
+					:confirmation_msg => I18n.t("actions.merge_agent_confirm_message")}
+		  %>
+	</div>
+	<% end %>	
+  </div>
+</div>

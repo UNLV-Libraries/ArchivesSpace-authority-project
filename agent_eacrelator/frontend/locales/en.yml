@@ -1,0 +1,8 @@
+en:
+  plugins:
+    agent_relationship_earlierlater:
+      agent_eacrelator: EAC relator       
+    agent_relationship_parentchild:
+      agent_eacrelator: EAC relator
+    agent_relationship_associative:
+      agent_eacrelator: EAC relator

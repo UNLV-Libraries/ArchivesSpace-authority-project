@@ -1,0 +1,33 @@
+<%
+   multiplicity ||= "one" 
+   singular = "#{controller}".singularize 
+%>
+
+<div class="overlay-form">
+	<%= form_context :overlay, {} do |form| %>
+	  <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "plugins.#{singular}._frontend.messages.please_select_a_#{singular}_to_overlay" %></div>
+	  <%= render_aspace_partial :partial => "#{controller}/linker", :locals => { :form => form, :hide_create => true, :multiplicity => multiplicity }%>
+	 <!--<div class="form-actions">
+		 <div class='control-group form-group'> 
+		  <button type="submit" class="btn btn-primary btn-default">
+			<%# image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+			<%# I18n.t("plugins.actions.overlay") %>
+		  </button>
+		</div>-->
+	  <div class='col-md-9'>
+		  <%=
+			 button_confirm_action(I18n.t("plugins.actions.overlay"),
+								   url_for({:controller => controller, :action => :overlay}),
+								   {
+									 :class => "btn pull-left overlay-button btn-default",
+									 :"data-title" => confirmation_title,
+									 :"data-message" => confirmation_msg,
+									 :"data-confirm-btn-label" => "#{I18n.t("plugins.actions.overlay")}",
+									 :"data-confirm-btn-class" => "btn btn-default"
+								   })
+		  %>
+		  <a class="btn btn-cancel btn-default" href="#"><%= I18n.t("actions.cancel") %></a>
+	  </div>
+	</div>
+	<% end %>	
+</div>
