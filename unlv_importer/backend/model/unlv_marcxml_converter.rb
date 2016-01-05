@@ -22,21 +22,13 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		    #record['names'][0]['source'] = 'import'
 			record['names'][0]['authority_id'] = 'http://id.loc.gov/authorities/names/' + record['names'][0]['authority_id'].gsub(/\s+/, "")
 		  end
-		  
-		  Log.debug("record")
-		  Log.debug(record)
 		  return false unless AgentManager.known_agent_type?(record.class.record_type)
 		  
 		  if (record['jsonmodel_type'] != 'agent_person' && record['jsonmodel_type'] != 'agent_software' && record['jsonmodel_type'] != 'agent_corporate_entity'  && record['jsonmodel_type'] != 'agent_family')
-		
-			Log.debug("testing")
 			return true 
 		  end
 		  
 		  other = @batch.working_area.find {|rec| (rec['jsonmodel_type'] == 'agent_person' && rec['jsonmodel_type'] == 'agent_software' && rec['jsonmodel_type'] == 'agent_corporate_entity'  && rec['jsonmodel_type'] == 'agent_family') }
-
-		  Log.debug("other")
-		  Log.debug(other)
 		  
 		  if other
 			false
