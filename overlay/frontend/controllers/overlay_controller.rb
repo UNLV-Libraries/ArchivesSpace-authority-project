@@ -1,20 +1,3 @@
-
-require 'logger'
-class Log
-  @@logger = Logger.new($stderr)
-  def self.quiet_please
-    @@logger.sev_threshold = Logger::FATAL
-  end
-  def self.exception(e)
-    backtrace = e.backtrace.join("\n")
-    @@logger.error("\n#{e}\n#{backtrace}")
-  end
-  def self.debug(s) @@logger.debug(s) end
-  def self.info(s) @@logger.info(s) end
-  def self.warn(s) @@logger.warn(s) end
-  def self.error(s) @@logger.error(s) end
-end
-
 class OverlayController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :overlay],
@@ -24,12 +7,8 @@ class OverlayController < ApplicationController
   
   end
   def overlay
-   Log.debug("Problem")
-   Log.debug(params[:target])
    merge_type = params[:target].split('/')
-   Log.debug(merge_type)
-   Log.debug(merge_type[1].chomp("s"))
-   
+
    handle_overlay(params[:victim],
 				params[:target],
                 merge_type[1].chomp("s"))
@@ -41,7 +20,6 @@ class OverlayController < ApplicationController
     request = JSONModel(:overlay_request).new
     request.target = {'ref' => target_uri}
     request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim  } }
-	Log.debug("A temporary Bliss")
 	Log.debug(merge_type)
     begin
       request.save(:record_type => merge_type)

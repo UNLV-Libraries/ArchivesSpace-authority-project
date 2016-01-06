@@ -9,7 +9,6 @@ class ArchivesSpaceService < Sinatra::Base
 		.permissions([:update_agent_record])
 		.returns([200, :updated]) \
 	do
-	    Log.debug("why are you still here?")
 		#turn string into accessable hash
 		target, victims = parse_references(params[:overlay_request])
 		
@@ -23,9 +22,6 @@ class ArchivesSpaceService < Sinatra::Base
 		agent_model = AgentManager.model_for(target[:type]) 
 		victim_obj = agent_model.to_jsonmodel(victims[0][:id])
 		
-		
-		Log.debug("problem")
-		Log.debug(victim_obj)
 		#data to overlay from first victim  
 		authority_id = victim_obj['names'][0]['authority_id']
 		
@@ -40,9 +36,6 @@ class ArchivesSpaceService < Sinatra::Base
 		
 		#add to target data to victim 
 		target_obj['names'][0]['authority_id'] = authority_id;
-		
-		Log.debug("solution")
-		Log.debug(target_obj)
 		
 		#update target to database
 		handle_overlay_update(obj, target_obj)
@@ -60,7 +53,6 @@ class ArchivesSpaceService < Sinatra::Base
 		.permissions([:update_subject_record])
 		.returns([200, :updated]) \
 	do
-	    Log.debug("a million friend march to nothing")
 		#turn string into accessable hash
 		target, victims = parse_references(params[:overlay_request])
 		
@@ -71,9 +63,6 @@ class ArchivesSpaceService < Sinatra::Base
 		#sort out victim data to parse
 		victim_obj = Subject.to_jsonmodel(victims[0][:id])
 		
-		
-		Log.debug("problem")
-		Log.debug(victim_obj)
 		#data to overlay from first victim  
 		authority_id = victim_obj['authority_id']
 		
@@ -86,9 +75,6 @@ class ArchivesSpaceService < Sinatra::Base
 		
 		#add to target data to victim 
 		target_obj['authority_id'] = authority_id;
-		
-		Log.debug("solution")
-		Log.debug(target_obj)
 		
 		#update target to database
 		handle_overlay_update(obj, target_obj)
