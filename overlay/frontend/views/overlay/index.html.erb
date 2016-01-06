@@ -1,8 +1,18 @@
+<% title = "Overlay" %>
+
 <%= setup_context :title => "Overlay" %>
 
 
 <div class="row">
   <div class="col-md-8">
+   <h2><%= title %></h2>
+    <div class="alert alert-info">
+       <%= I18n.t('plugins.overlay.info_message') %>
+    </div>
+    <div class="alert alert-info">
+      <%= I18n.t('plugins.overlay.help_message')%>
+    </div>
+	
     <%= render_aspace_partial :partial => "shared/flash_messages" %>
 	<%= form_tag({:controller => :overlay, :action => :overlay}, {:id => "overlay", :class => "form-search", :method => "POST"}) do |form| %>
 	<div class='control-group form-group'> 

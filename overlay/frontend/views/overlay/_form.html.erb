@@ -20,8 +20,8 @@
 								   url_for({:controller => controller, :action => :overlay}),
 								   {
 									 :class => "btn pull-left overlay-button btn-default",
-									 :"data-title" => confirmation_title,
-									 :"data-message" => confirmation_msg,
+									 :"data-title" => I18n.t("plugins.actions.overlay_confirm_title"),
+									 :"data-message" =>  I18n.t("plugins.actions.overlay_agent_confirm_message"),
 									 :"data-confirm-btn-label" => "#{I18n.t("plugins.actions.overlay")}",
 									 :"data-confirm-btn-class" => "btn btn-default"
 								   })

@@ -24,9 +24,15 @@ class OverlayController < ApplicationController
   
   end
   def overlay
+   Log.debug("Problem")
+   Log.debug(params[:target])
+   merge_type = params[:target].split('/')
+   Log.debug(merge_type)
+   Log.debug(merge_type[1].chomp("s"))
+   
    handle_overlay(params[:victim],
 				params[:target],
-                'agent')
+                merge_type[1].chomp("s"))
   end
   
   private
@@ -35,7 +41,8 @@ class OverlayController < ApplicationController
     request = JSONModel(:overlay_request).new
     request.target = {'ref' => target_uri}
     request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim  } }
-
+	Log.debug("A temporary Bliss")
+	Log.debug(merge_type)
     begin
       request.save(:record_type => merge_type)
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")

@@ -9,43 +9,100 @@ class ArchivesSpaceService < Sinatra::Base
 		.permissions([:update_agent_record])
 		.returns([200, :updated]) \
 	do
+	    Log.debug("why are you still here?")
 		#turn string into accessable hash
 		target, victims = parse_references(params[:overlay_request])
+		
 		
 		#compare types to make sure types are the same
 		if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
 			raise BadParamsException.new(:overlay_request => ["Agent merge request can only merge agent records"])
 		end
 		
-		#sort out data to parse
+		#sort out victim data to parse
 		agent_model = AgentManager.model_for(target[:type]) 
-		obj = agent_model.get_or_die(target[:id])
 		victim_obj = agent_model.to_jsonmodel(victims[0][:id])
-		target_obj = agent_model.to_jsonmodel(target[:id])
 		
 		
+		Log.debug("problem")
+		Log.debug(victim_obj)
 		#data to overlay from first victim  
 		authority_id = victim_obj['names'][0]['authority_id']
 		
-		#add to target data to victim 
-		target_obj['names'][0]['authority_id'] = authority_id;
-		
-		#since target is stored->merge the victim 
+		#since target data is stored->merge the victim 
 		agent_model.get_or_die(target[:id]).assimilate(victims.map {|v|
                                                     AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                                   })
 		
+		#sort out target data to parse
+		obj = agent_model.get_or_die(target[:id])
+		target_obj = agent_model.to_jsonmodel(target[:id])
+		
+		#add to target data to victim 
+		target_obj['names'][0]['authority_id'] = authority_id;
+		
+		Log.debug("solution")
+		Log.debug(target_obj)
+		
 		#update target to database
 		handle_overlay_update(obj, target_obj)
+        #handle_update(agent_model,target[:id], target_obj)
+		
+		json_response(:status => "OK")
+	end
+	
+	Endpoint.post('/overlay_requests/subject')
+		.description("Carry out an overlay request against Agent records")
+		.params(["overlay_request",
+				  JSONModel(:overlay_request), "A merge request",
+				  :body => true])
+		.permissions([:merge_subject_record])
+		.permissions([:update_subject_record])
+		.returns([200, :updated]) \
+	do
+	    Log.debug("a million friend march to nothing")
+		#turn string into accessable hash
+		target, victims = parse_references(params[:overlay_request])
+		
+		
+		#compare types to make sure types are the same
+		ensure_type(target, victims, 'subject')
+		
+		#sort out victim data to parse
+		victim_obj = Subject.to_jsonmodel(victims[0][:id])
+		
+		
+		Log.debug("problem")
+		Log.debug(victim_obj)
+		#data to overlay from first victim  
+		authority_id = victim_obj['authority_id']
+		
+		#since target data is stored->merge the victim 
+		Subject.get_or_die(target[:id]).assimilate(victims.map {|v| Subject.get_or_die(v[:id])})
+		
+		#sort out target data to parse
+		obj = Subject.get_or_die(target[:id])
+		target_obj = Subject.to_jsonmodel(target[:id])
+		
+		#add to target data to victim 
+		target_obj['authority_id'] = authority_id;
+		
+		Log.debug("solution")
+		Log.debug(target_obj)
+		
+		#update target to database
+		handle_overlay_update(obj, target_obj)
+        #handle_update(agent_model,target[:id], target_obj)
 		
 		json_response(:status => "OK")
 	end
 	
 private 
 
-	# Override handle_update to solve nil:NilClass error 
+	# Override handle_update and update_from_json to solve nil:NilClass error 
 	def handle_overlay_update(obj, json,extra_values = {}, apply_nested_records = true)
-		 if obj.values.has_key?(:suppressed)
+		
+		if obj.values.has_key?(:suppressed)
 			if obj[:suppressed] == 1
 			  raise ReadOnlyException.new("Can't update an object that has been suppressed")
 			end
@@ -77,5 +134,11 @@ private
 		  obj.class.fire_update(json, obj)
 		
 		  updated_response(obj, json)
+	end
+	
+	def ensure_type(target, victims, type)
+		if (victims.map {|r| r[:type]} + [target[:type]]).any? {|t| t != type}
+		  raise BadParamsException.new(:merge_request => ["This merge request can only merge #{type} records"])
+		end
 	end
 end
