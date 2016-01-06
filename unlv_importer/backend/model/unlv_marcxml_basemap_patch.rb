@@ -2,7 +2,6 @@ require 'logger'
 MarcXMLBaseMap.module_eval do
     # agents from 100 and 700 field are creators or sources
 	  def creators_and_sources
-			Log.debug("check if here")
 		{
 			
 		  :map => {
