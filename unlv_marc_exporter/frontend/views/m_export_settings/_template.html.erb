@@ -23,8 +23,9 @@
       <%= form.label_and_boolean "tag_ss_2", {:plugin => true}, form.default_for("tag_ss_2") %>
       <%= form.label_and_boolean "tag_610_sc_a_ss_1", {:plugin => true}, form.default_for("tag_610_sc_a_ss_1")  %>
       <%= form.label_and_boolean "tag_506_sc_a_ss_1", {:plugin => true}, form.default_for("tag_506_sc_a_ss_1")  %>
-      <%= form.label_and_textfield "tag_ss_3", {:plugin => true}%> <%= form.label_and_textfield "tag_555_ss_1", {:plugin => true}%>
-      <%= form.label_and_textfield "tag_856_ss_1", {:plugin => true}%>
+      <%= form.label_and_textfield "tag_ss_3", {:plugin => true, :required => true} %>
+	  <%= form.label_and_textfield "tag_555_ss_1", {:plugin => true, :required => true} %>
+      <%= form.label_and_textfield "tag_856_ss_1", {:plugin => true, :required => true} %>
 	  
 	  
 	  

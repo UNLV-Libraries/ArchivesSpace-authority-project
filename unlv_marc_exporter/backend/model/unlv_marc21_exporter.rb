@@ -62,6 +62,7 @@ class MARCModel < ASpaceExport::ExportModel
 		end
 		df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['c', repo['org_code']])
 	end
+	
 	def handle_primary_creator(linked_agents)
 		link = linked_agents.find{|a| a['role'] == 'creator'}
 		return nil unless link
@@ -115,7 +116,8 @@ class MARCModel < ASpaceExport::ExportModel
 
 		sfs << role_info
 		df(code, ind1, ind2).with_sfs(*sfs)
-	  end
+	end
+	  
 	def handle_agents(linked_agents)
 	
 		handle_primary_creator(linked_agents)
@@ -456,6 +458,7 @@ class MARCModel < ASpaceExport::ExportModel
 		end
     end
   end
+  
   def handle_ead_loc(ead_loc)
 	if( MarcExportSettings.m_export_settings['tag_555'])
 		text = if MarcExportSettings.m_export_settings['tag_555_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_555_ss_1'] end
@@ -472,6 +475,10 @@ class MARCModel < ASpaceExport::ExportModel
 								)
 	end
   end
+  
+  #Checks if there is a setting for the exporting tag 
+  #If there is and that tag is off don't export 
+  #else let the tag export
   def handle_settings(marc_args)
 	export = true
 	tag = 'tag_' + marc_args[0]

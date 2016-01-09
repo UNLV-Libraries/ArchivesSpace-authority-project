@@ -15,24 +15,25 @@ Place is a ArchivesSpace plugin to be able to add places to an agent.
 
 # Plugin Settings
 
-
 Plugin Settings is a test to implement settings for a plugin following the structure of the preferences in ArchivesSpace.
 
 [Plugin Settings](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/plugin_settings).
 
 # UNLV Importer
 
-**Under Construction 
-
-UNLV Importer fixes and adds multiple tags not imported to ArchivesSpace for agents and subjects. It follows the Library of Congress Authority Files format.
+Custom UNLV MARCXML Importer for agents and subjects
 
 [UNLV Importer](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_importer)
 
 # UNLV MARC exporter
 
-**Under Construction
-
-UNLV MARC exporter fixes and adds multiple tags missing on the resouce MARC exports. Plugin Settings has been implemented in a way here that allows
-the custom functionality for UNLV to be enabled and disabled.
+Custom UNLV MARCXML exporter for resource MARC exports. Plugin Settings has been implemented in a way here that allows
+the custom functionality for UNLV to be enabled and disabled. Instructions are included for adding or deleting these settings
 
 [UNLV MARC exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_marc_exporter)
+
+# Overlay
+
+Merge agents and subjects while still keeping data.
+
+[UNLV MARC exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/overlay)

@@ -77,7 +77,6 @@ class ArchivesSpaceService < Sinatra::Base
       .permissions([:view_repository])
       .returns([200, "[(:marc_export_settings)]"]) \
     do
-	  Log.debug("update1")
       handle_unlimited_listing(MarcExportSettings, params)
     end
 
@@ -89,7 +88,6 @@ class ArchivesSpaceService < Sinatra::Base
       .permissions([:delete_archival_record])
       .returns([200, :deleted]) \
     do
-	  Log.debug("delete")
       check_marc_permissions(params)
       handle_delete(MarcExportSettings, params[:id])
     end
@@ -123,5 +121,4 @@ class ArchivesSpaceService < Sinatra::Base
       end
     end
 
-end
-			
+end		

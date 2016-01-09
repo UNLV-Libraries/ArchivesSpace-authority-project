@@ -2,6 +2,7 @@ require_relative 'unlv_marcxml_basemap_patch'
 
 class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 	
+	# Create the import type for marcxml agents 
 	def self.import_types(show_hidden = false)
 		[
 			{
@@ -10,6 +11,8 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 			}
 		]
 	end
+	
+	# Alter the information recieved from the resource 
 	def initialize(input_file)
 		super(input_file)
 
@@ -20,8 +23,11 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 			record['linked_agents'].reject! {|la| !@agent_uris.include?(la[:ref])}
 		  else
 		    #record['names'][0]['source'] = 'import'
+			
+			#Add the LOC link to the authority_id 
 			record['names'][0]['authority_id'] = 'http://id.loc.gov/authorities/names/' + record['names'][0]['authority_id'].gsub(/\s+/, "")
 		  end
+		  
 		  return false unless AgentManager.known_agent_type?(record.class.record_type)
 		  
 		  if (record['jsonmodel_type'] != 'agent_person' && record['jsonmodel_type'] != 'agent_software' && record['jsonmodel_type'] != 'agent_corporate_entity'  && record['jsonmodel_type'] != 'agent_family')
@@ -30,7 +36,7 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		  
 		  other = @batch.working_area.find {|rec| (rec['jsonmodel_type'] == 'agent_person' && rec['jsonmodel_type'] == 'agent_software' && rec['jsonmodel_type'] == 'agent_corporate_entity'  && rec['jsonmodel_type'] == 'agent_family') }
 		  
-		  if other
+		  if other then 
 			false
 		  else
 			@agent_uris << record['uri']
@@ -38,6 +44,7 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		  end
 		}
 	  end
+	  
 	def self.instance_for(type, input_file)
 		if type == "marcxml_agents"
 			self.new(input_file)

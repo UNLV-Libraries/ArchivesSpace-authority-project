@@ -7,6 +7,7 @@ class MarcExportSettings < Sequel::Model(:marc_export_settings)
   def self.init
 	defs_file = File.join(File.dirname(__FILE__), '..', '..', "config", "marc_export_settings_m_export_settings.rb")
     m_export_settings = {}
+	
     if File.exists?(defs_file)
       found_defs_file = true
       Log.info("Loading m_export_settings file at #{defs_file}")

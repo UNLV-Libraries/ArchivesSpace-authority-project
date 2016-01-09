@@ -2,6 +2,8 @@ require_relative 'unlv_marcxml_subjects_basemap_patch'
 
 class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 	
+	
+	# Create the import type for marcxml subjects 
 	def self.import_types(show_hidden = false)
 		[
 			{
@@ -10,15 +12,15 @@ class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 			}
 		]
 	end
+	
+	# Add the authority_id to the original resources when two resources are created
 	def initialize(input_file)
 		super(input_file)
 
 		@subject_uris = []
 
 		@batch.record_filter = ->(record) {
-		  if record['jsonmodel_type'] == 'resource'
-		  	#record['subjects'].reject! {|la| !@subject_uris.include?(la[:ref])}
-		  end
+		
 		  return false unless record.class.record_type == 'subject'
 		
 		  return true unless record['jsonmodel_type'] == 'subject' 
@@ -44,7 +46,8 @@ class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 		  end
 		  
 		}
-	  end 
+	 end 
+	  
 	def self.instance_for(type, input_file)
 		if type == "marcxml_subjects"
 			self.new(input_file)

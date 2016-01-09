@@ -1,6 +1,7 @@
 require 'logger'
 MarcXMLBaseMap.module_eval do
     # agents from 100 and 700 field are creators or sources
+	# Add controlfield[@tag=001] to authority_id
 	  def creators_and_sources
 		{
 			

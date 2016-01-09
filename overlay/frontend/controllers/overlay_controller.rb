@@ -1,11 +1,12 @@
 class OverlayController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :overlay],
-                      "update_agent_record" => [:overlay]
+  set_access_control "update_agent_record" => [:index, :overlay]
+  set_access_control "update_subject_record" => [:index, :overlay]
 									
   def index
   
   end
+  
   def overlay
    merge_type = params[:target].split('/')
 
@@ -20,7 +21,7 @@ class OverlayController < ApplicationController
     request = JSONModel(:overlay_request).new
     request.target = {'ref' => target_uri}
     request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim  } }
-	Log.debug(merge_type)
+	
     begin
       request.save(:record_type => merge_type)
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
