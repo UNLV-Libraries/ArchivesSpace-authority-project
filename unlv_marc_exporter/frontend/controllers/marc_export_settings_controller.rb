@@ -1,11 +1,12 @@
 class MarcExportSettingsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :edit, :update]
+  set_access_control "manage_repository" => [:index, :edit, :update]
 									
   def index
 	 redirect_to(:controller => :marc_export_settings,
                   :action => :edit,
-                  :id => 0)
+                  :id => 0,
+				  :repo=> true)
   end
   def edit
     scope = params['global'] ? 'global' : 'repo'

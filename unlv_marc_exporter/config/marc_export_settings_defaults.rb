@@ -10,7 +10,6 @@
 	"tag_351" => false,	
 	"tag_500" => false,	
 	"tag_506" => true,	
-	"tag_520" => false,	
 	"tag_520_in1_3" => false,
 	"tag_541" => false,
 	"tag_555" => true,	

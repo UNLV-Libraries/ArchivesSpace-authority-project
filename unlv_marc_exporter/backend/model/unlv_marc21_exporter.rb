@@ -292,7 +292,7 @@ class MARCModel < ASpaceExport::ExportModel
 						['520', '2', ' ', 'a']
 						when 'note_abstract'
 						#check settings for enabling tag 520 and indicator 3
-						if(MarcExportSettings.m_export_settings['tag_520'] && MarcExportSettings.m_export_settings['tag_520_ind1_3'])
+						if(MarcExportSettings.m_export_settings['tag_520_ind1_3'])
 							['520', '3', ' ', 'a']
 						end
 						when 'note_prefercite'
@@ -398,7 +398,7 @@ class MARCModel < ASpaceExport::ExportModel
 		  			  when 'scopecontent'
 		  				['520', '2', ' ', 'a']
 		  			  when 'abstract'
-					  if(MarcExportSettings.m_export_settings['tag_520'] && MarcExportSettings.m_export_settings['tag_520_ind1_3'])
+					  if(MarcExportSettings.m_export_settings['tag_520_ind1_3'])
 							['520', '3', ' ', 'a']
 						end
 		  			  when 'prefercite'
