@@ -167,7 +167,7 @@ class EADSerializer < ASpaceExport::Serializer
 	
 		  val = Date.today.strftime("%Y") + " The Regents of the University of Nevada. All rights reserved."
 		  xml.publisher { sanitize_mixed_content(val, xml, fragments) }
-          xml.publisher("altrender" => "bold") { sanitize_mixed_content(data.repo.name.strip ,xml, fragments) }
+          xml.publisher { sanitize_mixed_content(data.repo.name.strip ,xml, fragments) }
 
           if data.repo.image_url
             xml.p ( { "id" => "logostmt" } ) {

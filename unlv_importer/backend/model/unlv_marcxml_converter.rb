@@ -22,10 +22,16 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		  if record['jsonmodel_type'] == 'resource'
 			record['linked_agents'].reject! {|la| !@agent_uris.include?(la[:ref])}
 		  else
-		    #record['names'][0]['source'] = 'import'
+		    record['names'][0]['source'] = 'import'
 			
 			#Add the LOC link to the authority_id 
 			record['names'][0]['authority_id'] = 'http://id.loc.gov/authorities/names/' + record['names'][0]['authority_id'].gsub(/\s+/, "")
+			
+			#Remove extra comma that ArchivesSpace adds on import
+			if (record['names'][0].has_key? 'rest_of_name') 
+				record['names'][0]['rest_of_name'] = record['names'][0]['rest_of_name'].chomp(",")
+			end
+			
 		  end
 		  
 		  return false unless AgentManager.known_agent_type?(record.class.record_type)

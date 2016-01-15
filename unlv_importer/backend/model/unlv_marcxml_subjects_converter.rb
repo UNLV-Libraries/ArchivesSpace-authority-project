@@ -26,10 +26,11 @@ class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 		  return true unless record['jsonmodel_type'] == 'subject' 
 		  
 		  other = @batch.working_area.find {|rec| rec['jsonmodel_type'] == 'subject'}
-		  
+
 		  if other
 			record.to_hash(:raw).each do |k, v|
 			    if k == 'authority_id' then other[k] = " " end
+				if k == 'source' then other[k] = "import" end
 				next if k == 'jsonmodel_type'
 				next if k == 'name_order'
 				next if k == 'source'
@@ -39,6 +40,9 @@ class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 				next if record[k].eql?(other[k]) 
 				other[k] << "#{v}"
 			end
+			
+			#other['terms'][0]['term'] = other['terms'][0][:term].chomp(".") #remove period
+				
 			false
 		  else
 			@subject_uris << record['uri']
