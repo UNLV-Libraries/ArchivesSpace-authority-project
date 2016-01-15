@@ -1,0 +1,1 @@
+SearchResultData.include(IdentifierFilter)
