@@ -4,7 +4,7 @@ Rails.application.config.after_initialize do
 	
 		#include IdentifierFilter
 		def self.ACCESSION_FACETS
-		 ["subjects", "accession_date_year", "identifier", "source" ,"creators"]
+		 ["subjects", "accession_date_year","id_0_u_sstr","creators"]
 		end
 		#class << SearchResultData
 			#alias_method :ACCESSION_FACETS, :fixed
