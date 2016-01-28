@@ -43,11 +43,8 @@ class LcnafController < ApplicationController
     end
 
     begin
-		Log.debug("HERE")
-		Log.debug(params[:lcnaf_service])
 		 #If params lcnaf do agents else do subjects
 		 if params[:lcnaf_service] == 'lcnaf'
-		Log.debug("HElP WANTED")
 		  job = Job.new("import_job", {
 						  "import_type" => "marcxml_agents",
 						  "jsonmodel_type" => "import_job"
