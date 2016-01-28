@@ -8,7 +8,7 @@ the custom functionality for UNLV to be enabled and disabled. Instructions are i
 To install, just activate the plugin in your config/config.rb file by
 including an entry such as:
 
-     # If you have other plugins loaded, just add 'unlv_importer' to
+     # If you have other plugins loaded, just add 'unlv_marc_exporter' to
      # the list
      AppConfig[:plugins] = ['local', 'other_plugins', 'unlv_marc_exporter']
 	 
@@ -19,7 +19,8 @@ Run the database setup script to update all tables:
 
 # Basic Info
 
-**How to Use
+# How to Use
+
 1.	After signing in, you must have permission to manage the repository
 2.	You only need to do the next part once if you don’t plan to change the settings
 3.	Click on Plug-ins > UNLV Marc Export Settings
@@ -29,6 +30,7 @@ Run the database setup script to update all tables:
 7.	Exports will now export with these settings 
 
 **New Features
+
 1.	Enable/Disable
   * Tag 041
   *	Tag 099
@@ -52,6 +54,7 @@ Run the database setup script to update all tables:
   *	Change label for finding aid content Tag 555
 
 **For Developer: How to add/remove settings
+
 1.	Open schemas/m_export_settings.rb 
   * This crates the tags to use
   * Add tag, use current tags as example

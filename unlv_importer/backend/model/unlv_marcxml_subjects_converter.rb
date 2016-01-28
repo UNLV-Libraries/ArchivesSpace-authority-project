@@ -30,7 +30,7 @@ class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 		  if other
 			record.to_hash(:raw).each do |k, v|
 			    if k == 'authority_id' then other[k] = " " end
-				if k == 'source' then other[k] = "import" end
+				if k == 'source' then other[k] = "import" end #add source
 				next if k == 'jsonmodel_type'
 				next if k == 'name_order'
 				next if k == 'source'

@@ -14,6 +14,7 @@ including an entry such as:
 # Basic Info
 
 **How to Import Agents
+
 1.	After signing in, click on Create > Background jobs
 2.	For Job Type choose Import Data
 3.	For Import Type choose MarcXML (Agents; UNLV)
@@ -22,11 +23,13 @@ including an entry such as:
 6.	Wait for process to finish and then your records should appear after clicking the refresh page
 
 **New Items Imported 
+
 1.	Add authority id.
   *	Add prefix LOC link and remove whitespace from authorityid
     * http://id.loc.gov/authorities/names/
 
 **How to Import Subjects
+
 1.	After signing in, click on Create > Background jobs
 2.	For Job Type choose Import Data
 3.	For Import Type choose MarcXML (Subjects; UNLV)
@@ -36,6 +39,7 @@ including an entry such as:
 
 
 **New Items Imported 
+
 1.	Add authority id.
   *	Add prefix LOC link and remove whitespace from authorityid
     *	http://id.loc.gov/authorities/subjects/

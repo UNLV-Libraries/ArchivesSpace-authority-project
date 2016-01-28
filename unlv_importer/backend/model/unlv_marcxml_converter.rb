@@ -22,7 +22,7 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 		  if record['jsonmodel_type'] == 'resource'
 			record['linked_agents'].reject! {|la| !@agent_uris.include?(la[:ref])}
 		  else
-		    record['names'][0]['source'] = 'import'
+		    record['names'][0]['source'] = 'import' #add source
 			
 			#Add the LOC link to the authority_id 
 			record['names'][0]['authority_id'] = 'http://id.loc.gov/authorities/names/' + record['names'][0]['authority_id'].gsub(/\s+/, "")
