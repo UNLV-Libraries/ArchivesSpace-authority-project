@@ -14,6 +14,7 @@ including an entry such as:
 # Basic Info
 
 **How to Use
+
 1.	After signing in, you must have permission to update subjects and agents
 2.	Click on Plug-ins > Overlay
 3.	Select a target. 
@@ -26,6 +27,7 @@ including an entry such as:
 
 
 ** Data overlaid
+
 1.	Authority Id
 2.	Linked Records
 

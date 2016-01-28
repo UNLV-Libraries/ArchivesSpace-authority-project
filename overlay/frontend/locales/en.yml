@@ -4,8 +4,8 @@ en:
       label: Overlay
       info_message: The overlay will take data from the first victim selected and copy it into the selected target agent.
       help_message: Hover over the victim label to see the data that will be overlaid.
-      target: Merge Into (Target)
-      victims: Merge and Delete (Victims)
+      target: Record merging into (Target)
+      victims: Record being merged and deleted (Victims)
       victims_tooltip: |
             <p>Overlay Data</p> 
             <ul><li>AuthorityID</li><li>Linked Records</li></ul>
