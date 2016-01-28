@@ -125,6 +125,39 @@ class EADSerializer < ASpaceExport::Serializer
       @stream_handler.stream_out(doc, @fragments, y)
     end
   end
+  
+     def controlaccess_subjects
+      unless @controlaccess_subjects
+        results = []
+        linked = self.subjects || []
+        linked.each do |link|
+          subject = link['_resolved']
+
+          node_name = case subject['terms'][0]['term_type']
+                      when 'function'; 'function'
+                      when 'genre_form', 'style_period';  'genreform'
+                      when 'geographic', 'cultural_context'; 'geogname'
+                      when 'occupation';  'occupation'
+                      when 'topical'; 'subject'
+                      when 'uniform_title'; 'title'
+                      else; nil
+                      end
+          next unless node_name
+
+          content = subject['terms'].map{|t| t['term']}.join(' -- ')
+
+          atts = {}
+          atts['source'] = subject['source'] if subject['source']
+
+          results << {:node_name => node_name, :atts => atts, :content => content}
+        end
+
+        @controlaccess_subjects = results
+      end
+
+      @controlaccess_subjects
+    end
+  
   def serialize_eadheader(data, xml, fragments)
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",

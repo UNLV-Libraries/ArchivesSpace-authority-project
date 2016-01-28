@@ -7,16 +7,19 @@ Custom UNLV EAD exporter for resource EAD exports.
 To install, just activate the plugin in your config/config.rb file by
 including an entry such as:
 
-     # If you have other plugins loaded, just add 'unlv_importer' to
+     # If you have other plugins loaded, just add 'unlv_ead_exporter' to
      # the list
      AppConfig[:plugins] = ['local', 'other_plugins', 'unlv_ead_exporter']
 	 
-Run the database setup script to update all tables:
+	 Copy the stylesheets to your own stylesheets folder, and add
+	 
+	 location_of_archivesspace/stylesheets
 
-    cd /path/to/archivesspace
-    scripts/setup-database.sh
-
+	 To change the logo add your own png file and in the as-ead-pdf.xsl file
+	 change "logo-special-collections.png" to your own logo name
+	 
 # Basic Info
+
 
 **How to Use
 1.	After signing in, you must have permission to export resources
