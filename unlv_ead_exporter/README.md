@@ -7,7 +7,7 @@ Custom UNLV EAD exporter for resource EAD exports.
 To install, just activate the plugin in your config/config.rb file by
 including an entry such as:
 
-     # If you have other plugins loaded, just add 'unlv_importer' to
+     # If you have other plugins loaded, just add 'unlv_ead_exporter' to
      # the list
      AppConfig[:plugins] = ['local', 'other_plugins', 'unlv_ead_exporter']
 	 
@@ -17,6 +17,8 @@ Run the database setup script to update all tables:
     scripts/setup-database.sh
 
 # Basic Info
+
+Stylesheets are included to accommodate the EAD export changes
 
 **How to Use
 1.	After signing in, you must have permission to export resources
