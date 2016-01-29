@@ -15,13 +15,3 @@ Run the database setup script to update all tables:
 
     cd /path/to/archivesspace
 
-# Basic Info
-
-**How to Use
-1.	After signing in, you must have permission to export resources
-2.	Exports will now export with these settings 
-
-**New Features
-1.	Fix unitid changed from period to dash 
-2.	Remove titleproper <num> tag
-3.	Add publisher copyright 
