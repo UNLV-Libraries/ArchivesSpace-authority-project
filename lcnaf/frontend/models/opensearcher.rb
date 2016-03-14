@@ -39,13 +39,14 @@ class OpenSearcher
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
 		
 	  ## UNLV
-	  # Add Proxy HTTP acces to http://squid.library.unlv.edu:3128/ 
+	  # Add Proxy HTTP access
 	  # Change get_response to use proxy
 	  proxy_uri  = URI.parse(ENV['http_proxy'])
 	  proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)
 
 
-      response = proxy_class.get_response(uri)
+      response = proxy_class.get_response(uri) 
+	  
       if response.code != '200'
         raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
       end
@@ -72,7 +73,7 @@ class OpenSearcher
   def search(query, page, records_per_page)
     uri = URI(@base_url)
 	## UNLV
-	# Add Proxy HTTP acces to http://squid.library.unlv.edu:3128/ 
+	# Add Proxy HTTP access
 	# Change get_response to use proxy
 	proxy_uri  = URI.parse(ENV['http_proxy'])
 	proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)

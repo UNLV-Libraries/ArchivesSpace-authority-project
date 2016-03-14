@@ -32,13 +32,21 @@ class SRUSearcher
 
   def search(sru_query, page, records_per_page)
     uri = URI(@base_url)
+	
+	## UNLV
+	# Add Proxy HTTP access
+	# Change get_response to use proxy
+	proxy_uri  = URI.parse(ENV['http_proxy'])
+	proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)
+	
     start_record = calculate_start_record(page, records_per_page)
     params = default_params.merge('query' => sru_query.to_s,
                                   'maximumRecords' => records_per_page,
                                   'startRecord' => start_record)
     uri.query = URI.encode_www_form(params)
 
-    response = Net::HTTP.get_response(uri)
+	
+	response = proxy_class.get_response(uri) #UNLV
 
     if response.code != '200'
       raise SRUSearchException.new("Error during SRU search: #{response.body}")
