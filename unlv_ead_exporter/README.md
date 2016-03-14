@@ -20,10 +20,6 @@ including an entry such as:
 	 
 # Basic Info
 
-<<<<<<< HEAD
-=======
-Stylesheets are included to accommodate the EAD export changes
->>>>>>> origin/master
 
 **How to Use
 1.	After signing in, you must have permission to export resources

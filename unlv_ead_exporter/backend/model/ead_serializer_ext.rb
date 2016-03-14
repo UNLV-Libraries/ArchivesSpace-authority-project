@@ -67,7 +67,7 @@ class EADSerializer < ASpaceExport::Serializer
 
             serialize_origination(data, xml, @fragments)
 
-            xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-')
+            xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-') #change period to dash
 
             serialize_extents(data, xml, @fragments)
 
@@ -126,38 +126,6 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
   
-     def controlaccess_subjects
-      unless @controlaccess_subjects
-        results = []
-        linked = self.subjects || []
-        linked.each do |link|
-          subject = link['_resolved']
-
-          node_name = case subject['terms'][0]['term_type']
-                      when 'function'; 'function'
-                      when 'genre_form', 'style_period';  'genreform'
-                      when 'geographic', 'cultural_context'; 'geogname'
-                      when 'occupation';  'occupation'
-                      when 'topical'; 'subject'
-                      when 'uniform_title'; 'title'
-                      else; nil
-                      end
-          next unless node_name
-
-          content = subject['terms'].map{|t| t['term']}.join(' -- ')
-
-          atts = {}
-          atts['source'] = subject['source'] if subject['source']
-
-          results << {:node_name => node_name, :atts => atts, :content => content}
-        end
-
-        @controlaccess_subjects = results
-      end
-
-      @controlaccess_subjects
-    end
-  
   def serialize_eadheader(data, xml, fragments)
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
@@ -180,7 +148,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.titlestmt {
 
           titleproper = ""
-          titleproper += "#{data.finding_aid_title} " if data.finding_aid_title
+          titleproper += "#{data.finding_aid_title} " if data.finding_aid_title #change title
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
           xml.titleproper("type" => "filing") { sanitize_mixed_content(data.finding_aid_filing_title, xml, fragments)} unless data.finding_aid_filing_title.nil?
           xml.titleproper {  sanitize_mixed_content(titleproper, xml, fragments) }
@@ -200,7 +168,7 @@ class EADSerializer < ASpaceExport::Serializer
 	
 		  val = Date.today.strftime("%Y") + " The Regents of the University of Nevada. All rights reserved."
 		  xml.publisher { sanitize_mixed_content(val, xml, fragments) }
-          xml.publisher { sanitize_mixed_content(data.repo.name.strip ,xml, fragments) }
+          xml.publisher { sanitize_mixed_content(data.repo.name.strip ,xml, fragments) } # add publisher
 
           if data.repo.image_url
             xml.p ( { "id" => "logostmt" } ) {

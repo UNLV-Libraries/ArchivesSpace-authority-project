@@ -13,6 +13,12 @@ Plugin Settings is a test to implement settings for a plugin following the struc
 [Plugin Settings](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/plugin_settings).
 
 
+# Identifier Filter
+
+Custom Accession Filter to include the first id from the Accession's identifier.
+
+[Identifier Filter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/identifier_filter).
+
 # LCNAF
 
 The LCNAF Plugin has been edited to fit UNLV purposes

@@ -43,3 +43,4 @@ including an entry such as:
 1.	Add authority id.
   *	Add prefix LOC link and remove whitespace from authorityid
     *	http://id.loc.gov/authorities/subjects/
+2. Add custom source

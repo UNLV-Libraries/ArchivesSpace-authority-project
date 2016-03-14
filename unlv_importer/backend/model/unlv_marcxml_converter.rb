@@ -27,11 +27,24 @@ class UNLVMarcXMLAgentsConverter < MarcXMLConverter
 			#Add the LOC link to the authority_id 
 			record['names'][0]['authority_id'] = 'http://id.loc.gov/authorities/names/' + record['names'][0]['authority_id'].gsub(/\s+/, "")
 			
-			#Remove extra comma that ArchivesSpace adds on import
-			if (record['names'][0].has_key? 'rest_of_name') 
-				record['names'][0]['rest_of_name'] = record['names'][0]['rest_of_name'].chomp(",")
+			#Remove redundant punctuation ArchivesSpace adds after import
+		    record['names'].each do |name|
+				name.to_hash(:raw).each do |k, v|
+					case k
+					   when 'primary_name'
+						  name[k] = v.chomp(",")
+						  if record['jsonmodel_type'] == 'agent_corporate_entity'	
+							name[k] = v.chomp(".")
+						  end
+					   when 'rest_of_name', 'title', 'suffix'
+						  name[k] = v.chomp(",")
+					   when 'fuller_form'
+						  name[k] = v.chomp(",").delete('()') 
+					   when 'dates', 'subordinate_name_1', 'subordinate_name_2', 'qualifier'
+						  name[k] = v.chomp('.') 
+					end
+				end
 			end
-			
 		  end
 		  
 		  return false unless AgentManager.known_agent_type?(record.class.record_type)

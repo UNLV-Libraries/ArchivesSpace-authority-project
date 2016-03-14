@@ -66,7 +66,7 @@ Run the database setup script to update all tables:
      * tag_xxx_ss_1 if you’re editing special settings for a specific tag (continuing the second like the previous)
      * tag_xxx_sc_a_ss_1 if you’re editing a special setting for a specific tag and a specific subfield code (same as previous)
 2.	Open frontend/views/m_export_settings
-  *	This add the tags to the page for viewing  
+  *	This adds the tags to the page for viewing  
   *	Add tag to view, use current form tags as example
 3.	Open locales/en.yml
   *	This adds the label and tool tip

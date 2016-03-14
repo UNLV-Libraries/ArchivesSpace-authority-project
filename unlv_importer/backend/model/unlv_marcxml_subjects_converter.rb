@@ -41,7 +41,7 @@ class UNLVMarcXMLSubjectsConverter < MarcXMLConverter
 				other[k] << "#{v}"
 			end
 			
-			#other['terms'][0]['term'] = other['terms'][0][:term].chomp(".") #remove period
+			other['terms'][0]['term'] = other['terms'][0][:term].chomp(".") #remove period
 				
 			false
 		  else
