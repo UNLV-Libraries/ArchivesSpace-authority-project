@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: names_alphabetical
+description: "Displays selected name record(s), ascending alphabetical by name title. Report lists name, name type, and name source."
