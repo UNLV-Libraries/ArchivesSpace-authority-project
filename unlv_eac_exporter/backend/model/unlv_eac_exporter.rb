@@ -62,8 +62,7 @@ class EACSerializer < ASpaceExport::Serializer
 
           }
         end
-
-            
+		
         json.notes.reject {|n| n['jsonmodel_type'] != 'note_bioghist'}.each do |n|
           next unless n['publish']
           xml.biogHist {
@@ -78,11 +77,11 @@ class EACSerializer < ASpaceExport::Serializer
                   xml.text sn['content'].join('--')
                 }
               when 'note_citation'
-                atts = Hash[ sn['xlink'].map {|x, v| ["xlink:#{x}", v] }.reject{|a| a[1].nil?} ] 
-                xml.citation(atts) {
-                  xml.text sn['content'].join('--')
-                }
-
+					
+				atts = (sn['xlink'].nil?) ? {} : Hash[ sn['xlink'].map {|x, v| ["xlink:#{x}", v] }.reject{|a| a[1].nil?} ] 
+				xml.citation(atts) {
+				  xml.text sn['content'].join('--')
+				}
               when 'note_definedlist'
                 xml.list(:localType => "defined:#{sn['title']}") {
                   sn['items'].each do |item|

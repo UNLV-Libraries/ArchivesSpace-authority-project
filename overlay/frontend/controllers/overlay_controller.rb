@@ -1,7 +1,7 @@
 class OverlayController < ApplicationController
 
-  set_access_control "update_agent_record" => [:index, :overlay]
-  set_access_control "update_subject_record" => [:index, :overlay]
+  set_access_control "merge_agent_record" => [:index, :overlay]
+  set_access_control "merge_subject_record" => [:index, :overlay]
 									
   def index
   

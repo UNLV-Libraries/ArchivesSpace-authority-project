@@ -398,6 +398,7 @@ class MARCModel < ASpaceExport::ExportModel
 		  			  when 'scopecontent'
 		  				['520', '2', ' ', 'a']
 		  			  when 'abstract'
+					  #check settings for enabling tag 520 and indicator 3
 					  if(MarcExportSettings.m_export_settings['tag_520_ind1_3'])
 							['520', '3', ' ', 'a']
 						end

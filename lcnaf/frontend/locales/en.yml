@@ -1,7 +1,7 @@
 en:
   plugins:
     lcnaf:
-      label: LCNAF Import
+      label: LC Authority Import
       search:
         family_name: Primary Name 
         given_name: Rest of Name
@@ -16,7 +16,7 @@ en:
         selected: Selected
         import_success: Import job created
         import_success_message: Redirecting to the job status page...
-        import_error: Error while importing from LCNAF
+        import_error: Error while importing from LC
         search_error: Search Error
         service_locked: Items already selected
         service_locked_message: Please import or remove your selected items before switching record service

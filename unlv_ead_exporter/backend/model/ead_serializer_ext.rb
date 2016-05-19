@@ -126,6 +126,39 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
   
+  def serialize_origination(data, xml, fragments)
+    unless data.creators_and_sources.nil?
+      data.creators_and_sources.each do |link|
+        agent = link['_resolved']
+        role = link['role']
+        relator = case link['relator']
+				  when 'ctb'; 'contributor'
+				  when 'cre'; 'creator'
+				  when 'col'; 'collector'
+				  when 'pho'; 'photographer'
+				  else 'contributor'
+				  end
+        sort_name = agent['display_name']['sort_name']
+        rules = agent['display_name']['rules']
+        source = agent['display_name']['source']
+        node_name = case agent['agent_type']
+                    when 'agent_person'; 'persname'
+                    when 'agent_family'; 'famname'
+                    when 'agent_corporate_entity'; 'corpname'
+                    end
+        xml.origination(:label => relator) {
+         atts = { :source => source, :rules => rules}
+         atts.reject! {|k, v| v.nil?}
+
+          xml.send(node_name, atts) {
+            sanitize_mixed_content(sort_name, xml, fragments )
+          }
+        }
+      end
+    end
+  end
+
+  
   def serialize_eadheader(data, xml, fragments)
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",

@@ -2,7 +2,6 @@
 $(function () {
 
   var init = function () {
-    
     $("#overlay-dropdown .linker:not(.initialised)").linker();
     
     $('.overlay-form .btn-cancel').on('click', function () {

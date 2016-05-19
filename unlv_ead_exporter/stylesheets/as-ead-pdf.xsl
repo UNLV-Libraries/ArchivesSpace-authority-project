@@ -223,7 +223,7 @@
     <xsl:template match="ead:titlestmt" mode="coverPage">
         <!-- Calls template with links to archive icon -->
         <xsl:call-template name="icon"/>
-        <fo:block border-bottom="1pt solid #666" margin-top="1in" id="cover-page">
+        <fo:block border-bottom="1pt solid #666"  id="cover-page">
             <fo:block xsl:use-attribute-sets="h1">
                 <xsl:choose>
                     <xsl:when test="ead:titleproper[2]">
@@ -272,8 +272,8 @@
         i.e. src="myicon.png"
     -->
     <xsl:template name="icon">
-        <fo:block text-align="left" margin-left="-.75in" margin-top="-.5in">
-            <fo:external-graphic src="logo-special-collections.png" content-height="75%" content-width="75%"/>
+        <fo:block text-align="left" margin-top="-.5in">
+            <fo:external-graphic src="logo-special-collections.png" content-height="50%" content-width="50%"/>
         </fo:block>
     </xsl:template>
     
@@ -1482,7 +1482,7 @@
     
     <!-- Series titles -->
     <xsl:template match="ead:did" mode="dscSeriesTitle">
-        <fo:block font-weight="bold" font-size="20" margin-bottom="0" margin-top="4" id="{local:buildID(parent::*)}">
+        <fo:block font-weight="bold" font-size="14" margin-bottom="0" margin-top="4" id="{local:buildID(parent::*)}">
             <!-- Uncomment the following to add 'Series' to series titles  -->
             <!--
             <xsl:if test="ead:unitid">
