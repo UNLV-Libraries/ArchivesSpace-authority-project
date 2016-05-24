@@ -1,0 +1,1 @@
+AdvancedSearch.define_field(:name => 'place_role', :type => :text, :visibility => [:staff], :solr_field => 'role_u_sstr')

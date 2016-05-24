@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: subject_authority
+description: "Displays selected subject record(s), ascending by authority id. Report lists subject title, subject source, and subject authority id."

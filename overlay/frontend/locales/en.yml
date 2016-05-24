@@ -1,0 +1,18 @@
+en:
+  plugins:
+    overlay:
+      label: Overlay
+      info_message: The overlay will take data from the first victim selected and copy it into the selected target agent.
+      help_message: Hover over the victim label to see the data that will be saved into the target record.
+      target: Record merging into (Target)
+      victims: Record being merged and deleted (Victims)
+      victims_tooltip: |
+            <p>Overlay Data</p> 
+            <ul><li>AuthorityID</li><li>Linked Records</li></ul>
+      
+    actions:
+      overlay_confirm_title: Overlay into this record?
+      overlay_agent_confirm_message: "The target record will have the selected records merged into it. All selected records will be deleted, any linked records will be re-linked, and data from the first victim will overlay to the target record."
+      overlay: Overlay
+      browse_agents: Browse Agents
+      browse_subjects: Browse Subjects

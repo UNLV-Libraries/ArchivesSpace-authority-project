@@ -1,0 +1,30 @@
+<% define_template("m_export_settings", jsonmodel_definition(:m_export_settings)) do |form| %>
+  <div class="subrecord-form-fields">
+	  <h3><%= I18n.t ("plugins.m_export_settings.enable_tags_section") %></h3>
+	  <div class="form-group"> 
+		<label class="col-sm-2 control-label">Tag name</label>
+		<label class="col-sm-9 label-only">Enable/Disable</label>
+	  </div>
+	  <%= form.label_and_boolean "tag_041", {:plugin => true}, form.default_for("tag_041") %>
+      <%= form.label_and_boolean "tag_099", {:plugin => true}, form.default_for("tag_099") %>
+	  <%= form.label_and_boolean "tag_245_sc_f", {:plugin => true}, form.default_for("tag_245_sc_f") %>
+      <%= form.label_and_boolean "tag_351", {:plugin => true}, form.default_for("tag_351") %>
+	  <%= form.label_and_boolean "tag_500", {:plugin => true}, form.default_for("tag_500") %>
+	  <%= form.label_and_boolean "tag_506", {:plugin => true}, form.default_for("tag_506") %>
+	  <%= form.label_and_boolean "tag_520_ind1_3", {:plugin => true}, form.default_for("tag_520_ind1_3") %>
+      <%= form.label_and_boolean "tag_541", {:plugin => true}, form.default_for("tag_541") %>
+      <%= form.label_and_boolean "tag_555", {:plugin => true}, form.default_for("tag_555") %>
+	  <%= form.label_and_boolean "tag_852", {:plugin => true}, form.default_for("tag_852") %>
+	  <%= form.label_and_boolean "tag_856", {:plugin => true}, form.default_for("tag_856") %>
+	  
+	  <h3><%= I18n.t ("plugins.m_export_settings.special_settings_section") %></h3>
+	  <%= form.label_and_boolean "tag_ss_1", {:plugin => true}, form.default_for("tag_ss_1") %>
+      <%= form.label_and_boolean "tag_ss_2", {:plugin => true}, form.default_for("tag_ss_2") %>
+      <%= form.label_and_boolean "tag_610_sc_a_ss_1", {:plugin => true}, form.default_for("tag_610_sc_a_ss_1")  %>
+      <%= form.label_and_boolean "tag_506_sc_a_ss_1", {:plugin => true}, form.default_for("tag_506_sc_a_ss_1")  %>
+      <%= form.label_and_textfield "tag_ss_3", {:plugin => true, :required => true} %>
+	  <%= form.label_and_textfield "tag_555_ss_1", {:plugin => true, :required => true} %>
+      <%= form.label_and_textfield "tag_856_ss_1", {:plugin => true, :required => true} %>
+	  
+   </div>
+<% end %>

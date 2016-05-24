@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: subject_alphabetical
+description: "Displays selected subject record(s), ascending alphabetical by subject title. Report lists subject term, subject term type, and subject source."
