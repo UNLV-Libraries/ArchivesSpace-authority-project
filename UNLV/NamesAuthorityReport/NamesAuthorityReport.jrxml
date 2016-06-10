@@ -31,7 +31,7 @@ sort_name AS sortName,
  agent_family_id AS agentId,
  authority_id As authorityId
  FROM name_family nf
- LEFT OUTER JOIN  name_authority_id nai ON nf.id = nai.name_person_id 
+ LEFT OUTER JOIN  name_authority_id nai ON nf.id = nai.name_family_id 
  WHERE source_id IS NOT NULL)
 UNION
 (SELECT 
@@ -41,7 +41,7 @@ sort_name AS sortName,
   agent_corporate_entity_id AS agentId,
  authority_id As authorityId
  FROM name_corporate_entity nce
- LEFT OUTER JOIN  name_authority_id nai ON nce.id = nai.name_person_id 
+ LEFT OUTER JOIN  name_authority_id nai ON nce.id = nai.name_corporate_entity_id 
  WHERE source_id IS NOT NULL)]]>
 	</queryString>
 	<field name="sortName" class="java.lang.String"/>
