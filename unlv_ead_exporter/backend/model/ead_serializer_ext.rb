@@ -327,10 +327,10 @@ class EADSerializer < ASpaceExport::Serializer
           end
           if e['container_summary']
             xml.extent({:altrender => 'carrier'}) {
-              sanitize_mixed_content( e['container_summary'], xml, fragments)
+              sanitize_mixed_content( "(#{e['container_summary']})", xml, fragments)
             }
           end
-          xml.physfacet { sanitize_mixed_content("(#{e['physical_details']})",xml, fragments) } if e['physical_details']
+          xml.physfacet { sanitize_mixed_content(e['physical_details'],xml, fragments) } if e['physical_details']
           xml.dimensions  {   sanitize_mixed_content(e['dimensions'],xml, fragments) }  if e['dimensions']
         }
       end
