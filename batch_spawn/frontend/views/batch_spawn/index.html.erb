@@ -1,0 +1,23 @@
+<% title = "Batch Spawn" %>
+
+<%= setup_context :title => "Batch Spawn" %>
+
+
+<div class="row">
+  <div class="col-md-8">
+   <h2><%= title %></h2>
+	
+    <%= render_aspace_partial :partial => "shared/flash_messages" %>
+	<%= form_tag({:controller => :batch_spawn, :action => :batch_spawn}, {:id => "batch_spawn", :class => "form-search", :method => "POST"}) do |form| %>
+	<div class='control-group form-group'> 
+	  	 <%=
+			 render_aspace_partial :partial => "batch_spawn/form",
+					:locals => {
+					:controller => :batch_spawn,
+					:confirmation_title => I18n.t("actions.merge_confirm_title"),
+					:confirmation_msg => I18n.t("actions.merge_agent_confirm_message")}
+		  %>
+	</div>
+	<% end %>	
+  </div>
+</div>
