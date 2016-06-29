@@ -146,13 +146,14 @@ class EADSerializer < ASpaceExport::Serializer
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']
         source = agent['display_name']['source']
+        authfilenumber = agent['display_name']['authority_id']
         node_name = case agent['agent_type']
                     when 'agent_person'; 'persname'
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
                     end
         xml.origination(:label => relator) {
-         atts = { :source => source, :rules => rules}
+         atts = { :source => source, :rules => rules, :authfilenumber => authfilenumber}
          atts.reject! {|k, v| v.nil?}
 
           xml.send(node_name, atts) {
@@ -163,6 +164,29 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+  def serialize_extents(obj, xml, fragments)
+    if obj.extents.length
+      obj.extents.each do |e|
+        next if e["publish"] === false && !@include_unpublished
+        audatt = e["publish"] === false ? {:audience => 'internal'} : {}
+        xml.physdesc({:altrender => e['portion']}.merge(audatt)) {
+          if e['number'] && e['extent_type']
+            xml.extent({:altrender => 'materialtype spaceoccupied'}) {
+              sanitize_mixed_content("#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}", xml, fragments)
+            }
+          end
+          if e['container_summary']
+            xml.extent({:altrender => 'carrier'}) {
+			  # add parentheses around container summary
+              sanitize_mixed_content( "(#{e['container_summary']})", xml, fragments)
+            }
+          end
+          xml.physfacet { sanitize_mixed_content(e['physical_details'],xml, fragments) } if e['physical_details']
+          xml.dimensions  {   sanitize_mixed_content(e['dimensions'],xml, fragments) }  if e['dimensions']
+        }
+      end
+    end
+  end
   
   def serialize_eadheader(data, xml, fragments)
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
@@ -188,6 +212,8 @@ class EADSerializer < ASpaceExport::Serializer
           titleproper = ""
           titleproper += "#{data.finding_aid_title} " if data.finding_aid_title 
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
+		  #REMOVE title proper <num> tag
+          #titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
           xml.titleproper("type" => "filing") { sanitize_mixed_content(data.finding_aid_filing_title, xml, fragments)} unless data.finding_aid_filing_title.nil?
           xml.titleproper {  sanitize_mixed_content(titleproper, xml, fragments) }
           xml.subtitle {  sanitize_mixed_content(data.finding_aid_subtitle, xml, fragments) } unless data.finding_aid_subtitle.nil?
@@ -287,54 +313,4 @@ class EADSerializer < ASpaceExport::Serializer
       end
     }
   end
-  
-  def serialize_did_notes(data, xml, fragments)
-    data.notes.each do |note|
-      next if note["publish"] === false && !@include_unpublished
-      next unless data.did_note_types.include?(note['type'])
-
-      audatt = note["publish"] === false ? {:audience => 'internal'} : {}
-      content =  ASpaceExport::Utils.extract_note_text(note, @include_unpublished) 
-
-      att = { :id => prefix_id(note['persistent_id']) }.reject {|k,v| v.nil? || v.empty? || v == "null" }
-      att ||= {}
-
-      case note['type']
-      when 'dimensions', 'physfacet'
-	  
-        xml.physdesc(audatt) {
-          xml.send(note['type'], att) {
-            sanitize_mixed_content( content, xml, fragments, ASpaceExport::Utils.include_p?(note['type'])  )
-          }
-        }
-      else
-        xml.send(note['type'], att.merge(audatt)) {
-          sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']))
-        }
-      end
-    end
-  end
-  def serialize_extents(obj, xml, fragments)
-    if obj.extents.length
-      obj.extents.each do |e|
-        next if e["publish"] === false && !@include_unpublished
-        audatt = e["publish"] === false ? {:audience => 'internal'} : {}
-        xml.physdesc({:altrender => e['portion']}.merge(audatt)) {
-          if e['number'] && e['extent_type']
-            xml.extent({:altrender => 'materialtype spaceoccupied'}) {
-              sanitize_mixed_content("#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}", xml, fragments)
-            }
-          end
-          if e['container_summary']
-            xml.extent({:altrender => 'carrier'}) {
-              sanitize_mixed_content( "(#{e['container_summary']})", xml, fragments)
-            }
-          end
-          xml.physfacet { sanitize_mixed_content(e['physical_details'],xml, fragments) } if e['physical_details']
-          xml.dimensions  {   sanitize_mixed_content(e['dimensions'],xml, fragments) }  if e['dimensions']
-        }
-      end
-    end
-  end
-
 end

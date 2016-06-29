@@ -1,6 +1,6 @@
 # UNLV EAD Exporter
 
-Custom UNLV EAD exporter for resource EAD exports. 
+Custom UNLV EAD exporter for resource EAD exports. Changes to the EAD affect the ArchivesSpace Print to PDF function. 
 
 ## Installing it
 
@@ -11,7 +11,7 @@ including an entry such as:
      # the list
      AppConfig[:plugins] = ['local', 'other_plugins', 'unlv_ead_exporter']
 	 
-	 Copy the stylesheets to your own stylesheets folder, and add
+	 Copy the stylesheets to your own stylesheets folder under:
 	 
 	 location_of_archivesspace/stylesheets
 
@@ -22,10 +22,15 @@ including an entry such as:
 
 
 **How to Use
+
 1.	After signing in, you must have permission to export resources
-2.	Exports will now export with these settings 
+2.	EAD Exports will now export with these settings 
 
 **New Features
+
 1.	Fix unitid changed from period to dash 
 2.	Remove titleproper <num> tag
 3.	Add publisher copyright 
+4.	Add relator translations 
+5.	Add parentheses around container summary
+
