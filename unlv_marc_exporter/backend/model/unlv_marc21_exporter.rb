@@ -140,7 +140,7 @@ class MARCModel < ASpaceExport::ExportModel
 			code = '610'
 			ind1 = '2'
 			#check special setting 610 (combine name and qualifier)
-			if(MarcExportSettings.m_export_settings['tag_610_sc_a_ss_1']) 
+			if(MarcExportSettings.m_export_settings['tag_610_sc_a_ss_1'] && !name['qualifier'].nil?) 
 				sfs = [
 						['a', name['primary_name'] + ' (' + name['qualifier'] + ')'],
 						['b', name['subordinate_name_1']],

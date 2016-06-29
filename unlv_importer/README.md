@@ -27,6 +27,9 @@ including an entry such as:
 1.	Add authority id.
   *	Add prefix LOC link and remove whitespace from authorityid
     * http://id.loc.gov/authorities/names/
+2.	Add custom import source
+3.	Remove unwanted commas and periods from 'primary_name' ,'rest_of_name', 'title', 'suffix', 'fuller_form' 'dates', 'subordinate_name_1', 'subordinate_name_2' that ArchivesSpace adds automatically on import
+
 
 **How to Import Subjects
 

@@ -1,0 +1,15 @@
+en:
+  plugins:
+    batch_spawn: 
+      label: Batch Spawn
+      target: Record merging into (Target)
+      victims: Record being merged and deleted (Victims)
+      victims_tooltip: |
+            <p>Batch Spawn Data</p> 
+            <ul><li>AuthorityID</li><li>Dates</li><li>Linked Records</li></ul>
+    actions:
+      batch_spawn_confirm_title: Batch Spawn into this record?
+      batch_spawn_agent_confirm_message: "The target record will have the selected records merged into it. All selected records will be deleted, any linked records will be re-linked, and data from the first victim will overlay to the target record."
+      batch_spawn: Batch Spawn
+      browse_agents: Browse Agents
+      browse_subjects: Browse Subjects

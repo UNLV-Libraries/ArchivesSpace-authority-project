@@ -24,6 +24,7 @@ class ArchivesSpaceService < Sinatra::Base
 		
 		#data to overlay from first victim  
 		authority_id = victim_obj['names'][0]['authority_id']
+		dates = victim_obj['names'][0]['dates']
 		
 		#since target data is stored->merge the victim 
 		agent_model.get_or_die(target[:id]).assimilate(victims.map {|v|
@@ -36,6 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
 		
 		#add to target data to victim 
 		target_obj['names'][0]['authority_id'] = authority_id;
+		target_obj['names'][0]['dates'] = dates;
 		
 		#update target to database
 		handle_overlay_update(obj, target_obj)

@@ -1,0 +1,51 @@
+<%
+  # Allow multiple subjects to be linked if it's an empty linker
+  exclude_ids = [] if exclude_ids.blank?
+  required = (defined? optional) ? !optional : true
+  hide_create = false if hide_create.blank?
+%>
+<fieldset>
+<div class="form-group <% if required %> required <% end %>">
+  <div class="control-label col-sm-2"><%= form.label "target", {:plugin => true}%></div>
+  <div class="controls col-sm-8">
+    <div class="input-group linker-wrapper">
+      <input type="text" class="linker"
+             id="<%= form.id_for("target") %>"
+             data-label="<%= I18n.t("linked_record.ref") %>"
+             data-label_plural="<%= I18n.t("linked_record.ref_plural") %>"
+             data-name="target"
+             data-path="<%= form.path %>"
+             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+             data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => (SearchResultData.ACCESSION_FACETS).uniq, :sort => "title_sort asc" %>"
+             data-selected="[]"
+             data-multiplicity="many"
+			 data-sortable="true"
+             data-types='["accession"]'
+             <% if multiplicity === "many" %>data-sortable="true"<% end %>
+      />
+    
+      
+      <% if form.obj.has_key?('_resolved') %>
+      
+        <input type="text" 
+          class='prelinker' 
+          name="<%= form.path %>[_resolved]"
+          value="<%= selected_json %>" />
+          
+        <input type="text" 
+          class='prelinker' 
+          name="<%= form.path %>[target]"
+          value="<%= form.obj["target"] %>" />
+
+      <% end %>
+      
+      <div class="input-group-btn">
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+		   <ul class="dropdown-menu">
+			  <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+		   </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</fieldset>

@@ -1,0 +1,55 @@
+<%
+   multiplicity ||= "one" 
+   singular = "#{controller}".singularize 
+%>
+
+<%= setup_context :title => "Batch Spawn" %>
+
+<div class="row">
+  <div class="col-md-8">
+    <h2><%= I18n.t("plugins.spawn.label") %></h2>
+	
+	<%= form_tag({:controller => :spawn, :action => :spawn}, {:id => "spawn" , :class => "form-spawn", :method => "POST"}) do |form| %>
+	
+	
+    <div class='control-group form-group'> 
+	  	 <%=
+			 render_aspace_partial :partial => "spawn/form",
+					:locals => {
+					:controller => :spawn,
+					:confirmation_title => I18n.t("actions.merge_confirm_title"),
+					:confirmation_msg => I18n.t("actions.merge_agent_confirm_message")}
+		  %>
+
+    </div>
+    <div class='control-group form-group'> 
+      <button type="submit" class="btn btn-primary btn-default">
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+        <%= I18n.t("plugins.spawn.actions.search") %>
+      </button>
+    </div>
+    <% end %>
+	
+	<div id="results"></div>
+  </div>
+  
+  
+  <script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/spawn.js" %>"></script>
+  <script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/linker.js" %>"></script>
+	
+	<div id="template_spawn_result"><!--
+	  <div class="spawn-result">
+		<div class="row">
+		  <div class="col-md-12">
+			<div class='alert alert-info'>
+				<a href="/resources/new?accession_id=${spawn}" target="_blank">${title}<span class="icomoon icon-resource"></span> Resource</a>
+			</div> 
+		  </div>   
+		</div>
+	  </div>
+	--></div>
+
+
+	<div id="template_spawn_search_error_title"><!--
+	  <%= I18n.t("plugins.spawn.messages.search_error") %>
+	--></div>

@@ -26,8 +26,9 @@ including an entry such as:
 6.	Confirm your decision
 
 
-** Data overlaid
+**Data overlaid onto the target record
 
 1.	Authority Id
-2.	Linked Records
+2.  Dates
+3.	Linked Records
 

@@ -30,7 +30,7 @@ class LcnafController < ApplicationController
 
   def search
     results = do_search(params)
-
+	
     render :json => results.to_json
   end
 
