@@ -13,6 +13,14 @@ Plugin Settings is a test to implement settings for a plugin following the struc
 [Plugin Settings](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/plugin_settings).
 
 
+# Spawn
+
+The Spawn plugin creates easy to use links to spawn multiple records at the same time.
+Note: data that is created from spawn has been modified to fit UNLV's Oral Histories. Also, the plugin does not batch spawn multiple accessions at once, it just facilitates the procedure for batch spawning records.
+
+[Spawn](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/spawn).
+
+
 # Identifier Filter
 
 Custom Accession Filter to include the first id from the Accession's identifier.
