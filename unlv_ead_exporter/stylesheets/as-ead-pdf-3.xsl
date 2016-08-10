@@ -52,7 +52,7 @@
         <xsl:attribute name="keep-with-next.within-page">always</xsl:attribute>
     </xsl:attribute-set>    
     <xsl:attribute-set name="h4">
-        <xsl:attribute name="font-size">9pt</xsl:attribute>
+        <xsl:attribute name="font-size">12pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="margin-bottom">4pt</xsl:attribute>
         <xsl:attribute name="padding-bottom">0</xsl:attribute>
@@ -102,7 +102,7 @@
         <xsl:attribute name="table-layout">fixed</xsl:attribute>
         <xsl:attribute name="width">100%</xsl:attribute>
         <xsl:attribute name="border">.5pt solid #ccc</xsl:attribute>
-        <xsl:attribute name="border-collapse">separate</xsl:attribute>
+        <xsl:attribute name="border-collapse">seperate</xsl:attribute>
         <xsl:attribute name="space-after">12pt</xsl:attribute>        
     </xsl:attribute-set>    
     <!-- Table headings -->
@@ -114,7 +114,7 @@
     <!-- Table cells with borders -->
     <xsl:attribute-set name="tdBorder">
         <xsl:attribute name="border">.5pt solid #ccc</xsl:attribute>
-        <xsl:attribute name="border-collapse">separate</xsl:attribute>
+        <xsl:attribute name="border-collapse">seperate</xsl:attribute>
     </xsl:attribute-set>
     
     <!--  Start main page design and layout -->
@@ -147,10 +147,10 @@
             <!-- Cover page layout -->            
             <fo:page-sequence master-reference="cover-page">
                 <xsl:if test="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt">
-                    <fo:static-content flow-name="xsl-region-after">
+                  <fo:static-content flow-name="xsl-region-after">
                         <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt" mode="coverPage"/>
                     </fo:static-content>
-                </xsl:if>   
+               </xsl:if>   
                 <fo:flow flow-name="xsl-region-body">                                   
                     <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="coverPage"/>
                 </fo:flow>               
@@ -210,10 +210,10 @@
     <!-- Cover page templates -->
     <!-- Builds title -->
     <xsl:template match="ead:titlestmt" mode="pageHeader">
-        <!-- Do not use filing type title if present -->
+        <!-- Uses filing type title if present -->
         <xsl:choose>
-            <xsl:when test="ead:titleproper[2]">
-                <xsl:apply-templates select="ead:titleproper[2]"/>
+            <xsl:when test="ead:titleproper[@type='filing']">
+                <xsl:apply-templates select="ead:titleproper[@type='filing']"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates select="ead:titleproper[1]"/>
@@ -223,41 +223,41 @@
     <xsl:template match="ead:titlestmt" mode="coverPage">
         <!-- Calls template with links to archive icon -->
         <xsl:call-template name="icon"/>
-        <fo:block border-bottom="1pt solid #666"  id="cover-page">
+        <fo:block border-bottom="1pt solid #666" margin-top="1in" id="cover-page">
             <fo:block xsl:use-attribute-sets="h1">
                 <xsl:choose>
-                    <xsl:when test="ead:titleproper[2]">
-                        <xsl:apply-templates select="ead:titleproper[2]"/>
+                    <xsl:when test="ead:titleproper[@type='filing']">
+                        <xsl:apply-templates select="ead:titleproper[@type='filing']"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates select="ead:titleproper[1]"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </fo:block>
+            <xsl:if test="ead:subtitle">
+                <fo:block font-size="16" font-weight="bold"><xsl:apply-templates select="ead:subtitle"/></fo:block>    
+            </xsl:if>    
         </fo:block> 
         <fo:block margin-top="8pt">
             <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:profiledesc"/>
+        </fo:block>
+        <fo:block margin-top="8pt">
+            <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:editionstmt"/>
         </fo:block>
     </xsl:template>
     <xsl:template match="ead:publicationstmt" mode="coverPage">
         <fo:block margin="0 1in">
             <fo:block>
-                &#169; <xsl:apply-templates select="ead:publisher[1]"/>
-            </fo:block>
-			<xsl:text>&#160;&#160;</xsl:text>       
-            <fo:block font-weight="bold">
-				<xsl:apply-templates select="ead:publisher[2]"/>
+                <xsl:apply-templates select="ead:publisher"/>
+                <xsl:if test="ead:date">&#160;<xsl:apply-templates select="ead:date"/></xsl:if>
             </fo:block>
             <xsl:apply-templates select="ead:address"/>
         </fo:block>
     </xsl:template>   
-    <xsl:template match="ead:profiledesc">
-        
-        <xsl:apply-templates/>
-        
+    <xsl:template match="ead:profiledesc/child::*">
+        <fo:block><xsl:apply-templates/></fo:block>
     </xsl:template>
-    <xsl:template match="ead:profiledesc/ead:descrules"><xsl:text></xsl:text></xsl:template>
-    <xsl:template match="ead:profiledesc/ead:langusage"><fo:block><xsl:value-of select="."/></fo:block> </xsl:template>
+    <xsl:template match="ead:profiledesc/ead:language"> <xsl:value-of select="."/></xsl:template>
     <xsl:template match="ead:profiledesc/ead:creation/ead:date">
         <!-- 
             Uses local function to format date into Month, day year. 
@@ -272,8 +272,8 @@
         i.e. src="myicon.png"
     -->
     <xsl:template name="icon">
-        <fo:block text-align="left" margin-top="-.5in">
-            <fo:external-graphic src="logo-special-collections.png" content-height="50%" content-width="50%"/>
+        <fo:block text-align="left" margin-left="-.75in" margin-top="-.5in">
+            <fo:external-graphic src="archivesspace.small.png" content-height="75%" content-width="75%"/>
         </fo:block>
     </xsl:template>
     
@@ -312,7 +312,8 @@
             <!-- Administrative Information  -->
             <xsl:if test="ead:accessrestrict or ead:userestrict or
                 ead:custodhist or ead:accruals or ead:altformavail or ead:acqinfo or 
-                ead:processinfo or ead:appraisal or ead:originalsloc or /ead:ead/ead:eadheader/ead:revisiondesc">
+                ead:processinfo or ead:appraisal or ead:originalsloc or 
+                /ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt or /ead:ead/ead:eadheader/ead:revisiondesc">
                 <fo:bookmark internal-destination="adminInfo">
                     <fo:bookmark-title>Administrative Information</fo:bookmark-title>
                 </fo:bookmark>
@@ -372,7 +373,7 @@
                                     <xsl:apply-templates select="child::*/ead:head"/>        
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <xsl:value-of select="ead:did/ead:unittitle"/>
+                                    <xsl:apply-templates select="child::*/ead:unittitle"/>
                                 </xsl:otherwise>
                             </xsl:choose>    
                         </fo:bookmark-title>
@@ -386,7 +387,7 @@
                                         <xsl:apply-templates select="child::*/ead:head"/>        
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <xsl:value-of select="ead:did/ead:unittitle"/>
+                                        <xsl:apply-templates select="child::*/ead:unittitle"/>
                                     </xsl:otherwise>
                                 </xsl:choose>    
                             </fo:bookmark-title>
@@ -450,9 +451,9 @@
                     
                 <!-- Administrative Information  -->
                 <xsl:if test="ead:accessrestrict or ead:userestrict or
-                    ead:custodhist or ead:accruals or ead:altformavail or ead:acqinfo or 
-                    ead:processinfo or ead:appraisal or ead:originalsloc or 
-                    /ead:ead/ead:eadheader/ead:revisiondesc">
+                              ead:custodhist or ead:accruals or ead:altformavail or ead:acqinfo or 
+                              ead:processinfo or ead:appraisal or ead:originalsloc or 
+                              /ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt or /ead:ead/ead:eadheader/ead:revisiondesc">
                         <fo:block text-align-last="justify"> 
                             <fo:basic-link internal-destination="adminInfo">Administrative Information</fo:basic-link>                    
                             <xsl:text>&#160;&#160;</xsl:text>                    
@@ -594,25 +595,19 @@
             <xsl:apply-templates select="ead:fileplan"/>
             
             <!-- Administrative Information  -->
-        <xsl:if test="ead:accessrestrict or ead:userestrict or
-            ead:custodhist or ead:accruals or ead:altformavail or ead:acqinfo or 
-            ead:processinfo or ead:appraisal or ead:originalsloc or 
-            /ead:ead/ead:eadheader/ead:revisiondesc">
-            <fo:block xsl:use-attribute-sets="section">
-                <fo:block xsl:use-attribute-sets="h2" id="adminInfo">Administrative Information</fo:block>
-                <xsl:apply-templates select="ead:accessrestrict"/>
-                <xsl:apply-templates select="ead:userestrict"/> 
-                <xsl:apply-templates select="ead:acqinfo"/>
-                <xsl:apply-templates select="ead:accruals"/>
-                <xsl:apply-templates select="ead:appraisal"/>
-                <xsl:apply-templates select="ead:processinfo"/> 
-                <xsl:apply-templates select="ead:custodhist"/> 
-                <xsl:apply-templates select="ead:originalsloc"/>
-                <xsl:apply-templates select="ead:altformavail"/>
-                <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:revisiondesc"/>
-                <xsl:call-template name="toc"/>
-            </fo:block>
-        </xsl:if>
+            <xsl:if test="ead:accessrestrict or ead:userestrict or
+                ead:custodhist or ead:accruals or ead:altformavail or ead:acqinfo or 
+                ead:processinfo or ead:appraisal or ead:originalsloc or 
+                /ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt or /ead:ead/ead:eadheader/ead:revisiondesc">
+                <fo:block xsl:use-attribute-sets="section">
+                    <fo:block xsl:use-attribute-sets="h2" id="adminInfo">Administrative Information</fo:block>
+                    <xsl:apply-templates select="ead:accessrestrict | ead:userestrict |
+                        ead:custodhist | ead:accruals | ead:altformavail | ead:acqinfo |  
+                        ead:processinfo | ead:appraisal | ead:originalsloc | 
+                        /ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt | /ead:ead/ead:eadheader/ead:revisiondesc"/>
+                    <xsl:call-template name="toc"/>
+                </fo:block>
+            </xsl:if>
             
             <!-- Related Materials -->
             <xsl:if test="ead:relatedmaterial or ead:separatedmaterial">
@@ -742,7 +737,7 @@
     </xsl:template>
     
     <!-- Publication statement included in administrative information section -->
-    <!--    <xsl:template match="ead:publicationstmt">
+    <xsl:template match="ead:publicationstmt">
         <fo:block xsl:use-attribute-sets="section">
             <fo:block xsl:use-attribute-sets="h3"><xsl:value-of select="local:tagName(.)"/></fo:block>
             <fo:block xsl:use-attribute-sets="smp">
@@ -751,7 +746,7 @@
             </fo:block>
             <xsl:apply-templates select="ead:address"/>
         </fo:block>
-    </xsl:template>-->
+    </xsl:template>
     
     <!-- Formats Address elements -->
     <xsl:template match="ead:address">
@@ -1223,7 +1218,7 @@
     </xsl:template>
     <xsl:template match="*[@render = 'bolditalic'] | *[@altrender = 'bolditalic']">
         <fo:inline font-weight="bold" font-style="italic">
-            <xsl:if test="preceding-sibling::*"></xsl:if>
+            <xsl:if test="preceding-sibling::*"> &#160;</xsl:if>
             <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
@@ -1243,7 +1238,7 @@
         <xsl:if test="preceding-sibling::*"> &#160;</xsl:if>"<xsl:apply-templates/>" </xsl:template>
     <xsl:template match="*[@render = 'italic'] | *[@altrender = 'italic']">
         <fo:inline font-style="italic">
-            <xsl:if test="preceding-sibling::*"></xsl:if>
+            <xsl:if test="preceding-sibling::*"> &#160;</xsl:if>
             <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
@@ -1282,7 +1277,7 @@
     <xsl:template match="ead:emph[not(@render)]"><fo:inline font-style="italic"><xsl:apply-templates/></fo:inline></xsl:template>
     
     <!-- Collection Inventory (dsc) templates -->
-     <xsl:template match="ead:archdesc/ead:dsc">
+    <xsl:template match="ead:archdesc/ead:dsc">
         <xsl:if test="count(child::*) >= 1">
 		<fo:block xsl:use-attribute-sets="section">
 		    <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
@@ -1313,7 +1308,7 @@
         </xsl:call-template>
         <xsl:if test="@level='series'">
             <fo:table-row>
-                <fo:table-cell number-columns-spanned="4"><xsl:call-template name="toc"/></fo:table-cell>
+                <fo:table-cell number-columns-spanned="3"><xsl:call-template name="toc"/></fo:table-cell>
             </fo:table-row>  
         </xsl:if>
     </xsl:template>
@@ -1324,45 +1319,42 @@
         <xsl:variable name="clevelMargin">
             <xsl:choose>
                 <xsl:when test="$level = 1">4pt</xsl:when>
-                <xsl:when test="$level = 2">20pt</xsl:when>
-                <xsl:when test="$level = 3">36pt</xsl:when>
-                <xsl:when test="$level = 4">52pt</xsl:when>
-                <xsl:when test="$level = 5">68pt</xsl:when>
-                <xsl:when test="$level = 6">84pt</xsl:when>
-                <xsl:when test="$level = 7">100pt</xsl:when>
-                <xsl:when test="$level = 8">116pt</xsl:when>
-                <xsl:when test="$level = 9">132pt</xsl:when>
-                <xsl:when test="$level = 10">148pt</xsl:when>
-                <xsl:when test="$level = 11">164pt</xsl:when>
-                <xsl:when test="$level = 12">180pt</xsl:when>
+                <xsl:when test="$level = 2">12pt</xsl:when>
+                <xsl:when test="$level = 3">20pt</xsl:when>
+                <xsl:when test="$level = 4">28pt</xsl:when>
+                <xsl:when test="$level = 5">36pt</xsl:when>
+                <xsl:when test="$level = 6">44pt</xsl:when>
+                <xsl:when test="$level = 7">52pt</xsl:when>
+                <xsl:when test="$level = 8">60pt</xsl:when>
+                <xsl:when test="$level = 9">68pt</xsl:when>
+                <xsl:when test="$level = 10">74pt</xsl:when>
+                <xsl:when test="$level = 11">82pt</xsl:when>
+                <xsl:when test="$level = 12">90pt</xsl:when>
             </xsl:choose>
         </xsl:variable>
-        <xsl:choose>
+            <xsl:choose>
                 <!--Formats Series and Groups  -->
-            <xsl:when test="@level='subcollection' or @level='subgrp' or @level='series' 
-                or @level='subseries' or @level='collection'or @level='fonds' or 
-                @level='recordgrp' or @level='subfonds' or @level='class'">
-                <fo:table-row background-color="#f0f0f0" border-bottom="1px dotted #ccc" border-top="3pt solid #ccc" keep-with-next.within-page="always">
-                    <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt">
-                        <xsl:if test="not(ead:did/ead:container)">
-                            <xsl:attribute name="number-columns-spanned">4</xsl:attribute>
-                        </xsl:if>
-                        <xsl:if test="ead:did/ead:container">
-                            <xsl:attribute name="number-rows-spanned">
-                                <xsl:choose>
-                                    <xsl:when test="ead:did/ead:container/@label"><xsl:value-of select="count(ead:did/ead:container[@label]) + 1"/></xsl:when>
-                                    <xsl:otherwise>2</xsl:otherwise>
-                                </xsl:choose>
-                            </xsl:attribute>
-                        </xsl:if>
-                        <xsl:apply-templates select="ead:did" mode="dscSeriesTitle"/>    
-                        <xsl:apply-templates select="ead:did" mode="dscSeries"/>   
-                        <xsl:apply-templates select="ead:scopecontent" mode="dsc"/> 
-                        <xsl:apply-templates select="ead:arrangement" mode="dsc"/> 
-                        <xsl:apply-templates select="child::*[not(ead:did) and not(self::ead:did) and not(self::ead:scopecontent) and not(self::ead:arrangement)]" mode="dsc"/>
-                        <!--<xsl:apply-templates select="child::*[not(ead:did) and not(self::ead:did)]" mode="dsc"/> -->                                       
-                    </fo:table-cell>
-                </fo:table-row>
+                <xsl:when test="@level='subcollection' or @level='subgrp' or @level='series' 
+                    or @level='subseries' or @level='collection'or @level='fonds' or 
+                    @level='recordgrp' or @level='subfonds' or @level='class' or (@level='otherlevel' and not(child::ead:did/ead:container))">
+                    <fo:table-row background-color="#f0f0f0" border-bottom="1px dotted #ccc" border-top="3pt solid #ccc" keep-with-next.within-page="always">
+                        <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt">
+                            <xsl:if test="not(ead:did/ead:container)">
+                                    <xsl:attribute name="number-columns-spanned">4</xsl:attribute>
+                            </xsl:if>
+                            <xsl:if test="ead:did/ead:container">
+                                <xsl:attribute name="number-rows-spanned">
+                                    <xsl:choose>
+                                        <xsl:when test="ead:did/ead:container/@label"><xsl:value-of select="count(ead:did/ead:container[@label]) + 1"/></xsl:when>
+                                        <xsl:otherwise>2</xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                            </xsl:if>
+                            <xsl:apply-templates select="ead:did" mode="dscSeriesTitle"/>    
+                            <xsl:apply-templates select="ead:did" mode="dscSeries"/>                            
+                            <xsl:apply-templates select="child::*[not(ead:did) and not(self::ead:did)]" mode="dsc"/>                                        
+                        </fo:table-cell>
+                    </fo:table-row>
                     <!-- Adds grouped instances if they exist -->
                     <xsl:if test="ead:did/ead:container">
                         <xsl:choose>
@@ -1406,12 +1398,12 @@
                     </xsl:if>
                 </xsl:when>
                 <!-- Groups instances by label attribute, the way they are grouped in ArchivesSpace -->
-            <xsl:when test="ead:did/ead:container[@label]">
-                <fo:table-row border-top="1px solid #ccc" keep-with-next.within-page="always"> 
-                    <fo:table-cell margin-left="{$clevelMargin}"  padding-top="4pt" number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
-                        <xsl:if test="not(ead:did/ead:container)">
-                            <xsl:attribute name="number-columns-spanned">3</xsl:attribute>
-                        </xsl:if>
+                <xsl:when test="ead:did/ead:container[@label]">
+                    <fo:table-row border-top="1px solid #ccc" keep-with-next.within-page="always"> 
+                        <fo:table-cell margin-left="{$clevelMargin}"  padding-top="4pt" number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
+                            <xsl:if test="not(ead:did/ead:container)">
+                                <xsl:attribute name="number-columns-spanned">4</xsl:attribute>
+                            </xsl:if>
                             <xsl:apply-templates select="ead:did" mode="dsc"/>  
                             <xsl:apply-templates mode="dsc" select="*[not(self::ead:did) and 
                                 not(self::ead:c) and not(self::ead:c02) and not(self::ead:c03) and
@@ -1436,26 +1428,26 @@
                     </xsl:for-each-group>                    
                 </xsl:when>
                 <!-- For finding aids with no @label attribute, only accounts for three containers -->
-            <xsl:otherwise>
-                <fo:table-row border-top="1px solid #ccc"> 
-                    <fo:table-cell margin-left="{$clevelMargin}"  padding-top="4pt" number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
-                        <xsl:apply-templates select="ead:did" mode="dsc"/>  
-                        <xsl:apply-templates mode="dsc" select="*[not(self::ead:did) and 
-                            not(self::ead:c) and not(self::ead:c02) and not(self::ead:c03) and
-                            not(self::ead:c04) and not(self::ead:c05) and not(self::ead:c06) and not(self::ead:c07)
-                            and not(self::ead:c08) and not(self::ead:c09) and not(self::ead:c10) and not(self::ead:c11) and not(self::ead:c12)]"/>          
-                    </fo:table-cell>
-                    <fo:table-cell>
-                        <fo:block margin="4pt 0"><xsl:value-of select="ead:did/ead:container[1]/@type"/><xsl:text> </xsl:text><xsl:value-of select="ead:did/ead:container[1]"/></fo:block>
-                    </fo:table-cell>
-                    <fo:table-cell>
-                        <fo:block margin="4pt 0"><xsl:value-of select="ead:did/ead:container[2]/@type"/><xsl:text> </xsl:text><xsl:value-of select="ead:did/ead:container[2]"/></fo:block>
-                    </fo:table-cell>
-                    <!--                        <fo:table-cell>
+                <xsl:otherwise>
+                    <fo:table-row border-top="1px solid #ccc"> 
+                        <fo:table-cell margin-left="{$clevelMargin}"  padding-top="4pt" number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
+                            <xsl:apply-templates select="ead:did" mode="dsc"/>  
+                            <xsl:apply-templates mode="dsc" select="*[not(self::ead:did) and 
+                                not(self::ead:c) and not(self::ead:c02) and not(self::ead:c03) and
+                                not(self::ead:c04) and not(self::ead:c05) and not(self::ead:c06) and not(self::ead:c07)
+                                and not(self::ead:c08) and not(self::ead:c09) and not(self::ead:c10) and not(self::ead:c11) and not(self::ead:c12)]"/>          
+                        </fo:table-cell>
+                        <fo:table-cell>
+                            <fo:block margin="4pt 0"><xsl:value-of select="ead:did/ead:container[1]/@type"/><xsl:text> </xsl:text><xsl:value-of select="ead:did/ead:container[1]"/></fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell>
+                            <fo:block margin="4pt 0"><xsl:value-of select="ead:did/ead:container[2]/@type"/><xsl:text> </xsl:text><xsl:value-of select="ead:did/ead:container[2]"/></fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell>
                             <fo:block margin="4pt 0"><xsl:value-of select="ead:did/ead:container[3]/@type"/><xsl:text> </xsl:text><xsl:value-of select="ead:did/ead:container[3]"/></fo:block>
-                        </fo:table-cell>-->
-                </fo:table-row>
-            </xsl:otherwise>
+                        </fo:table-cell>
+                    </fo:table-row>
+                </xsl:otherwise>
             </xsl:choose>
         <!-- Calls child components -->
         <xsl:apply-templates select="ead:c | ead:c01 | ead:c02 | ead:c03 | ead:c04 | ead:c05 | ead:c06 | ead:c07 | ead:c08 | ead:c09 | ead:c10 | ead:c11 | ead:c12"/>
@@ -1470,7 +1462,7 @@
             </fo:table-cell>
             <fo:table-cell number-columns-spanned="3">
                 <fo:block font-weight="bold" padding="2pt">
-                    Containers
+                    Instances
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
