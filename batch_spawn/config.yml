@@ -1,1 +1,2 @@
 system_menu_controller: batch_spawn
+no_automatic_routes: true

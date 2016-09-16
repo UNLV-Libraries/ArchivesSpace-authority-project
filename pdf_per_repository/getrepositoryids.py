@@ -1,3 +1,4 @@
+#Code borrowed from:
 #Title: archivesspace-api-workshop source code
 #Author: Robery Doiel 
 #Date: 8/9/2016
@@ -15,11 +16,11 @@ def login (api_url, username, password):
         #Encode our password for sending the request
         data = urllib.parse.urlencode({'password': password}).encode('utf-8')
         
-        #Create a request
-        req = urllib.request.Request(
-            url = api_url+'/users/'+username+'/login', 
-            data = data)
         try:
+            #Create a request
+            req = urllib.request.Request(
+                    url = api_url+'/users/'+username+'/login', 
+                    data = data)
             #Create a response 
             response = urllib.request.urlopen(req)
         except urllib.error.HTTPError as e:
@@ -27,7 +28,7 @@ def login (api_url, username, password):
             print(e.read())
             return ""
         except urllib.error.URLError as e:
-            print(e.reason())
+            print(e.reason)
             return ""
         src = response.read().decode('utf-8')
         result = json.JSONDecoder().decode(src)
@@ -47,7 +48,7 @@ def list_repos(api_url, auth_token):
             print(e.read())
             return None
         except urllib.error.URLError as e:
-            print(e.reason())
+            print(e.reason)
             return None
         src = response.read().decode('utf-8')
           
