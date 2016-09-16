@@ -1,6 +1,6 @@
 # PDF Per Repository
 
-The file in located in the backend/model of this folder will allow specific stylesheets
+The file located in the backend/model of this folder will allow specific stylesheets
 to work with specfic repositories.
 
 ## Installing it
@@ -26,8 +26,13 @@ including an entry such as:
   * Otherwise, navigate to your ArchivesSpace website in the Chrome browser.
   Bring the Select Repository menu down and right click on the name of your repository in the drop down menu and click inspect
   ![Inspect](https://cloud.githubusercontent.com/assets/4681350/17568652/845019ea-5ef9-11e6-96a0-42876215e821.PNG)
+  
   Next, in the pop-up window below look at the values property corresponding with the repository you wish to assign a stylesheet
+  
+
   ![Repository Ids](https://cloud.githubusercontent.com/assets/4681350/17568653/8454a014-5ef9-11e6-9ad0-00ff5a0617e4.PNG)
+
+
 3. Next, navigate to your stylesheets in your local instance of ArchivesSpace
 4. Make sure you have a default stylesheet with the file name as-ead-to-pdf.xsl.
 It will default to this stylesheet if a specfic stylesheet does not exists for
