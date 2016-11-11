@@ -11,7 +11,7 @@ backend/model of your local plugin.
 However, to install, you can activate the plugin in your config/config.rb file by
 including an entry such as:
 
-     # If you have other plugins loaded, just add 'spawn' to
+     # If you have other plugins loaded, just add 'pdf_per_repository' to
      # the list
      AppConfig[:plugins] = ['local', 'other_plugins', 'pdf_per_repository']
 		  
@@ -34,8 +34,8 @@ including an entry such as:
 
 
 3. Next, navigate to your stylesheets in your local instance of ArchivesSpace
-4. Make sure you have a default stylesheet with the file name as-ead-to-pdf.xsl.
+4. Make sure you have a default stylesheet with the file name as-ead-pdf.xsl.
 It will default to this stylesheet if a specfic stylesheet does not exists for
 its corresponding repository
-5. Create a new stylesheet with the file name as-ead-to-pdf-REPOIDHERE.xsl (e.g as-ead-to-pdf-3.xsl)
+5. Create a new stylesheet with the file name as-ead-pdf-REPOIDHERE.xsl (e.g as-ead-pdf-3.xsl)
 ![Stylsheet name] (https://cloud.githubusercontent.com/assets/4681350/17568654/84559a96-5ef9-11e6-9ebc-0093545f1606.PNG)
