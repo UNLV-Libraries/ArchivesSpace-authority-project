@@ -5,11 +5,9 @@
 		<label class="col-sm-2 control-label">Tag name</label>
 		<label class="col-sm-9 label-only">Enable</label>
 	  </div>
-	  <%= form.label_and_boolean "tag_008", {:plugin => true}, form.default_for("tag_008") %>
 	  <%= form.label_and_boolean "tag_041", {:plugin => true}, form.default_for("tag_041") %>
       <%= form.label_and_boolean "tag_099", {:plugin => true}, form.default_for("tag_099") %>
 	  <%= form.label_and_boolean "tag_245_sc_f", {:plugin => true}, form.default_for("tag_245_sc_f") %>
-	  <%= form.label_and_boolean "tag_245_sc_g", {:plugin => true}, form.default_for("tag_245_sc_g") %>
       <%= form.label_and_boolean "tag_351", {:plugin => true}, form.default_for("tag_351") %>
 	  <%= form.label_and_boolean "tag_500", {:plugin => true}, form.default_for("tag_500") %>
 	  <%= form.label_and_boolean "tag_506", {:plugin => true}, form.default_for("tag_506") %>
@@ -24,10 +22,9 @@
       <%= form.label_and_boolean "tag_ss_2", {:plugin => true}, form.default_for("tag_ss_2") %>
       <%= form.label_and_boolean "tag_610_sc_a_ss_1", {:plugin => true}, form.default_for("tag_610_sc_a_ss_1")  %>
       <%= form.label_and_boolean "tag_506_sc_a_ss_1", {:plugin => true}, form.default_for("tag_506_sc_a_ss_1")  %>
-      <%= form.label_and_boolean "tag_ss_4", {:plugin => true} %>
-      <%= form.label_and_textfield "tag_ss_3", {:plugin => true } %>
-	  <%= form.label_and_textfield "tag_555_ss_1", {:plugin => true} %>
-      <%= form.label_and_textfield "tag_856_ss_1", {:plugin => true} %>
+      <%= form.label_and_textfield "tag_ss_3", {:plugin => true, :required => true} %>
+	  <%= form.label_and_textfield "tag_555_ss_1", {:plugin => true, :required => true} %>
+      <%= form.label_and_textfield "tag_856_ss_1", {:plugin => true, :required => true} %>
 	  
    </div>
 <% end %>

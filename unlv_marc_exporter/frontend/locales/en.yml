@@ -27,12 +27,9 @@ en:
       m_export_settings: &m_export_settings_attributes
         enable_tags_section: Enable Tags Settings
         special_settings_section: Special Settings
-        tag_008: Tag 008
-        tag_008_tooltip: |
-            <p>Archivesspace & MARC: All Materials</p>
         tag_041: Tag 041
         tag_041_tooltip: |
-            <p>Archivesspace & MARC: Language Code</p>
+            <p>Archivesspace & MARC: Lanugage Code</p>
         tag_099: Tag 099
         tag_099_tooltip: |
             <p>ArchivesSpace: Identifier</p> 
@@ -40,9 +37,6 @@ en:
         tag_245_sc_f: Tag 245 subfield code f
         tag_245_sc_f_tooltip: |
             <p>Archivesspace & MARC: Inclusive Dates</p>
-        tag_245_sc_g: Tag 245 subfield code g
-        tag_245_sc_g_tooltip: |
-            <p>Archivesspace & MARC: Bulk Dates</p>
         tag_351: Tag 351
         tag_351_tooltip: |
             <p>Archivesspace: Arrangement (Note) </p>
@@ -95,7 +89,4 @@ en:
         tag_555_ss_1: Change label for finding aid content Tag 555
         tag_856_ss_1: Change label for finding aid content Tag 856
         tag_610_sc_a_ss_1: Unite qualifier with name for Tag 610
-        tag_ss_4: Add agent notes
-        tag_ss_4_tooltip: | 
-            <p>Have the option to export agent notes (i.e biographical notes)</p>
      

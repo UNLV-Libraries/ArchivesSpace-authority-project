@@ -24,19 +24,6 @@ class MARCModel < ASpaceExport::ExportModel
 		:dates => :handle_dates,
 	}
 	
-  def self.from_resource(obj)
-    marc = self.from_archival_object(obj)
-    marc.apply_map(obj, @resource_map)
-    marc.leader_string = "00000np$ a2200000 u 4500"
-    marc.leader_string[7] = obj.level == 'item' ? 'm' : 'c'
-
-	#check 008 controlfield value
-	if(MarcExportSettings.m_export_settings['tag_008']) then marc.controlfield_string = assemble_controlfield_string(obj) end
-
-
-    marc
-  end
-	
 	def handle_dates(dates)
 		return false if dates.empty?
 
@@ -56,9 +43,7 @@ class MARCModel < ASpaceExport::ExportModel
 		  end
 		  if(code == 'f') #check settings for enabling tag subfield code f
 			if(MarcExportSettings.m_export_settings['tag_245_sc_f']) then df('245', '1', '0').with_sfs([code, val]) end
-		  elsif (code == 'g')#check settings for enabling tag subfield code g
-			if(MarcExportSettings.m_export_settings['tag_245_sc_g']) then df('245', '1', '0').with_sfs([code, val]) end
-		  else
+		  else 
 			df('245', '1', '0').with_sfs([code, val])
 		  end
 		end
@@ -88,7 +73,7 @@ class MARCModel < ASpaceExport::ExportModel
 		ind2 = ' '
 		role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
 
-		#handle_agent_notes(notes)
+		handle_agent_notes(notes)
 		
 		case creator['agent_type']
 
@@ -147,10 +132,8 @@ class MARCModel < ASpaceExport::ExportModel
 		  terms = link['terms']
 		  ind2 = source_to_code(name['source'])
 		  
-		  #check special setting 4 (Add agent notes)
-		  if(MarcExportSettings.m_export_settings['tag_ss_4'])
-			handle_agent_notes(notes)
-		  end 
+		  handle_agent_notes(notes)
+		  
 		  case subject['agent_type']
 
 		  when 'agent_corporate_entity'
@@ -277,12 +260,11 @@ class MARCModel < ASpaceExport::ExportModel
 		  end
 
 		  sfs << relator_sf
-		  df!(code, ind1, ind2).with_sfs(*sfs)
+		  df(code, ind1, ind2).with_sfs(*sfs)
 		end
 
 	  end
 
-	#export the agent notes
 	def handle_agent_notes(notes)
 		notes.each do |note|
 			prefix =  case note['jsonmodel_type']
@@ -345,22 +327,21 @@ class MARCModel < ASpaceExport::ExportModel
 			unless marc_args.nil?
 				if 	handle_settings(marc_args)
 					text = prefix ? "#{prefix}: " : ""
-					#Strip hard returns
+					#check special setting one(delete hard returns)
 					if(MarcExportSettings.m_export_settings['tag_ss_1']) 
 						text += ASpaceExport::Utils.extract_note_text(note).delete("\n")
 					else 
 						text += ASpaceExport::Utils.extract_note_text(note)
 					end
-					#add access restriction
 					if(marc_args[0] == '506')
 						if( MarcExportSettings.m_export_settings['tag_506_sc_a_ss_1'])
-							urls = text.scan(/(?:http|https):\/\/[a-z0-9]+(?:[\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(?:(?::[0-9]{1,5})?\/[^\s]*)?/ix)
+							urls = text.split(/\s+/).find_all { |u| u =~ /^https?:/ }
 							unless urls.empty?
 							   text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
 							   ead_text = if MarcExportSettings.m_export_settings['tag_856_ss_1'].nil? then MarcExportSettings.m_export_settings['tag_856_ss_1'] else  "Finding aid online:" end
 							   df('856', '4', '2').with_sfs(
-							    	['z', ead_text],
-								   	['u', urls[0].chomp(".")]
+							    	['a', ead_text],
+								   	['u', urls[0]]
 								)
 							end
 						end
@@ -455,26 +436,24 @@ class MARCModel < ASpaceExport::ExportModel
         unless marc_args.nil?
 			if 	handle_settings(marc_args)
 				text = prefix ? "#{prefix}: " : ""
-				#Strip had returns
 				if(MarcExportSettings.m_export_settings['tag_ss_1']) 
 					text += ASpaceExport::Utils.extract_note_text(note).delete("\n")
 				else 
 					text += ASpaceExport::Utils.extract_note_text(note)
 				end
-				#add access restriction
 				if(marc_args[0] == '506')
-					if( MarcExportSettings.m_export_settings['tag_506_sc_a_ss_1'])
-						urls = text.scan(/(?:http|https):\/\/[a-z0-9]+(?:[\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(?:(?::[0-9]{1,5})?\/[^\s]*)?/ix)
-						unless urls.empty?
-						    text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
-							ead_text = if MarcExportSettings.m_export_settings['tag_ss_3'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_ss_3'] end
-							df('856', '4', '0').with_sfs(
-									['z', ead_text],
-									['u', urls[0].chomp(".")]
-								)
+						if( MarcExportSettings.m_export_settings['tag_506_sc_a_ss_1'])
+							urls = text.split(/\s+/).find_all { |u| u =~ /^https?:/ }
+							unless urls.empty?
+							    text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
+								ead_text = if MarcExportSettings.m_export_settings['tag_ss_3'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_ss_3'] end
+								df('856', '4', '0').with_sfs(
+										['a', ead_text],
+										['z', urls[0]]
+									)
+							end
 						end
 					end
-				end
 				df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
 			end
 		end
@@ -484,7 +463,7 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_ead_loc(ead_loc)
 	if( MarcExportSettings.m_export_settings['tag_555'])
 		text = if MarcExportSettings.m_export_settings['tag_555_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_555_ss_1'] end
-		df('555', '8', ' ').with_sfs(
+		df('555', ' ', ' ').with_sfs(
 								['a', text],
 								['u', ead_loc]
 								)
@@ -492,7 +471,7 @@ class MARCModel < ASpaceExport::ExportModel
 	if( MarcExportSettings.m_export_settings['tag_856'])
 		text = if MarcExportSettings.m_export_settings['tag_856_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_856_ss_1'] end
 		df('856', '4', '2').with_sfs(
-								['z', text],
+								['a', text],
 								['u', ead_loc]
 								)
 	end
