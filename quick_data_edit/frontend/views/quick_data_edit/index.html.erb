@@ -1,0 +1,56 @@
+<%
+   multiplicity ||= "one" 
+   singular = "#{controller}".singularize 
+%>
+
+<%= setup_context :title => "Quick Data Edit" %>
+
+<div class="row">
+  <div class="col-md-8">
+    <h2><%= I18n.t("plugins.quick_data_edit.label") %></h2>
+	
+	<%= form_tag({:controller => :quick_data_edit, :action => :quick_data_edit}, {:id => "quick_data_edit" , :class => "form-quick-data-edit", :method => "POST"}) do |form| %>
+	
+	
+    <div class='control-group form-group'> 
+	  	 <%=
+			 render_aspace_partial :partial => "quick_data_edit/form",
+					:locals => {
+					:controller => :quick_data_edit,
+					:confirmation_title => I18n.t("actions.merge_confirm_title"),
+					:confirmation_msg => I18n.t("actions.merge_agent_confirm_message")}
+		  %>
+
+    </div>
+    <div class='control-group form-group'> 
+      <button type="submit" class="btn btn-primary btn-default">
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+        <%= I18n.t("plugins.quick_data_edit.actions.search") %>
+      </button>
+    </div>
+    <% end %>
+	
+	<div id="results"></div>
+	
+  </div>
+  
+  
+ <!-- <script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/quick_data_edit.js" %>"></script> -->
+  <script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/linker.js" %>"></script>
+	
+	<div id="template_quick_data_edit_result"><!--
+	  <div class="quick_data_edit-result">
+		<div class="row">
+		  <div class="col-md-12">
+			<div class='alert alert-info'>
+				<a href="/resources/new?accession_id=${quick_data_edit}" target="_blank">${title}<span class="icomoon icon-resource"></span> Resource</a>
+			</div> 
+		  </div>   
+		</div>
+	  </div>
+	--></div>
+
+
+	<div id="template_spawn_search_error_title"><!--
+	  <%= I18n.t("plugins.quick_data_edit.messages.search_error") %>
+	--></div>

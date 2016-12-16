@@ -1,0 +1,241 @@
+
+<%= setup_context :title => "Quick Data Edit" %>
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <h2><%= I18n.t("plugins.quick_data_edit.label") %></h2>
+	<div class="btn-group">
+          <a class="btn btn-xs btn-default add-children" rel="${rules.rapid_data_entry.type}" href="javascript:void(0);" title="${rules.rapid_data_entry.action_label}">
+            ${rules.rapid_data_entry.action_label}
+          </a>
+        </div>
+	TEST TEST
+	<%= render_aspace_partial :partial => "archival_objects/rde_templates" %>
+	<%= render_aspace_partial :partial => "qde_templates" %>
+
+	<%= stylesheet_link_tag "jquery.kiketable.colsizable.css" %>
+	<%= stylesheet_link_tag "archivesspace/rde" %>
+	<div class="rde-wrapper">
+	  <div class="modal-body">
+		<%= form_for @children,
+					 :as => @children.class.record_type,
+					 :url => {:controller => @parent.jsonmodel_type.to_s.pluralize, :action => :add_children, :id => @parent.id},
+					 :html => {
+					   :class => 'form-horizontal aspace-record-form',
+					   :id => 'rde_form',
+					   "data-error-prefix" => I18n.t("rde.messages.error_prefix"),
+					   "data-validate-row-uri" => url_for(:controller => @children.child_type.to_s.pluralize, :action => :validate_rows),
+					   "data-save-template-uri" => url_for(:controller => :rde_templates, :action => :create),
+					   "data-list-templates-uri" => url_for(:controller => :rde_templates, :action => :index),
+					   "data-template-base-uri" => url_for(:controller => :rde_templates),
+					   "data-exceptions" => @exceptions.to_json,
+					   "data-child-type" => @children.child_type.to_s,
+					   "data-jsonmodel-type" => @children.jsonmodel_type.to_s,
+					   "data-cookie-prefix" => @children.child_type.to_s.split("_").collect{|s| s.first}.join} do |f| %>
+
+		  <%= form_context @children.class.record_type, @children do |form| %>
+
+			<%= render_aspace_partial :partial => "shared/flash_messages", :locals => {:form => form} %>
+
+			<!--<p>
+			<!--<div class="btn-group">
+			 <!-- <button class="btn btn-sm btn-success add-row"><%= I18n.t("rde.actions.add_row") %></button>-->
+			  <!--<button class="btn btn-sm btn-success dropdown-toggle add-rows-dropdown" data-toggle="dropdown">
+				<span class="caret"></span>
+			  </button>
+
+			  <div class="dropdown-menu add-rows-form">
+				<div><input type="number" class="input-medium form-control" value="1" /></div>
+				<button class="btn btn-sm input-medium btn-primary" type="button"><%= I18n.t("rde.actions.add_rows") %></button>
+			  </div>
+			</div>-->
+
+			<!--<select id="rde_hidden_columns" class="form-control" multiple="multiple" data-i18n-prefix="<%= I18n.t("rde.actions.showhide_prefix") %>" data-i18n-suffix="<%= I18n.t("rde.actions.showhide_suffix") %>" data-i18n-none="<%= I18n.t("rde.actions.showhide_none") %>"></select>
+
+			<select id="rde_select_template" class="selectpicker" data-prompt-text="<%= I18n.t("rde.messages.select_prompt") %> "data-removeable="<%= user_can?("manage_rde_templates") %>">			
+			</select>
+
+
+			<div class="btn-group">
+			  <button class="btn btn-sm btn-default fill-column"><%= I18n.t("rde.actions.fill_toggle") %></button>
+			  <button class="btn btn-sm btn-default reorder-columns"><%= I18n.t("rde.actions.reorder_toggle") %></button>
+			</div>
+
+			<% if user_can?("manage_rde_templates") %>
+			  <div class="btn-group">
+				<button class="btn btn-sm btn-default save-template"><%= I18n.t("rde.actions.save_template") %></button>
+				<button class="btn btn-sm btn-default manage-templates"><%= I18n.t("rde.actions.manage_templates") %></button>
+			  </div>
+			<% end %>
+
+
+			<button class="btn btn-sm btn-default toggle-inline-errors active"><%= I18n.t("rde.actions.inline_errors_toggle") %></button>
+
+			<a href="#" id="rde_reset" class="btn btn-sm btn-default"><%= I18n.t("rde.actions.reset") %></a>
+			</p>-->
+
+			<div class="fill-column-form rde-inline-form" style="display: none;">
+			  <ul class="nav nav-tabs">
+				<li class="active"><a href="#fill_basic" data-toggle="tab"><%= I18n.t("rde.fill_column.basic") %></a></li>
+				<li><a href="#fill_sequence" data-toggle="tab"><%= I18n.t("rde.fill_column.sequence") %></a></li>
+			  </ul>
+			  <div class="tab-content">
+				<div class="tab-pane active" id="fill_basic">
+				  <fieldset>
+					<div class="form-group">
+					  <label class="control-label" for="basicFillTargetColumn"><%= I18n.t("rde.column_label") %></label>
+					  <div class="controls">
+						<select id="basicFillTargetColumn"><option selected="selected" class="empty"></option></select>
+					  </div>
+					</div>
+					<div class="form-group">
+					  <label class="control-label" for="basicFillTargetColumn"><%= I18n.t("rde.fill_column.fill_value") %></label>
+					  <div class="controls fill-value-container">
+						<div class="alert alert-info"><%= I18n.t("rde.fill_column.select_a_column") %></div>
+					  </div>
+					</div>
+					<div class="form-actions">
+					  <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= I18n.t("rde.fill_column.apply_basic_fill") %></button>
+					  <button class="btn btn-sm btn-cancel"><%= I18n.t("actions.cancel") %></button>
+					</div>
+				  </fieldset>
+				</div>
+				<div class="tab-pane" id="fill_sequence" data-sequence-generator-url="<%= url_for :controller => :utils, :action => :generate_sequence %>">
+				  <div class="alert alert-warning" id="sequenceTooSmallMsg" style="display: none;">
+					<p><%= I18n.t("rde.fill_column.sequence_count_warning") %></p>
+					<button class="btn btn-warning btn-sm btn-continue-sequence-fill"><%= I18n.t("actions.continue") %></button>
+				  </div>
+				  <fieldset>
+					<div class="form-group">
+					  <label class="control-label" for="sequenceFillTargetColumn"><%= I18n.t("rde.column_label") %></label>
+					  <div class="controls">
+						<select id="sequenceFillTargetColumn"><option selected="selected" class="empty"></option></select>
+					  </div>
+					</div>
+					<div class="form-group">
+					  <label class="control-label"><%= I18n.t("rde.fill_column.fill_value") %></label>
+					  <div class="controls fill-value-container">
+						<input id="sequenceFillPrefix" class="input-mini" type="text" placeholder="Prefix"/>
+						<input id="sequenceFillFrom" class="input-mini" type="text" placeholder="From"/> -
+						<input id="sequenceFillTo" class="input-mini" type="text" placeholder="To"/>
+						<input id="sequenceFillSuffix" class="input-mini" type="text" placeholder="Suffix"/>
+						<button class="btn btn-sm preview-sequence"><%= I18n.t("rde.fill_column.preview_sequence") %></button>
+					  </div>
+					</div>
+					<div class="form-group">
+					  <div class="controls sequence-preview"></div>
+					</div>
+					<div class="form-actions">
+					  <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= I18n.t("rde.fill_column.apply_sequence_fill") %></button>
+					  <button class="btn btn-sm btn-cancel"><%= I18n.t("actions.cancel") %></button>
+					</div>
+				  </fieldset>
+				</div>
+			  </div>
+			</div>
+
+			<div id="saveTemplateForm" class="rde-inline-form form-horizontal" style="display: none;">
+			  <div class="form-group">
+				<label for="templateName" class="col-sm-2 control-label"><%= I18n.t("rde.save_template.template_name") %></label>
+				<div class="col-sm-6">
+				  <input id="templateName" type="text" class="form-control"/>
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<div class="col-sm-2"></div>
+				<button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= I18n.t("rde.save_template.save_template") %></button>
+				<button class="btn btn-sm btn-cancel"><%= I18n.t("actions.cancel") %></button>
+			  </div>
+			</div>
+
+
+			<div id="manageTemplatesForm" class="rde-inline-form form-horizontal" style="display: none;">
+			  <h3>Templates</h3>
+			  <table class="table">
+				<tbody class="table-striped"></tbody>
+			  </table>
+			  <button class="btn btn-primary btn-sm"><%= I18n.t("rde.save_template.confirm_removal") %></button>
+			  <button class="btn btn-sm btn-cancel"><%= I18n.t("actions.cancel") %></button>
+
+			</div>
+
+
+			<div id="columnReorderForm" class="rde-inline-form" style="display: none;">
+			  <select id="columnOrder" multiple="multiple"></select>
+			  <a href="JavaScript:void(0);" id="columnOrderUp" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
+			  <a href="JavaScript:void(0);" id="columnOrderDown" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
+			  <div class="form-actions">
+				<button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= I18n.t("rde.reorder_columns.apply_order") %></button>
+				<button class="btn btn-sm btn-cancel"><%= I18n.t("actions.cancel") %></button>
+			  </div>
+			</div>
+
+			<table id="rdeTable" class="table table-striped table-bordered table-condensed" style="width: auto; margin-right: 20px;">
+			  <colgroup>
+				<col class="status" data-default-width='24' />
+				<%= form.emit_template "rde_#{@children.child_type}_cols" %>
+				<col class="actions" data-default-width='90' />
+			  </colgroup>
+			  <thead>
+			  <tr class="sections">
+				<th data-id="empty" colspan="1"></th>
+				<%= form.emit_template "rde_#{@children.child_type}_sections" %>
+				<th data-id="empty" colspan="1"></th>
+			  </tr>
+			  <tr class="fieldset-labels">
+				<th id="colStatus" data-section="empty" />
+				<%= form.emit_template "rde_#{@children.child_type}_headers" %>
+				<th id="colActions" data-section="empty"></th>
+			  </tr>
+			  </thead>
+			  <tbody>
+			  <% if @children.children.length > 0 %>
+					<%= "stop in the name of the lord" %>
+					<%= @children %>
+				<% @children.children.each_with_index do |child, idx|
+				  form.push(form.set_index("children[]", idx), child) do %>
+					<%= form.emit_template("qde_#{@children.child_type}_row", child) %>
+				  <% end
+					 end %>
+			  <% else %>
+					<%= "eha  in the name of the lord" %>
+					<%= @children %>
+				<% form.push(form.set_index("children[]", 0), {}) do %>
+				  <%= form.emit_template("qde_#{@children.child_type}_row") %>
+				<% end %>
+			  <% end %>
+			  </tbody>
+			</table>
+			<!--<div class="well">
+			  <div class="row">
+				<div class="col-md-6">
+				  <%= I18n.t("rde.help.keyboard_shortcuts") %>
+				  <br/>
+				  <%= I18n.t("rde.help.fill_column") %>
+				</div>
+				<div class="col-md-6">
+				  <%= I18n.t("rde.help.sticky_columns") %>
+				  <br/>
+				  <%= I18n.t("rde.help.resize_and_reorder_columns") %>
+				  <br/>
+				  <%= I18n.t("rde.help.reset") %>
+				</div>
+			  </div>
+			</div>-->
+		  <% end %>
+		<% end %>
+	  </div>
+	  <div class="modal-footer">
+		<button id="saveChangesButton" class="btn btn-primary"><%= I18n.t("rde.actions.submit") %></button>
+		<button id="validateButton" class="btn"><%= I18n.t("rde.actions.validate_rows") %></button>
+		<button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+	  </div>
+	</div>
+
+
+	<div id="rde_template_table_row"><!--
+	<tr data-template-id="${item.id}"><td>${item.name}</td><td><button class="btn btn-default">Remove</button></td></tr>
+	--></div>
+  </div>

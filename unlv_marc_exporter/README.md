@@ -48,6 +48,7 @@ Run the database setup script to update all tables:
   *	Strip hard returns 
   *	Replace period with a dash for identifier 
   *	Unite qualifier with name for Tag 610
+  * Add / Remove agent notes 
   *	Search for tag 506 for url and create additional subfields for Tag 856
   *	Change label for created Tag 856
   *	Change label for created Tag 856
