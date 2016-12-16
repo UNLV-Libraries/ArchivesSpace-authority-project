@@ -114,12 +114,18 @@ def search_identifer(api_url,auth_token, repo_id, identifier):
     '''This function uses the search function and the id_1_u_sstr cusom facet to find the system resource id'''
     
     logging.info("Performing id search for: %s" % identifier);
-
-    #Get params to use the id_1_u_sstr facet for the identifier 
-    params =  urllib.parse.urlencode({'page': '1',
-                                      "filter_term[]" : 
-                                      '{"primary_type":"resource","id_1_u_sstr":"%s"}' % str(identifier) } )
-
+    identifier = identifier.split('-')
+    if(len(identifier) == 2):
+        #Get params to use the id_1_u_sstr facet for the identifier 
+        params =  urllib.parse.urlencode({'page': '1',
+                                          "filter_term[]" : 
+                                          '{"primary_type":"resource","id_0_u_sstr":"%s","id_1_u_sstr":"%s"}' % (str(identifier[0]),str(identifier[1])) } )
+    else:
+        print("%s is not a valid identifier" % identifier)
+        print("Check the program log for more information")
+        logging.error("Not a valid identifier: please use the collection classifier seperated by the collection identifier using a '-' ")
+        logging.error('(i.e) MS-00747, OH-3402 ')
+        return None
     url = api_url+'/repositories/' + str(repo_id) + '/search?%s' % params
     data = None
     headers = {'X-ArchivesSpace-Session': auth_token}
@@ -160,7 +166,7 @@ def search_identifer(api_url,auth_token, repo_id, identifier):
 def input_ids():
     '''This function requests comma seperated id_1 identifiers from user'''
     
-    ids = input('Enter the number for the identifer(s) comma seperated(i.e 00784, 00452):\n').split(',')
+    ids = input('Enter the resource identifer(s) comma seperated(i.e MS-00784, OH-00452):\n').split(',')
     return ids
 
 def main_loop(config):
