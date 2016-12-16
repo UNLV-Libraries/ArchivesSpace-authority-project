@@ -1,0 +1,27 @@
+en:
+  enumerations:
+     container_type:
+        oversized_box: Oversized Box
+        album: Album
+        item: Item
+        flat_file: Flat File
+        roll: Roll
+        digital_file: Digital File
+        binder: Binder
+        slide_tray: Slide Tray
+        sheet: Sheet
+     extent_extent_type:
+        cm: cm
+        items: Item
+        audio_cassettes: Audio Cassettes
+        betacam: Betacam
+        betacam_sp_videotapes: Betacam SP Videotapes
+        betamax_videotapes: Betamax Videotapes
+        digital_files: Digital Files
+        drawings: Drawings
+        floppy_disks: Floppy Disks
+        photographic_negatives: Photographic Negatives
+        u_matic videotapes: U-Matic Videotapes
+        vhs_tapes: VHS Tapes
+     name_source:
+       lcnaf: NACO Authority File
