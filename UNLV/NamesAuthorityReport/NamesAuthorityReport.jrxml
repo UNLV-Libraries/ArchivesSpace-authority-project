@@ -22,7 +22,7 @@ sort_name AS sortName,
  authority_id As authorityId
  FROM name_person np 
  LEFT OUTER JOIN  name_authority_id nai ON np.id = nai.name_person_id 
- WHERE source_id IS NOT NULL AND (SELECT id FROM user WHERE agent_record_id = agent_person_id) IS NULL)
+ WHERE source_id IS NOT NULL AND (SELECT id FROM user WHERE agent_record_id = agent_person_id) IS NULL AND is_display_name = 1) 
  UNION
  (SELECT 
  sort_name AS sortName, 
@@ -32,7 +32,7 @@ sort_name AS sortName,
  authority_id As authorityId
  FROM name_family nf
  LEFT OUTER JOIN  name_authority_id nai ON nf.id = nai.name_family_id 
- WHERE source_id IS NOT NULL)
+ WHERE source_id IS NOT NULL AND is_display_name = 1)
 UNION
 (SELECT 
 sort_name AS sortName, 
@@ -42,7 +42,7 @@ sort_name AS sortName,
  authority_id As authorityId
  FROM name_corporate_entity nce
  LEFT OUTER JOIN  name_authority_id nai ON nce.id = nai.name_corporate_entity_id 
- WHERE source_id IS NOT NULL)]]>
+ WHERE source_id IS NOT NULL AND is_display_name = 1)]]>
 	</queryString>
 	<field name="sortName" class="java.lang.String"/>
 	<field name="nameType" class="java.lang.String"/>

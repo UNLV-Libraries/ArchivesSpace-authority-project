@@ -69,7 +69,9 @@ Rails.application.config.after_initialize do
 			notes << JSONModel(:note_multipart).from_hash(:type => "userestrict",
 														  :label => I18n.t('accession.user_access_note'),
 														  :subnotes => [{
-																			'content' => 'Materials in this collection may be protected by copyrights and other rights.  See <extref xlink:actuate="onRequest" xlink:href="http://www.library.unlv.edu/speccol/research_and_services/reproductions" xlink:show="new" xlink:title="Reproductions and Use"> Reproductions and Use</extref> on the UNLV Special Collections website for more information about reproductions and permissions to publish.',
+																			'content' => 'Materials in this collection may be protected by copyrights and other rights.  See <extref xlink:actuate="onRequest" xlink:href="http://www.library.unlv.edu/speccol/research_and_services/reproductions" xlink:show="new" xlink:title="Reproductions and Use"> Reproductions and Use</extref> on the UNLV Special Collections website for more information about reproductions and permissions to publish. 
+
+Some transcripts do not exist in final form, therefore any editing marks in a transcript (deletions, additions, corrections) are to be quoted as marked.',
 																			'jsonmodel_type' => 'note_text'}])
 			
 			
@@ -108,7 +110,7 @@ Rails.application.config.after_initialize do
 			self.publish = true
 			
 			#Enable Restrictions if the exist
-			if accession.restrictions_apply 
+			if accession.restrictions_apply || accession.access_restrictions || accession.use_restrictions
 				self.restrictions = true
 			end
 			
@@ -119,6 +121,9 @@ Rails.application.config.after_initialize do
 					self.linked_agents[i]["relator"] = "cre" 
 				end 
 			end
+			
+			
+			
 			#ADD FINDING AID INFORMATION
 			
 			#Add ead id example US::NvLN::PH00041
@@ -126,7 +131,7 @@ Rails.application.config.after_initialize do
 			self.finding_aid_title = "Guide to the " + accession.title
 
 			#Add this years date
-			self.finding_aid_date = "#{DateTime.now.year}"
+			self.finding_aid_date = "Copyright #{DateTime.now.year}"
 			
 			#Update Finding Aid Data with current logged in user 
 			user = JSONModel::HTTP::get_json("/users/current-user")
@@ -137,12 +142,14 @@ Rails.application.config.after_initialize do
 			self.finding_aid_language = "English"
 			self.finding_aid_status = "in_progress"
 			
-			#IMPORTANT: classification set specifically for OH Oral Histories (id = 2 )
+			#IMPORTANT: classification and subjects set specifically for OH Oral Histories (id = 2 )
+			repo_url = accession.repository["ref"]
 			if !self.classifications || self.classifications.empty?
-				repo_url = accession.repository["ref"]
 				self.classifications = [{'ref' => "#{repo_url}/classifications/2", '_resolved' => JSONModel::HTTP::get_json("#{repo_url}/classifications/2")}]
 			end
 			
+			#Add link to oral history subject
+			self.subjects = [{'ref' => "#{repo_url}/subjects/1104", '_resolved' => JSONModel::HTTP::get_json("/subjects/1104")}] 
 		  end
 
 

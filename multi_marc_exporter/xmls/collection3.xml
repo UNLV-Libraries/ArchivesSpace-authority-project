@@ -1,0 +1,123 @@
+<collection xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd"><record>
+    <leader>00000npc a2200000 u 4500</leader>
+    <controlfield tag="008">160622i19652014xx                  eng d</controlfield>
+    <datafield ind1=" " ind2=" " tag="040">
+      <subfield code="e">dacs</subfield>
+    </datafield>
+    <datafield ind1="1" ind2="0" tag="245">
+      <subfield code="a">History of Nursing in Southern Nevada Oral History Project Records</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="100">
+      <subfield code="a">Kendall, Margaret</subfield>
+      <subfield code="4">cre</subfield>
+    </datafield>
+    <datafield ind1="2" ind2="7" tag="610">
+      <subfield code="a">University of Nevada, Las Vegas. School of Nursing</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="700">
+      <subfield code="a">Van Betten, Patricia T.</subfield>
+      <subfield code="4">ctb</subfield>
+      <subfield code="a">Matteson-Kane, Maureen</subfield>
+      <subfield code="4">ctb</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="7" tag="656">
+      <subfield code="a">Nursing</subfield>
+      <subfield code="2">lcsh</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="7" tag="650">
+      <subfield code="a">Public health -- Nevada -- Clark County</subfield>
+      <subfield code="2">ingest</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="7" tag="655">
+      <subfield code="a">Oral histories (document genres)</subfield>
+      <subfield code="2">aat</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="300">
+      <subfield code="a">1.3 Linear Feet (3 boxes)</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="300">
+      <subfield code="a">24 Digital Files (2.9 GB)</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="099">
+      <subfield code="a">MS-00784</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="540">
+      <subfield code="a"> Materials in this collection may be protected by copyrights and other rights. See   Reproductions and Use  on the UNLV Special Collections website for more information about reproductions and permissions to publish. </subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="524">
+      <subfield code="a"> History of Nursing in Southern Nevada Oral History Project Records, 1965-2014. MS-00784. Special Collections, University Libraries, University of Nevada, Las Vegas. Las Vegas, Nevada. </subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="506">
+      <subfield code="a"> Collection is open for research. </subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="545">
+      <subfield code="a"> In 2004 faculty members from the School of Nursing at the University of Nevada, Las Vegas began an initiative to preserve the history of nursing and nurses in Southern Nevada. The project was primarily led by faculty member Dr. Margaret Louis with assistance from Maureen Matteson-Kane, Patricia Van Betten, and other volunteers. Oral history interviews were conducted with nurses who have practiced in Southern Nevada. UNLV School of Nursing faculty members and former students were also interviewed. </subfield>
+    </datafield>
+    <datafield ind1="2" ind2=" " tag="520">
+      <subfield code="a"> The History of Nursing in Southern Nevada Oral History Project Records (1965-2014) are comprised of material related to a volunteer project initiative at the University of Nevada, Las Vegas School of Nursing to conduct oral history interviews with nurses who have practiced in Southern Nevada. The collection contains subject files related to the project, as well as audio, video, and transcript files for the interviews. In addition, there are photographs, news clippings, event programs, and certificates from nurses in the region, many of whom were also interviewed. The collection also includes general information on nursing in Southern Nevada such as research papers and documents from the Nevada Nurses Association. </subfield>
+    </datafield>
+    <datafield ind1="8" ind2=" " tag="555">
+      <subfield code="z">Finding aid is available online</subfield>
+    </datafield>
+    <datafield ind1="4" ind2="2" tag="856">
+      <subfield code="z">Connect to an online guide to this collection</subfield>
+    </datafield>
+  </record>
+<record>
+    <leader>00000npc a2200000 u 4500</leader>
+    <controlfield tag="008">160719i19572001xx                  eng d</controlfield>
+    <datafield ind1=" " ind2=" " tag="040">
+      <subfield code="e">dacs</subfield>
+    </datafield>
+    <datafield ind1="1" ind2="0" tag="245">
+      <subfield code="a">Homer Rissman Papers</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="100">
+      <subfield code="a">Rissman, Homer</subfield>
+      <subfield code="e">creator</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="7" tag="650">
+      <subfield code="a">Architecture </subfield>
+      <subfield code="z">Nevada</subfield>
+      <subfield code="z">Las Vegas</subfield>
+      <subfield code="x">Twentieth century</subfield>
+      <subfield code="2">ingest</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="4" tag="651">
+      <subfield code="a">Housing </subfield>
+      <subfield code="z">Las Vegas</subfield>
+      <subfield code="z">Nevada</subfield>
+    </datafield>
+    <datafield ind1=" " ind2="7" tag="650">
+      <subfield code="a">Hotels &#8211; Nevada &#8211; Las Vegas -- History.</subfield>
+      <subfield code="2">ingest</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="300">
+      <subfield code="a">7.3 Linear Feet (18 boxes, 1 flat fake file)</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="099">
+      <subfield code="a">MS-00452</subfield>
+    </datafield>
+    <datafield ind1="2" ind2=" " tag="520">
+      <subfield code="a">The Homer Rissman Papers (1957-2001) consist of contracts, designs, and plans of architect Homer Rissman. The majority of the designs pertain to Las Vegas, Nevada hotels and casinos.</subfield>
+    </datafield>
+    <datafield ind1="1" ind2=" " tag="545">
+      <subfield code="a">  Homer Rissman was born in 1927 in Chicago, Illinois, the son of an architect. He attended the Illinois Institute of Technology in Chicago and started his own practice in 1949, designing now highly sought-after examples of Mid-Century row houses and townhouses in the Lakeview neighborhood of Chicago. After the Korean War and the collapse of new housing construction, his friend James Efston of Efstonbuilt Company invited Rissman to California to remodel the coffee shop and drugstore of the Wilton Hotel in Long Beach.     His association with Efston, who was developing plans for a hotel in Las Vegas, Nevada, led to Rissman&#8217;s designing his first Las Vegas hotel, the Lady Luck, which eventually opened as the Hacienda in 1956. Through Efston&#8217;s contacts in the restaurant business, Rissman began designing restaurants and motels in the local Southern California highway style, in which his colleague Martin Stern was also learning to incorporate new forms for new uses. Like Stern, Rissman developed long-standing associations with hotel chains in California and Nevada. Once established as a Las Vegas hotel architect, Rissman found steady work expanding and renovating Strip hotels and country clubs including the Hacienda, Tropicana, Dunes, Tally Ho, Castaway's and the Silver Slipper. His next major projects were the total redesign and rebuilding of the Frontier Hotel in 1966, and the Bonanza in 1967.    In 1968, in association with Las Vegas developer Jay Sarno,  Rissman created the original circus tent concept for the iconic Circus, Circus Casino. Rissman was also well-known for the Flamingo Hilton Hotel. Rissman conducted renovations and expansions of existing hotels, including those of his colleague Martin Stern. He added room wings to Stern&#8217;s original International Hotel. He also created the plans for Sheldon Adelson&#8217;s new Sands Expo and Convention Center in 1989. Both Rissman and Stern developed plans and designs for Binion&#8217;s Horseshoe, the Thunderbird and Silverbird, and unrealized proposals for the Aladdin and Landmark Hotels. Stern, as Harrah&#8217;s architect, did the redesign of Rissman&#8217;s Holiday Casino when it was acquired by Harrah&#8217;s.     Rissman was also a prominent architect of Primm, Nevada, where he designed Whiskey Pete&#8217;s, the Primadonna, and Buffalo Bill's. He also designed the Las Vegas luxury apartment complex Regency Towers, in which he and his wife resided. Homer Rissman died in Las Vegas in 2001.    Source: "Dreaming the Skyline: Homer Rissman," University of Nevada, Las Vegas Digital Collections, accessed on July 07, 2014, http://digital.library.unlv.edu/skyline/architect/homer-rissman.  </subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="506">
+      <subfield code="a">Collection is open for research.</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="540">
+      <subfield code="a">For permission to reproduce or publish from this collection, please contact the Director of Special Collections.</subfield>
+    </datafield>
+    <datafield ind1=" " ind2=" " tag="524">
+      <subfield code="a">Homer Rissman Papers, 1957-2001. MS-00452. Special Collections, University Libraries, University of Nevada, Las Vegas. Las Vegas, Nevada.</subfield>
+    </datafield>
+    <datafield ind1="8" ind2=" " tag="555">
+      <subfield code="z">Finding aid is available online</subfield>
+    </datafield>
+    <datafield ind1="4" ind2="2" tag="856">
+      <subfield code="z">Connect to an online guide to this collection</subfield>
+    </datafield>
+  </record>
+</collection>
