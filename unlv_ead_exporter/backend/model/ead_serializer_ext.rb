@@ -132,7 +132,7 @@ class EADSerializer < ASpaceExport::Serializer
         agent = link['_resolved']
         role = link['role']
 		#add relator translations
-        relator = case link['relator']
+        relator = link['relator']
 				  when 'ctb'; 'contributor'
 				  when 'cre'; 'creator'
 				  when 'col'; 'collector'
@@ -284,7 +284,7 @@ class EADSerializer < ASpaceExport::Serializer
       }
 
       xml.profiledesc {
-        creation = "This finding aid was produced using ArchivesSpace on <date>#{Time.now}</date>."
+        creation = "This finding aid was created by #{data.finding_aid_author} on <date>#{Time.now}</date>."
         xml.creation {  sanitize_mixed_content( creation, xml, fragments) }
 
         if (val = data.finding_aid_language)
