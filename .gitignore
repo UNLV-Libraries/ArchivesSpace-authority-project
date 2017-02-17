@@ -13,3 +13,4 @@ local/backend/model/aspace_i18n_enumeration_support.rb
 local/common/aspace_i18n_enumeration_support.rb
 local/schemas/aspace_i18n_enumeration_support.rb
 UNLV/SubjectAlphabeticalReport/SubjectAlphabeticalReport.jasper
+multi_marc_exporter/program.log
