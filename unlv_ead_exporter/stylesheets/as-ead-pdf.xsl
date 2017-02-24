@@ -1598,7 +1598,7 @@
             <fo:block xsl:use-attribute-sets="smpDsc">
                 <fo:inline><xsl:value-of select="local:tagName(.)"/>:</fo:inline>
                   <fo:leader leader-pattern="space" leader-length="0pt"/>
-                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/text()"/></fo:inline>
+                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/node()"/></fo:inline>
             </fo:block>
         </xsl:if>
     </xsl:template>
@@ -1696,7 +1696,7 @@
                       </xsl:otherwise>
                   </xsl:choose>: 
                   <fo:leader leader-pattern="space" leader-length="0pt"/>
-                    <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates  select="ead:p/text()"/></fo:inline>
+                    <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates  select="ead:p/node()"/></fo:inline>
               </fo:block> 
             </xsl:if>
         </xsl:if>
