@@ -33,4 +33,7 @@ including an entry such as:
 3.	Add publisher copyright 
 4.	Add relator translations 
 5.	Add parentheses around container summary
+6.  Fix enumerations exports
+ *Custom enumerations need to be rendered on export 
+
 

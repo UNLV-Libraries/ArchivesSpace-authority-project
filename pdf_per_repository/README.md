@@ -1,7 +1,6 @@
 # PDF Per Repository
 
-The file located in the backend/model of this folder will allow specific stylesheets
-to work with specfic repositories.
+The file located in the backend/model of this folder will allow specific stylesheets to work with specific repositories.
 
 ## Installing it
 

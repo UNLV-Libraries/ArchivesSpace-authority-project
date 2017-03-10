@@ -5,14 +5,6 @@ and add other functionality needed by the UNLV Libraries Special Collection thro
 
 # Projects
 
-
-# Plugin Settings
-
-Plugin Settings is a test to implement settings for a plugin following the structure of the preferences in ArchivesSpace.
-
-[Plugin Settings](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/plugin_settings).
-
-
 # Spawn
 
 The Spawn plugin creates easy to use links to spawn multiple records at the same time.
@@ -58,6 +50,18 @@ Merge agents and subjects while preserving certian data.
 
 [Overlay](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/overlay)
 
+# Multi Marc Exporter
+
+Custom python exporter to output multiple MARC records under one resource
+
+[Multi Marc Exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/multi_marc_exporter)
+
+# PDF Per Repository
+
+A custom plugin/file to add to ArchivesSpace to give Archivist the option of printing a different PDF per stylesheet
+
+[PDF Per Repository](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/pdf_per_repository)
+
 # Place 
 
 **Under Construction 
@@ -65,3 +69,10 @@ Merge agents and subjects while preserving certian data.
 Place is a ArchivesSpace plugin to be able to add places to an agent.
 
 [Place](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/place).
+
+# Plugin Settings
+
+Plugin Settings is a test to implement settings for a plugin following the structure of the preferences in ArchivesSpace.
+
+[Plugin Settings](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/plugin_settings).
+
