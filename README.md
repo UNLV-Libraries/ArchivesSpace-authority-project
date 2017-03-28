@@ -1,7 +1,6 @@
-# ArchivesSpace-authority-project
+# ArchivesSpace Implementation Project
   -------------------------------
-The ArchivesSpace Authority Project is in place by the UNLV Libraries Special Collections to add and fix functionality to the imports and exports for ArchivesSpace. It has evolved into an ArchivesSpace Implementation Project that encompasses many different kinds of plugins.
-and add other functionality needed by the UNLV Libraries Special Collection through the use of ArchivesSpace Plugins.
+The ArchivesSpace Authority Project is in place for the UNLV Libraries Special Collections to add and fix functionality to the imports and exports. It has evolved into an ArchivesSpace Implementation Project that encompasses many different kinds of plugins that add other functionalities.
 
 # Plugins and Scripts
 
@@ -43,7 +42,7 @@ Custom UNLV EAD Exporter for resource EAD exports.
 
 [UNLV EAD exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_ead_exporter)
 
-# Overlay
+# UNLV Overlay
 
 Merge agents and subjects while preserving certian data.
 
