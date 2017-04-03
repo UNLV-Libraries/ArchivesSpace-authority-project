@@ -18,7 +18,7 @@ The Multi Marc Exporter is not an ArchivesSpace plugin. It is a python script us
 
 # Basic Info
 
-**How to Use
+### How to Use
 
 1. Open the multi_marc_exporter.py or run using the Python IDLE
 2. You will be prompted to enter a list of comma separated identifiers(i.e MS-00784, OH-00452)

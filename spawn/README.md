@@ -14,7 +14,7 @@ including an entry such as:
 		  
 # Basic Info
 
-###How to spawn records
+### How to spawn records
 
 1.	Click on Plug-ins > Spawn Records
 2.	Choose accession to spawn
@@ -23,7 +23,7 @@ including an entry such as:
 5.	Varify the information spawn is correct
 6.	Save the record
 
-###Spawn changes 
+### Spawn changes 
 
 1. Changes to notes title
 2. Add condition description notes
