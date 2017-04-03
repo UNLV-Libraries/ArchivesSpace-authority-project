@@ -21,12 +21,12 @@ including an entry such as:
 # Basic Info
 
 
-**How to Use
+###How to Use
 
 1.	After signing in, you must have permission to export resources
 2.	EAD Exports will now export with these settings 
 
-**New Features
+###New Features
 
 1.	Fix unitid changed from period to dash 
 2.	Remove titleproper <num> tag
@@ -35,5 +35,4 @@ including an entry such as:
 5.	Add parentheses around container summary
 6.  Fix enumerations exports
  *Custom enumerations need to be rendered on export 
-
 

@@ -1,8 +1,6 @@
 # Overlay 
 
-Merge agents and subjects while still keeping data.
-
-The overlay plugin applies the same concept as the Merge function in ArchivesSpace but it will take the certain data from the first victim (data being merged from) to the target (data being merged into) 
+The Overlay plugin is a new way of merging agents and subjects from multiple victims (data being merged from) into the target (data being merged into) while still keeping the data from the target (i.e notes, finding aid data, etc). It will however copy certain data mentioned below from the first victim to the target.
 
 ## Installing it
 
@@ -15,7 +13,7 @@ including an entry such as:
 		  
 # Basic Info
 
-**How to Use
+### How to Use
 
 1.	After signing in, you must have permission to update subjects and agents
 2.	Click on Plug-ins > Overlay
@@ -28,7 +26,7 @@ including an entry such as:
 6.	Confirm your decision
 
 
-**Data overlaid onto the target record
+### Data overlaid onto the target record
 
 1.	Authority Id
 2.  Dates
