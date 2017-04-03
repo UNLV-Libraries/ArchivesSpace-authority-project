@@ -1,6 +1,7 @@
 # Identifier Filter
 
-Custom Accession Filter to include the first id from the Accession's identifier. 
+Custom Filter to include the first id from the Accession's identifier (i.e MS, 2005, etc..), first id from Resource identifier, and the second id from Resource identifier.
+For the multi_marc_export plugin to work, this plugin must be instantiated in your ArchivesSpace instance. 
 
 ## Installing it
 
@@ -14,4 +15,6 @@ including an entry such as:
 Run the database setup script to update all tables:
 
     cd /path/to/archivesspace
+    
+Delete indexer_state and solr_state 
 

@@ -29,7 +29,7 @@ Run the database setup script to update all tables:
 6.	Save.
 7.	Exports will now export with these settings 
 
-**New Features
+### New Features
 
 1.	Enable/Disable
   * Tag 041
@@ -54,7 +54,7 @@ Run the database setup script to update all tables:
   *	Change label for created Tag 856
   *	Change label for finding aid content Tag 555
 
-**For Developer: How to add/remove settings
+### For Developer: How to add/remove settings
 
 1.	Open schemas/m_export_settings.rb 
   * This crates the tags to use

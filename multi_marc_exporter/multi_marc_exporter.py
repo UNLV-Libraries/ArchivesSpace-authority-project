@@ -61,13 +61,20 @@ def export_resources(api_url, auth_token, repo_id, ids,identifiers):
 
     #Find the number to append to the new xml collection
     file_num = 0
-    while os.path.exists("xmls/collection%s.xml" % file_num):
+    while os.path.exists("xmls/%s_etc%s.xml" % (identifiers[0], file_num)):
         file_num += 1
+
+    #Find the number to append to the new log of created collections
+    log_num = 0
+    while os.path.exists("logs/resources_exported%s.log" % log_num):
+        log_num += 1
+
+        
 
     counter = 0
     try:
-        #Create a text file loggin all of the resources exported
-        text_file = open("logs/resources_exported%s.log" % file_num, "w")
+        #Create a text file logging all of the resources exported
+        text_file = open("logs/resources_exported%s.log" % log_num, "w")
         for i in ids:
             #Make request for the marcxml
             marc_response = make_marcxml_request(api_url, auth_token, repo_id, i)    
@@ -76,7 +83,7 @@ def export_resources(api_url, auth_token, repo_id, ids,identifiers):
                     marc_element_tree = ET.fromstring(marc_response)
                     root.append(marc_element_tree[0])
                     #Report the record received
-                    text_file.write(identifiers[counter]+ " "+ str(i) + " " + marc_element_tree[0][3][0].text + "\n")
+                    text_file.write((identifiers[counter]+ " "+ str(i) + " " + marc_element_tree[0][3][0].text + "\n").lstrip())
             counter += 1
 
     finally:
@@ -85,7 +92,12 @@ def export_resources(api_url, auth_token, repo_id, ids,identifiers):
 
     #Write out to new collection file
     tree = ElementTree(root)
-    tree.write('xmls/collection%s.xml' % file_num)
+    
+    #Check if we need to create a new version by appending a file_num or we can just put in the first identifier
+    if (os.path.exists("xmls/%s_etc.xml" % (identifiers[0]))):
+        tree.write('xmls/%s_etc%s.xml' % (identifiers[0], file_num))
+    else:
+        tree.write('xmls/%s_etc.xml' % (identifiers[0]))
     return
 
 def make_marcxml_request(api_url,auth_token, repo_id, id):

@@ -131,7 +131,7 @@ class EADSerializer < ASpaceExport::Serializer
       data.creators_and_sources.each do |link|
         agent = link['_resolved']
         role = link['role']
-		#add relator translations
+        #add relator translations
         relator = case link['relator']
 				  when 'ctb'; 'contributor'
 				  when 'cre'; 'creator'
@@ -172,7 +172,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.physdesc({:altrender => e['portion']}.merge(audatt)) {
           if e['number'] && e['extent_type']
             xml.extent({:altrender => 'materialtype spaceoccupied'}) {
-              sanitize_mixed_content("#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}", xml, fragments)
+              sanitize_mixed_content(render_enumeration("#{e['number']} #{I18n.t('enumerations.extent_extent_type.'+e['extent_type'], :default => e['extent_type'])}"), xml, fragments)
             }
           end
           if e['container_summary']
@@ -212,7 +212,7 @@ class EADSerializer < ASpaceExport::Serializer
           titleproper = ""
           titleproper += "#{data.finding_aid_title} " if data.finding_aid_title 
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
-		  #REMOVE title proper <num> tag
+          #REMOVE title proper <num> tag
           #titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
           xml.titleproper("type" => "filing") { sanitize_mixed_content(data.finding_aid_filing_title, xml, fragments)} unless data.finding_aid_filing_title.nil?
           xml.titleproper {  sanitize_mixed_content(titleproper, xml, fragments) }
@@ -284,7 +284,7 @@ class EADSerializer < ASpaceExport::Serializer
       }
 
       xml.profiledesc {
-        creation = "This finding aid was produced using ArchivesSpace on <date>#{Time.now}</date>."
+        creation = "This finding aid was created by #{data.finding_aid_author} on <date>#{Time.now}</date>."
         xml.creation {  sanitize_mixed_content( creation, xml, fragments) }
 
         if (val = data.finding_aid_language)
@@ -313,4 +313,107 @@ class EADSerializer < ASpaceExport::Serializer
       end
     }
   end
+  
+  def serialize_container(inst, xml, fragments)
+    containers = []
+    @parent_id = nil
+    (1..3).each do |n|
+      atts = {}
+      next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
+      @container_id = prefix_id(SecureRandom.hex)
+
+      atts[:parent] = @parent_id unless @parent_id.nil?
+      atts[:id] = @container_id
+      @parent_id = @container_id
+      atts[:type] = inst['container']["type_#{n}"]
+
+      text = inst['container']["indicator_#{n}"]
+      if n == 1 && inst['instance_type']
+        atts[:label] = render_enumeration(I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => inst['instance_type']))
+        if inst['container']["barcode_1"]
+          atts[:label] << " (#{inst['container']['barcode_1']})"
+        end
+      end
+      xml.container(atts) {
+         sanitize_mixed_content(text, xml, fragments)
+      }
+    end
+  end
+  def serialize_note_content(note, xml, fragments)
+      return if note["publish"] === false && !@include_unpublished
+      audatt = note["publish"] === false ? {:audience => 'internal'} : {}
+      content = note["content"]
+
+      atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
+
+      head_text = note['label'] ? note['label'] : render_enumeration(I18n.t("enumerations._note_types.#{note['type']}", :default => note['type']))
+      content, head_text = extract_head_text(content, head_text)
+      xml.send(note['type'], atts) {
+        xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content )
+        sanitize_mixed_content(content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']) ) if content
+        if note['subnotes']
+          serialize_subnotes(note['subnotes'], xml, fragments, ASpaceExport::Utils.include_p?(note['type']))
+        end
+      }
+  end
+  def serialize_bibliographies(data, xml, fragments)
+     data.bibliographies.each do |note|
+       next if note["publish"] === false && !@include_unpublished
+       content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+       note_type = note["type"] ? note["type"] : "bibliography"
+       head_text = note['label'] ? note['label'] : render_enumeration(I18n.t("enumerations._note_types.#{note_type}", :default => note_type ))
+       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
+
+       atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
+
+       xml.bibliography(atts) {
+         xml.head { sanitize_mixed_content(head_text, xml, fragments) }
+         sanitize_mixed_content( content, xml, fragments, true)
+         note['items'].each do |item|
+           xml.bibref { sanitize_mixed_content( item, xml, fragments) }  unless item.empty?
+         end
+       }
+     end
+   end
+  def serialize_indexes(data, xml, fragments)
+    data.indexes.each do |note|
+      next if note["publish"] === false && !@include_unpublished
+      audatt = note["publish"] === false ? {:audience => 'internal'} : {}
+      content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+      head_text = nil
+      if note['label']
+        head_text = note['label']
+      elsif note['type']
+        head_text = render_enumeration(I18n.t("enumerations._note_types.#{note['type']}", :default => note['type']))
+      end
+      atts = {:id => prefix_id(note["persistent_id"]) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
+
+      content, head_text = extract_head_text(content, head_text)
+      xml.index(atts) {
+        xml.head { sanitize_mixed_content(head_text,xml,fragments ) } unless head_text.nil?
+        sanitize_mixed_content(content, xml, fragments, true)
+        note['items'].each do |item|
+          next unless (node_name = data.index_item_type_map[item['type']])
+          xml.indexentry {
+            atts = item['reference'] ? {:target => prefix_id( item['reference']) } : {}
+            if (val = item['value'])
+              xml.send(node_name) {  sanitize_mixed_content(val, xml, fragments )}
+            end
+            if (val = item['reference_text'])
+              xml.ref(atts) {
+                sanitize_mixed_content( val, xml, fragments)
+              }
+            end
+          }
+        end
+      }
+    end
+  end
+end
+def render_enumeration(enumeration)
+    #Take the machine readable enumerations and convert them to human readable
+    enumeration = enumeration.downcase.tr("_", " ")
+    enumeration = enumeration.titleize
+    
+    return enumeration
 end

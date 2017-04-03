@@ -13,7 +13,7 @@ including an entry such as:
 		  
 # Basic Info
 
-**How to Import Agents
+### How to Import Agents
 
 1.	After signing in, click on Create > Background jobs
 2.	For Job Type choose Import Data
@@ -22,7 +22,7 @@ including an entry such as:
 5.	Click Queue Job
 6.	Wait for process to finish and then your records should appear after clicking the refresh page
 
-**New Items Imported 
+### New Items Imported 
 
 1.	Add authority id.
   *	Add prefix LOC link and remove whitespace from authorityid
@@ -31,7 +31,7 @@ including an entry such as:
 3.	Remove unwanted commas and periods from 'primary_name' ,'rest_of_name', 'title', 'suffix', 'fuller_form' 'dates', 'subordinate_name_1', 'subordinate_name_2' that ArchivesSpace adds automatically on import
 
 
-**How to Import Subjects
+### How to Import Subjects
 
 1.	After signing in, click on Create > Background jobs
 2.	For Job Type choose Import Data
@@ -41,7 +41,7 @@ including an entry such as:
 6.	Wait for process to finish and then your records should appear after clicking the refresh page
 
 
-**New Items Imported 
+### New Items Imported 
 
 1.	Add authority id.
   *	Add prefix LOC link and remove whitespace from authorityid

@@ -1,2 +1,16 @@
 *.jasper
 *.jasper
+UNLV/NamesAlphabeticalReport/NamesAlphabeticalReport.jasper
+*.jasper
+UNLV/SubjectAlphabeticalReport/SubjectAlphabeticalReport.jasper
+multi_marc_exporter/config.ini
+UNLV/NamesAuthorityReport/NamesAuthorityReport.jasper
+*.jasper
+multi_marc_exporter/xmls/*
+multi_marc_exporter/logs/*
+local/aspace_i18n_enumeration_support.rb
+local/backend/model/aspace_i18n_enumeration_support.rb
+local/common/aspace_i18n_enumeration_support.rb
+local/schemas/aspace_i18n_enumeration_support.rb
+UNLV/SubjectAlphabeticalReport/SubjectAlphabeticalReport.jasper
+multi_marc_exporter/program.log
