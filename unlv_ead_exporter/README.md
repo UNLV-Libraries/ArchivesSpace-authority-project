@@ -1,6 +1,6 @@
 # UNLV EAD Exporter
 
-Custom UNLV EAD exporter for resource EAD exports. Changes to the EAD affect the ArchivesSpace Print to PDF function. 
+The UNLV EAD exporter customizes data generated from EAD and PDF exports of resource records. The EAD exporter was designed to work in conjunction with the institution’s XSLT stylesheet. The EAD exporter makes the following adjustments: changes dash to period in the unitid (identifier); removes the titleproper tag (instead the finding aid title is rendered on PDF cover page); adds publisher to the copyright statement; adds relator translation (complete spelling instead of abbreviation); adds parentheses around container summary (part of extent).
 
 ## Installing it
 

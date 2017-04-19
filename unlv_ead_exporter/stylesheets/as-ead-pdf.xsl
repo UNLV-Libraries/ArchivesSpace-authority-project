@@ -82,7 +82,7 @@
     <!-- Standard margin and padding for most fo:block elements, including paragraphs -->
     <xsl:attribute-set name="smp">
         <xsl:attribute name="margin">0pt</xsl:attribute>
-        <xsl:attribute name="padding">4pt</xsl:attribute>
+        <xsl:attribute name="padding">0pt</xsl:attribute>
     </xsl:attribute-set>
    
     <!-- Standard margin and padding for elements with in the dsc table -->
@@ -96,7 +96,7 @@
     <!-- Styles for main sections -->
     <xsl:attribute-set name="section">
         <xsl:attribute name="margin">4pt</xsl:attribute>
-        <xsl:attribute name="padding">2pt</xsl:attribute>
+        <xsl:attribute name="padding">4pt</xsl:attribute>
     </xsl:attribute-set>
     
     <!-- Table attributes for tables with borders -->
@@ -1482,7 +1482,7 @@
     <!-- Formats did containers -->
     <xsl:template match="ead:container">
         <fo:table-cell>
-            <fo:block margin="4pt 0"><xsl:value-of select="translate(@type, '_',' ')"/><xsl:text> </xsl:text><xsl:value-of select="."/></fo:block>
+            <fo:block margin="4pt 0"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="."/></fo:block>
         </fo:table-cell>
     </xsl:template>
     
@@ -1587,7 +1587,7 @@
                 </xsl:otherwise>
             </xsl:choose>: 
             <fo:leader leader-pattern="space" leader-length="0pt"/>  
-                  <fo:inline font-weight="normal" padding-left="0pt"  margin="0pt"><xsl:apply-templates/></fo:inline>
+                  <fo:inline font-weight="normal" padding-left="0pt" margin="0pt"><xsl:apply-templates/></fo:inline>
         </fo:block> 
         </xsl:if>
     </xsl:template>
@@ -1598,7 +1598,7 @@
             <fo:block xsl:use-attribute-sets="smpDsc">
                 <fo:inline><xsl:value-of select="local:tagName(.)"/>:</fo:inline>
                   <fo:leader leader-pattern="space" leader-length="0pt"/>
-                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/node()"/></fo:inline>
+                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/text()"/></fo:inline>
             </fo:block>
         </xsl:if>
     </xsl:template>
@@ -1696,7 +1696,7 @@
                       </xsl:otherwise>
                   </xsl:choose>: 
                   <fo:leader leader-pattern="space" leader-length="0pt"/>
-                    <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates  select="ead:p/node()"/></fo:inline>
+                    <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates  select="ead:p/text()"/></fo:inline>
               </fo:block> 
             </xsl:if>
         </xsl:if>

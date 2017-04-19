@@ -10,6 +10,7 @@ class OverlayController < ApplicationController
   def overlay
    merge_type = params[:target].split('/')
 
+   #Needs to create backend request using parameters from form
    handle_overlay(params[:victim],
 				params[:target],
                 merge_type[1].chomp("s"))

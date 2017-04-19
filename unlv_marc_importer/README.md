@@ -1,6 +1,6 @@
-# UNLV Importer
+# UNLV MARCXML Importer
 
-Custom UNLV MARCXML Importer for agents and subjects
+The UNLV MARCXML Importer allows ArchivesSpace users to import agent and subject records in MARCXML. 
 
 ## Installing it
 

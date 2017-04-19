@@ -6,63 +6,63 @@ The ArchivesSpace Authority Project is in place for the UNLV Libraries Special C
 
 # UNLV Spawn
 
-The Spawn plugin creates easy to use links to spawn multiple records at the same time.
-Note: data that is created from spawn has been modified to fit UNLV's Oral Histories. Also, the plugin does not batch spawn multiple accessions at once, it just facilitates the procedure for batch spawning records.
+The Spawn plugin gives ArchivesSpace users the option to select an unlimited number of accession records to be “spawned” as a batch into resource records. Each spawned resource record reuses data from fields in the accession record while also pre-populating default note content. Once resource records are spawned in a batch they must be edited and saved one at a time.
+Note: data that is created from spawn has been customized to fit UNLV's Oral Histories workflow. Also, the plugin does not batch spawn multiple accessions at once, it just facilitates the procedure for batch spawning records.
 
-[UNLV Spawn](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/spawn).
+[UNLV Spawn](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_spawn).
 
 # Identifier Filter
 
-This plugin allows staff to filter by identifer in the Accession and Resource browsers.
+Custom Filter for the staff interfaces of the Accession Module and Resource Module that filters the records (left pane) by Accession ID, Resource ID, and Classification, to aid staff in sorting and filtering records. (By default, ASpace sorts by subject, published, level, and record type.)
+For the multi_marc_export plugin to work, this plugin must be instantiated in your ArchivesSpace instance.
 
 [Identifier Filter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/identifier_filter).
 
-# LC Authority
+# LC Authority Import 
 
-The LC Authority Plugin has been edited to fit UNLV purposes
+An existing community plugin that enables import of authorized headings directly from the Library of Congress has been modified to include the Authority ID and further extended to work with UNLV’s custom MARCXML importer.
 
 [UNLV LCNAF](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/lcnaf).
 
 # UNLV MARCXML Importer
 
-Custom UNLV MARCXML Importer for agents and subjects
+The UNLV MARCXML Importer allows ArchivesSpace users to import agent and subject records in MARCXML. 
 
-[UNLV Importer](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_importer)
+[UNLV Importer](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_marc_importer)
 
 # UNLV MARCXML Exporter
 
-Custom UNLV MARCXML Exporter for resource MARC exports. Plugin Settings has been implemented in a way here that allows
-the custom functionality for UNLV to be enabled and disabled. Instructions are included for adding or deleting these settings
+The UNLV MARCXML Exporter plugin allows for customization of the default MARCXML export for resource records. Customizations include the ability to insert certain default values, enable or disable export of specific MARC fields, and some reformatting. Most settings can be accessed through a configuration page added to the staff interface. The plugin also includes instructions for adding or deleting settings.
 
 [UNLV MARC exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_marc_exporter)
 
 # UNLV EAD Exporter
 
-Custom UNLV EAD Exporter for resource EAD exports.
+The UNLV EAD exporter customizes data generated from EAD and PDF exports of resource records. The EAD exporter was designed to work in conjunction with the institution’s XSLT stylesheet. The EAD exporter makes the following adjustments: changes dash to period in the unitid (identifier); removes the titleproper tag (instead the finding aid title is rendered on PDF cover page); adds publisher to the copyright statement; adds relator translation (complete spelling instead of abbreviation); adds parentheses around container summary (part of extent).
 
 [UNLV EAD exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_ead_exporter)
 
 # UNLV Overlay
 
-The Overlay plugin is a new way of merging agents and subjects from multiple victims (data being merged from) into the target (data being merged into) while still keeping the data from the target (i.e notes, finding aid data, etc). It will however copy certain data mentioned below from the first victim to the target.
+The overlay plugin applies the same concept as the Merge function of ArchivesSpace.  While the Merge function completely replaces one record with another, the overlay function takes specific values from the victim record (data being merged from) and overlays only those specific values in the target record (data being merged into).  This permits staff to de-duplicate agent and subject records without losing hand-crafted values.  Existing unauthorized agent/ subject headings and Authority IDs can be overlaid with authorized values, while all other existing fields (biographies, relationships, notes) are protected. 
 
-[Overlay](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/overlay)
+[Overlay](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_overlay)
 
 # Multi MARCXML Exporter Script
 
-Custom Python exporter to output multiple MARC records under one resource
-
+The Multi Marc Exporter is not an ArchivesSpace plugin. It is a separate Python script that queries the ArchivesSpace API to export identified resource records as individual MARCXML records within the same file. 
 [Multi Marc Exporter](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/multi_marc_exporter)
 
 # PDF per Repository
 
-A custom plugin/file to add to ArchivesSpace to give Archivist the option of printing a different PDF per stylesheet
+The file located in the backend/model of this folder will allow different stylesheets to work with different repositories managed within a single local instance of ArchivesSpace.
+Note: This was created for the community; it was not implemented at UNLV.
 
 [PDF Per Repository](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/pdf_per_repository)
 
 # UNLV Custom Reports
 
-A set of basic reports customized for UNLV to sort by Authority ID or alphabetize 
+UNLV Custom Reports Plugin facilitates export of customized reports (e.g. sorted alphabetically by agent name or sorted alpha-numerically by Authority ID). 
 
 [UNLV Custom Reports](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/UNLV)
 

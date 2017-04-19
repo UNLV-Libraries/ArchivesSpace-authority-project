@@ -1,8 +1,7 @@
 # Spawn
 
-The Spawn plugin creates easy to use links to spawn multiple records at the same time.
-Note: data that is created from spawn has been modified to fit UNLV's Oral Histories. Also, the plugin does not batch spawn multiple accessions at once, it just facilitates the procedure for batch spawning records.
-
+The Spawn plugin gives ArchivesSpace users the option to select an unlimited number of accession records to be “spawned” as a batch into resource records. Each spawned resource record reuses data from fields in the accession record while also pre-populating default note content. Once resource records are spawned in a batch they must be edited and saved one at a time.
+Note: data that is created from spawn has been customized to fit UNLV's Oral Histories workflow. Also, the plugin does not batch spawn multiple accessions at once, it just facilitates the procedure for batch spawning records.
 ## Installing it
 
 To install, just activate the plugin in your config/config.rb file by

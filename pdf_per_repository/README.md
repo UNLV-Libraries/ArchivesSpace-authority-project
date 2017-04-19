@@ -1,6 +1,7 @@
 # PDF Per Repository
 
-The file located in the backend/model of this folder will allow specific stylesheets to work with specific repositories.
+The file located in the backend/model of this folder will allow different stylesheets to work with different repositories managed within a single local instance of ArchivesSpace.
+Note: This was created for the community; it was not implemented at UNLV.
 
 ## Installing it
 
