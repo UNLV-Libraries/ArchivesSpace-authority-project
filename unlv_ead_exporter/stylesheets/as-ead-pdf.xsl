@@ -82,7 +82,8 @@
     <!-- Standard margin and padding for most fo:block elements, including paragraphs -->
     <xsl:attribute-set name="smp">
         <xsl:attribute name="margin">0pt</xsl:attribute>
-        <xsl:attribute name="padding">0pt</xsl:attribute>
+        <xsl:attribute name="padding">2pt</xsl:attribute>
+        <xsl:attribute name="line-height">1.3em</xsl:attribute>
     </xsl:attribute-set>
    
     <!-- Standard margin and padding for elements with in the dsc table -->
@@ -96,7 +97,7 @@
     <!-- Styles for main sections -->
     <xsl:attribute-set name="section">
         <xsl:attribute name="margin">4pt</xsl:attribute>
-        <xsl:attribute name="padding">4pt</xsl:attribute>
+        <xsl:attribute name="padding">2pt</xsl:attribute>
     </xsl:attribute-set>
     
     <!-- Table attributes for tables with borders -->
@@ -1277,8 +1278,15 @@
    
     <!-- Formatting elements -->
     <xsl:template match="ead:p">
-        <fo:block xsl:use-attribute-sets="smp"><xsl:apply-templates/></fo:block>
+       <fo:block xsl:use-attribute-sets="smp"><xsl:apply-templates/></fo:block>
     </xsl:template>
+    <xsl:template match="ead:p/node()" mode="componentNote">
+        <fo:inline line-height=".5em"> <xsl:copy-of select="." /><fo:block/><fo:block><br /><br /></fo:block></fo:inline>
+    </xsl:template>
+    <xsl:template match="child::ead:p/node()">
+        <xsl:copy-of select="." />
+    </xsl:template>
+
     <xsl:template match="ead:lb"><fo:block/></xsl:template>
     <xsl:template match="ead:blockquote">
         <fo:block margin="4pt 18pt"><xsl:apply-templates/></fo:block>
@@ -1482,7 +1490,7 @@
     <!-- Formats did containers -->
     <xsl:template match="ead:container">
         <fo:table-cell>
-            <fo:block margin="4pt 0"><xsl:value-of select="@type"/><xsl:text> </xsl:text><xsl:value-of select="."/></fo:block>
+            <fo:block margin="4pt 0"><xsl:value-of select="translate(@type, '_',' ')"/><xsl:text> </xsl:text><xsl:value-of select="."/></fo:block>
         </fo:table-cell>
     </xsl:template>
     
@@ -1587,7 +1595,7 @@
                 </xsl:otherwise>
             </xsl:choose>: 
             <fo:leader leader-pattern="space" leader-length="0pt"/>  
-                  <fo:inline font-weight="normal" padding-left="0pt" margin="0pt"><xsl:apply-templates/></fo:inline>
+                  <fo:inline font-weight="normal" padding-left="0pt"  margin="0pt"><xsl:apply-templates/></fo:inline>
         </fo:block> 
         </xsl:if>
     </xsl:template>
@@ -1598,7 +1606,7 @@
             <fo:block xsl:use-attribute-sets="smpDsc">
                 <fo:inline><xsl:value-of select="local:tagName(.)"/>:</fo:inline>
                   <fo:leader leader-pattern="space" leader-length="0pt"/>
-                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/text()"/></fo:inline>
+                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/node()"/></fo:inline>
             </fo:block>
         </xsl:if>
     </xsl:template>
@@ -1672,31 +1680,31 @@
         <xsl:if test="child::*[not(ead:head)]">
           <xsl:if test="normalize-space()">
             <fo:block xsl:use-attribute-sets="smpDsc" text-align="left" text-align-last="left">
-                  <xsl:choose>
-                      <!-- Test for label attribute used by origination element -->
-                      <xsl:when test="@label">
-                          <xsl:value-of select="concat(upper-case(substring(@label,1,1)),substring(@label,2))"></xsl:value-of>
-                          <xsl:if test="@type"> [<xsl:value-of select="@type"/>]</xsl:if>
-                          <xsl:if test="self::ead:origination">
-                              <xsl:choose>
-                                  <xsl:when test="ead:persname[@role != ''] and contains(ead:persname/@role,' (')">
-                                      - <xsl:value-of select="substring-before(ead:persname/@role,' (')"/>
-                                  </xsl:when>
-                                  <xsl:when test="ead:persname[@role != '']">
-                                      - <xsl:value-of select="ead:persname/@role"/>  
-                                  </xsl:when>
-                                  <xsl:otherwise/>
-                              </xsl:choose>
-                          </xsl:if>
-                      </xsl:when>
-                      <xsl:otherwise>
-                          <xsl:value-of select="local:tagName(.)"/>
-                          <!-- Test for type attribute used by unitdate -->
-                          <xsl:if test="@type"> [<xsl:value-of select="@type"/>]</xsl:if>
-                      </xsl:otherwise>
-                  </xsl:choose>: 
-                  <fo:leader leader-pattern="space" leader-length="0pt"/>
-                    <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates  select="ead:p/text()"/></fo:inline>
+                 <xsl:choose>
+                     <!-- Test for label attribute used by origination element -->
+                     <xsl:when test="@label">
+                         <xsl:value-of select="concat(upper-case(substring(@label,1,1)),substring(@label,2))"></xsl:value-of>
+                         <xsl:if test="@type"> [<xsl:value-of select="@type"/>]</xsl:if>
+                         <xsl:if test="self::ead:origination">
+                             <xsl:choose>
+                                 <xsl:when test="ead:persname[@role != ''] and contains(ead:persname/@role,' (')">
+                                     - <xsl:value-of select="substring-before(ead:persname/@role,' (')"/>
+                                 </xsl:when>
+                                 <xsl:when test="ead:persname[@role != '']">
+                                     - <xsl:value-of select="ead:persname/@role"/>  
+                                 </xsl:when>
+                                 <xsl:otherwise/>
+                             </xsl:choose>
+                         </xsl:if>
+                     </xsl:when>
+                     <xsl:otherwise>
+                         <xsl:value-of select="local:tagName(.)"/>
+                         <!-- Test for type attribute used by unitdate -->
+                         <xsl:if test="@type"> [<xsl:value-of select="@type"/>]</xsl:if>
+                     </xsl:otherwise>
+                 </xsl:choose>: 
+                 <fo:leader leader-pattern="space" leader-length="0pt"/>
+                 <xsl:apply-templates  select="ead:p/node()" mode="componentNote"/>
               </fo:block> 
             </xsl:if>
         </xsl:if>
