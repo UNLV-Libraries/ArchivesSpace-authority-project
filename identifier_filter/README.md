@@ -1,7 +1,7 @@
 # Identifier Filter
 
-Custom Filter to include the first id from the Accession's identifier (i.e MS, 2005, etc..), first id from Resource identifier, and the second id from Resource identifier.
-For the multi_marc_export plugin to work, this plugin must be instantiated in your ArchivesSpace instance. 
+Custom Filter for the staff interfaces of the Accession Module and Resource Module that filters the records (left pane) by Accession ID, Resource ID, and Classification, to aid staff in sorting and filtering records. (By default, ASpace sorts by subject, published, level, and record type.)
+For the multi_marc_export plugin to work, this plugin must be instantiated in your ArchivesSpace instance.
 
 ## Installing it
 

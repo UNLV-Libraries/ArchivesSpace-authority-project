@@ -1,8 +1,6 @@
 # UNLV MARCXML Exporter
 
-Custom UNLV MARCXML exporter for resource MARC exports. Plugin Settings has been implemented in a way here that allows
-the custom functionality for UNLV to be enabled and disabled. Instructions are included for adding or deleting these settings
-
+The UNLV MARCXML Exporter plugin allows for customization of the default MARCXML export for resource records. Customizations include the ability to insert certain default values, enable or disable export of specific MARC fields, and some reformatting. Most settings can be accessed through a configuration page added to the staff interface. The plugin also includes instructions for adding or deleting settings.
 ## Installing it
 
 To install, just activate the plugin in your config/config.rb file by

@@ -1,4 +1,4 @@
-This folder contains custom reports for UNLV including:
+UNLV Custom Reports Plugin facilitates export of customized reports (e.g. sorted alphabetically by agent name or sorted alpha-numerically by Authority ID). 
 
      NamesAlphabeticalReport
      NamesAuthorityReport

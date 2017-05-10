@@ -1,0 +1,12 @@
+<% define_template "extent", jsonmodel_definition(:extent) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select("portion", form.possible_options_for("portion", true)) %>
+    <%= form.label_and_textfield("number") %>
+    <%= form.label_and_select("extent_type", form.possible_options_for("extent_type", true)) %>
+    <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+    <hr/>
+    <%= form.label_and_textarea("container_summary") %>
+    <%= form.label_and_textarea("physical_details") %>
+    <%= form.label_and_textarea("dimensions") %>
+  </div>
+<% end %>

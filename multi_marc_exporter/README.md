@@ -1,6 +1,6 @@
 # Multi MARC Exporter 
 
-The Multi Marc Exporter is not an ArchivesSpace plugin. It is a python script using ArchivesSpace API to combine a list of MARC records under one resource. 
+The Multi Marc Exporter is not an ArchivesSpace plugin. It is a separate Python script that queries the ArchivesSpace API to export identified resource records as individual MARCXML records within the same file. 
 
 ## Installing it
 
