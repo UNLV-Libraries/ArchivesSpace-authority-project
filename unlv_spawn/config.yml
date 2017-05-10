@@ -1,2 +1,3 @@
 system_menu_controller: spawn
+repository_menu_controller: spawn_settings
 no_automatic_routes: true

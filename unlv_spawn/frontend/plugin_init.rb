@@ -6,10 +6,16 @@ Rails.application.config.after_initialize do
 	Resource.class_eval do
 	
 		require 'date'
-		
+
 		#ADD UNLV CUSTOM CHANGES
 		def populate_from_accession(accession)
 			values = accession.to_hash(:raw)
+      
+			repo_url = accession.repository["ref"]
+      Log.debug(repo_url)
+      Log.debug(repo_url.scan(/\d+$/).first)
+      settings, global_repo_id = current_spawn_settings(repo_url.scan(/\d+$/).first)
+      prefs = settings["repo"]["spawn_defaults"]
 
 			# Recursively remove bits that don't make sense to copy (like "lock_version"
 			# properties)
@@ -58,22 +64,26 @@ Rails.application.config.after_initialize do
 																			
 				
 			end 
-			#Self populate Conditions Governing Access note_multipart
-			notes << JSONModel(:note_multipart).from_hash(:type => "accessrestrict",
+      
+      if(prefs['accessrestrict_enable'] && !prefs['accessrestrict_text'].nil?) 
+      Log.debug("accessrestrict_enable Enable")
+        content = prefs['accessrestrict_text']
+        #Self populate Conditions Governing Access note_multipart
+        notes << JSONModel(:note_multipart).from_hash(:type => "accessrestrict",
 														  :label => I18n.t('accession.access_note'),
 														  :subnotes => [{
-																			'content' => "Collection is open for research. If use copies of the recordings do not exist, reformatting/production of use copies is required before access will be granted; this may delay research requests. Advanced notice is required.",
+																			'content' => content,
 																			'jsonmodel_type' => 'note_text'}])
-			
+			end
+     if(prefs['userestrict_enable'] && !prefs['userestrict_text'].nil?) 
+        content = prefs['userestrict_text']
 			#Self populate Publication Note (Conditions Governing Use)
 			notes << JSONModel(:note_multipart).from_hash(:type => "userestrict",
 														  :label => I18n.t('accession.user_access_note'),
 														  :subnotes => [{
-																			'content' => 'Materials in this collection may be protected by copyrights and other rights.  See <extref xlink:actuate="onRequest" xlink:href="http://www.library.unlv.edu/speccol/research_and_services/reproductions" xlink:show="new" xlink:title="Reproductions and Use"> Reproductions and Use</extref> on the UNLV Special Collections website for more information about reproductions and permissions to publish. 
-
-Some transcripts do not exist in final form, therefore any editing marks in a transcript (deletions, additions, corrections) are to be quoted as marked.',
+																			'content' => content,
 																			'jsonmodel_type' => 'note_text'}])
-			
+			end
 			
 			self.related_accessions = [{'ref' => accession.uri, '_resolved' => accession}]
 
@@ -127,7 +137,11 @@ Some transcripts do not exist in final form, therefore any editing marks in a tr
 			#ADD FINDING AID INFORMATION
 			
 			#Add ead id example US::NvLN::PH00041
-			self.ead_id = "US::NvLN::" + accession.id_0 + accession.id_1 
+     
+      if(prefs['ead_id_tag_enable'] && !prefs['ead_id_tag'].nil?) 
+        ead_id_tag = prefs['ead_id_tag']
+        self.ead_id = ead_id_tag + accession.id_0 + accession.id_1 
+      end
 			self.finding_aid_title = "Guide to the " + accession.title
 
 			#Add this years date
@@ -143,15 +157,29 @@ Some transcripts do not exist in final form, therefore any editing marks in a tr
 			self.finding_aid_status = "in_progress"
 			
 			#IMPORTANT: classification and subjects set specifically for OH Oral Histories (id = 2 )
-			repo_url = accession.repository["ref"]
 			if !self.classifications || self.classifications.empty?
-				self.classifications = [{'ref' => "#{repo_url}/classifications/2", '_resolved' => JSONModel::HTTP::get_json("#{repo_url}/classifications/2")}]
+        if (prefs['classifications_link_enable'] && !prefs['classifications_link'].nil?)
+          classifications_link = prefs['classifications_link']
+      		self.classifications = [{'ref' => "#{repo_url}#{classifications_link}", '_resolved' => JSONModel::HTTP::get_json("#{repo_url}#{classifications_link}")}]
+        end
 			end
 			
-			#Add link to oral history subject
-			self.subjects = [{'ref' => "#{repo_url}/subjects/1104", '_resolved' => JSONModel::HTTP::get_json("/subjects/1104")}] 
-		  end
+      if (prefs['subject_link_enable'] && !prefs['subject_link'].nil?)
+        subject_link = prefs['subject_link']
+        #Add link to oral history subject
+        self.subjects = [{'ref' => "#{repo_url}#{subject_link}", '_resolved' => JSONModel::HTTP::get_json(subject_link)}] 
+      end
+      
+    end
 
+      
+      private
+
+      def current_spawn_settings(repo_id)
+         current_settings = JSONModel::HTTP::get_json("/repositories/#{repo_id}/current_spawn_settings")
+         repo_id = JSONModel(:repository).id_for(current_settings['global']['repository']['ref'])
+        return current_settings, repo_id
+      end
 
 	end
 end

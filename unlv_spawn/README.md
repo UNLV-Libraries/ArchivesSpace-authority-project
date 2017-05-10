@@ -21,6 +21,7 @@ including an entry such as:
 4.	Open each link to your accessions individually 
 5.	Varify the information spawn is correct
 6.	Save the record
+7.  An option to change settings will appear under cog->plug-ins->Spawn Settings and in the Spawn Records page as a button
 
 ### Spawn changes 
 
@@ -36,3 +37,10 @@ including an entry such as:
 10. Add Finding Aid Information
 11. Add classifications
 12. Add linked agent relator
+
+### Spawn settings
+1. Access restrict enable & text
+2. User restrict enable & text
+3. Subject link enable & text
+4. Classifications link enable & text
+5. EAD id tag  enable & text

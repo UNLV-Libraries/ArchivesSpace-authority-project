@@ -1,17 +1,66 @@
 en:
-  plugins:
+  plugins: 
     spawn:
       target: Find Accessions
       label: Spawn Records
       actions:
         search: Create Links
+        settings: Edit Settings
+        spawn: Spawn Records
         select: Spawn
       messages:
         search_error: Search Error
         service_warning: To batch spawn resources -> Find all the accessions to batch spawn, create their resource links, then click on each link, check the resource and save
+    spawn_settings:
+      label: UNLV Spawn Settings
+      title: UNLV Spawn Settings
+      save: Save Settings
+      clear: Clear Settings
+      return: Return to Settings
+      _frontend:
+        messages:
+          error_update: Error updating
+          updated: Updated settings
+          error_create: Error creating
+          create: Created settings
+      global: Global Spawn Settings Defaults
+      global_message: Edit these values to set system-wide user Spawn settings defaults. These values can be overridden by repository defaults or a user's own Spawn settings.
+      repo: User Spawn Settings Defaults
+      repo_message: Edit these values to set user Spawn settings defaults for the current repository.
+      user_global: My Global Spawn Settings
+      user_global_message: Edit these values to set your system-wide user Spawn settings. These values can be overridden by repository defaults or by your own Spawn settings for a repository.
+      user_repo: My Repository Spawn Settings
+      user_repo_message: Edit these values to set your user Spawn settings for this repository.
+      help_message: Some tags, if enabled, require the text field to be filled out for the setting to be applied
+      _singular: Spawn Setting
+      _plural: Spawn Settings
+    spawn_defaults: &spawn_defaults_attributes
+        enable_tags_section: Enable Custom Settings
+        special_settings_section: Custom Settings
+        accessrestrict_enable: Access Restrict
+        userestrict_enable: User Restrict
+        subject_link_enable: Subject Link
+        ead_id_tag_enable: EAD ID tag enable
+        classifications_link_enable: Classifications Link
+        accessrestrict_text: Access Restrict Note
+        accessrestrict_tooltip: |
+            <p>CONDITIONALLY REQUIRED FIELD: Access Restrict must be enabled</p>
+        userestrict_text: User Restrict Note
+        userestrict_tooltip: |
+            <p>CONDITIONALLY REQUIRED FIELD: User Restrict must be enabled</p>
+        subject_link: Subject Link
+        subject_link_tooltip: |
+            <p>CONDITIONALLY REQUIRED FIELD: Subject Link must be enabled</p>
+        classifications_link: Classifications Link
+        classifications_link_tooltip: |
+            <p>CONDITIONALLY REQUIRED FIELD: Classifications Link must be enabled</p>
+        ead_id_tag: EAD ID tag
+        ead_id_tag_tooltip: |
+            <p>CONDITIONALLY REQUIRED FIELD: : EAD ID tag must be enabled</p>
   accession:
-    content_description: Scope and Contents Note 
-    access_note: Access Note
-    abstract_note: Abstract Note
-    user_access_note: Publication Rights
-    general_note: General Note
+     content_description: Scope and Contents Note 
+     access_note: Access Note
+     abstract_note: Abstract Note
+     user_access_note: Publication Rights
+     general_note: General Note 
+ 

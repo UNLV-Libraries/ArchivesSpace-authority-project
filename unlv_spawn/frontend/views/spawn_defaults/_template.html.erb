@@ -1,0 +1,21 @@
+<% define_template("spawn_defaults", jsonmodel_definition(:spawn_defaults)) do |form| %>
+  <div class="subrecord-form-fields">
+	  <h3><%= I18n.t ("plugins.spawn_defaults.enable_tags_section") %></h3>
+	  <div class="form-group"> 
+		<label class="col-sm-2 control-label">Tag name</label>
+		<label class="col-sm-9 label-only">Enable</label>
+	  </div>
+	  <%= form.label_and_boolean "accessrestrict_enable", {:plugin => true}, form.default_for("accessrestrict_enable") %>
+	  <%= form.label_and_boolean "userestrict_enable", {:plugin => true}, form.default_for("userestrict_enable") %>
+	  <%= form.label_and_boolean "subject_link_enable", {:plugin => true}, form.default_for("accessrestrict_enable") %>
+	  <%= form.label_and_boolean "classifications_link_enable", {:plugin => true}, form.default_for("userestrict_enable") %>
+	  <%= form.label_and_boolean "ead_id_tag_enable", {:plugin => true}, form.default_for("ead_id_tag_enable") %>
+	  
+	  <h3><%= I18n.t ("plugins.spawn_defaults.special_settings_section") %></h3>
+    <%= form.label_and_textfield "accessrestrict_text", {:plugin => true , :required => :conditionally }%>
+	  <%= form.label_and_textfield "userestrict_text", {:plugin => true, :required => :conditionally }%>
+    <%= form.label_and_textfield "subject_link", {:plugin => true, :required => :conditionally }%>
+    <%= form.label_and_textfield "classifications_link", {:plugin => true, :required => :conditionally} %>
+    <%= form.label_and_textfield "ead_id_tag", {:plugin => true, :required => true} %>
+   </div>
+<% end %>
