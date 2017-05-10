@@ -11,6 +11,13 @@ Note: data that is created from spawn has been customized to fit UNLV's Oral His
 
 [UNLV Spawn](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/unlv_spawn).
 
+
+# Extents Extension
+
+Adds a publish/unpublish button to the extents to aid staff in being able to select between cubic feet and linear feet when printing out EADs/PDFs for the convenience of preventing a confusion for users. 
+
+[Extents Extension](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/extents_ext).
+
 # Identifier Filter
 
 Custom Filter for the staff interfaces of the Accession Module and Resource Module that filters the records (left pane) by Accession ID, Resource ID, and Classification, to aid staff in sorting and filtering records. (By default, ASpace sorts by subject, published, level, and record type.)
