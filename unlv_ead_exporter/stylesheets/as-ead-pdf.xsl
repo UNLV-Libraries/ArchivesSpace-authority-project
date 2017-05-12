@@ -1280,11 +1280,11 @@
     <xsl:template match="ead:p">
        <fo:block xsl:use-attribute-sets="smp"><xsl:apply-templates/></fo:block>
     </xsl:template>
-    <xsl:template match="ead:p/node()" mode="componentNote">
-        <fo:inline line-height=".5em"> <xsl:copy-of select="." /><fo:block/><fo:block><br /><br /></fo:block></fo:inline>
+    <xsl:template match="ead:p" mode="componentNote">
+        <fo:inline line-height=".5em"><xsl:apply-templates/><fo:block/><fo:block><br /><br /></fo:block></fo:inline>
     </xsl:template>
-    <xsl:template match="child::ead:p/node()">
-        <xsl:copy-of select="." />
+    <xsl:template match="child::ead:p" mode="resourceNote">
+       <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="ead:lb"><fo:block/></xsl:template>
@@ -1606,7 +1606,7 @@
             <fo:block xsl:use-attribute-sets="smpDsc">
                 <fo:inline><xsl:value-of select="local:tagName(.)"/>:</fo:inline>
                   <fo:leader leader-pattern="space" leader-length="0pt"/>
-                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p/node()"/></fo:inline>
+                <fo:inline font-weight="normal" text-align="left"><xsl:apply-templates select="child::ead:p" mode="resourceNote"/></fo:inline>
             </fo:block>
         </xsl:if>
     </xsl:template>
@@ -1704,7 +1704,7 @@
                      </xsl:otherwise>
                  </xsl:choose>: 
                  <fo:leader leader-pattern="space" leader-length="0pt"/>
-                 <xsl:apply-templates  select="ead:p/node()" mode="componentNote"/>
+                 <xsl:apply-templates  select="ead:p" mode="componentNote"/>
               </fo:block> 
             </xsl:if>
         </xsl:if>
