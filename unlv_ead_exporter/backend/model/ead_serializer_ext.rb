@@ -329,7 +329,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       text = inst['container']["indicator_#{n}"]
       if n == 1 && inst['instance_type']
-        atts[:label] = render_enumeration(I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => inst['instance_type']))
+        atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => render_enumeration(inst['instance_type']))
         if inst['container']["barcode_1"]
           atts[:label] << " (#{inst['container']['barcode_1']})"
         end
@@ -346,7 +346,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
 
-      head_text = note['label'] ? note['label'] : render_enumeration(I18n.t("enumerations._note_types.#{note['type']}", :default => note['type']))
+      head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note['type']}", :default => render_enumeration(note['type']))
       content, head_text = extract_head_text(content, head_text)
       xml.send(note['type'], atts) {
         xml.head { sanitize_mixed_content(head_text, xml, fragments) } unless ASpaceExport::Utils.headless_note?(note['type'], content )
@@ -361,7 +361,7 @@ class EADSerializer < ASpaceExport::Serializer
        next if note["publish"] === false && !@include_unpublished
        content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
        note_type = note["type"] ? note["type"] : "bibliography"
-       head_text = note['label'] ? note['label'] : render_enumeration(I18n.t("enumerations._note_types.#{note_type}", :default => note_type ))
+       head_text = note['label'] ? note['label'] : I18n.t("enumerations._note_types.#{note_type}", :default => render_enumeration( note_type ))
        audatt = note["publish"] === false ? {:audience => 'internal'} : {}
 
        atts = {:id => prefix_id(note['persistent_id']) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
@@ -384,7 +384,7 @@ class EADSerializer < ASpaceExport::Serializer
       if note['label']
         head_text = note['label']
       elsif note['type']
-        head_text = render_enumeration(I18n.t("enumerations._note_types.#{note['type']}", :default => note['type']))
+        head_text = I18n.t("enumerations._note_types.#{note['type']}", :default => render_enumeration( note['type'] ) )
       end
       atts = {:id => prefix_id(note["persistent_id"]) }.reject{|k,v| v.nil? || v.empty? || v == "null" }.merge(audatt)
 
