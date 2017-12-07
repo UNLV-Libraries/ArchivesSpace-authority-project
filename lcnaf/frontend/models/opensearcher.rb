@@ -37,16 +37,16 @@ class OpenSearcher
     lccns.each do |lccn|
       lccn.sub!( 'info:lc/authorities/subjects/', '')
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
-		
-	  ## UNLV
-	  # Add Proxy HTTP access
-	  # Change get_response to use proxy
-	  proxy_uri  = URI.parse(ENV['http_proxy'])
-	  proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)
 
+      ## UNLV
+      # Add Proxy HTTP access
+      # Change get_response to use proxy
+      proxy_uri  = URI.parse(ENV['http_proxy'])
+      proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)
+    p uri
 
-      response = proxy_class.get_response(uri) 
-	  
+      response = proxy_class.get_response(uri)
+
       if response.code != '200'
         raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
       end
@@ -72,22 +72,22 @@ class OpenSearcher
 
   def search(query, page, records_per_page)
     uri = URI(@base_url)
-	## UNLV
-	# Add Proxy HTTP access
-	# Change get_response to use proxy
-	proxy_uri  = URI.parse(ENV['http_proxy'])
-	proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)
+    ## UNLV
+    # Add Proxy HTTP access
+    # Change get_response to use proxy
+    proxy_uri  = URI.parse(ENV['http_proxy'])
+    proxy_class = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port)
 
-	
-	start_record = calculate_start_record(page, records_per_page)
-	params = default_params.merge('q' => [query.to_s, @scheme],
-								  'count' => records_per_page,
-								  'start' => start_record)
 
-	uri.query = URI.encode_www_form(params)
-	
-	response = proxy_class.get_response(uri) #UNLV
-   
+    start_record = calculate_start_record(page, records_per_page)
+    params = default_params.merge('q' => [query.to_s, 'cs:' + @scheme],
+                                  'count' => records_per_page,
+                                  'start' => start_record)
+
+    uri.query = URI.encode_www_form(params)
+
+    response = proxy_class.get_response(uri) #UNLV
+
 
     if response.code != '200'
       raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
@@ -107,5 +107,5 @@ class OpenSearcher
 
     results
   end
-  
+
 end
