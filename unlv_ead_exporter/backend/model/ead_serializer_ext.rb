@@ -1,13 +1,13 @@
 require 'date'
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
-  
+
   def self.run_serialize_step(data, xml, fragments, context)
     Array(@extra_serialize_steps).each do |step|
       step.new.call(data, xml, fragments, context)
     end
   end
-  
+
   def stream(data)
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
@@ -66,8 +66,8 @@ class EADSerializer < ASpaceExport::Serializer
 
             serialize_origination(data, xml, @fragments)
 
-			#change period to dash
-            xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-') 
+            #change period to dash
+            xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-')
 
             serialize_extents(data, xml, @fragments)
 
@@ -75,40 +75,40 @@ class EADSerializer < ASpaceExport::Serializer
 
             serialize_did_notes(data, xml, @fragments)
 
-            data.instances_with_containers.each do |instance|
-              serialize_container(instance, xml, @fragments)
-            end
+            data.instances_with_sub_containers.each do |instance|
+               serialize_container(instance, xml, @fragments)
+             end
 
-            EADSerializer.run_serialize_step(data, xml, @fragments, :did)
+             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
-          }# </did>
+           }# </did>
 
-          data.digital_objects.each do |dob|
-                serialize_digital_object(dob, xml, @fragments)
-          end
+           data.digital_objects.each do |dob|
+                 serialize_digital_object(dob, xml, @fragments)
+           end
 
-          serialize_nondid_notes(data, xml, @fragments)
+           serialize_nondid_notes(data, xml, @fragments)
 
-          serialize_bibliographies(data, xml, @fragments)
+           serialize_bibliographies(data, xml, @fragments)
 
-          serialize_indexes(data, xml, @fragments)
+           serialize_indexes(data, xml, @fragments)
 
-          serialize_controlaccess(data, xml, @fragments)
+           serialize_controlaccess(data, xml, @fragments)
 
-          EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc)
+           EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc)
 
-          xml.dsc {
+           xml.dsc {
 
-            data.children_indexes.each do |i|
-              xml.text(
-                       @stream_handler.buffer {|xml, new_fragments|
-                         serialize_child(data.get_child(i), xml, new_fragments)
-                       }
-                       )
-            end
-          }
-        }
-      }
+             data.children_indexes.each do |i|
+               xml.text(
+                        @stream_handler.buffer {|xml, new_fragments|
+                          serialize_child(data.get_child(i), xml, new_fragments)
+                        }
+                        )
+             end
+           }
+         }
+       }
 
     rescue => e
       xml.text  "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:\n
@@ -125,7 +125,7 @@ class EADSerializer < ASpaceExport::Serializer
       @stream_handler.stream_out(doc, @fragments, y)
     end
   end
-  
+
   def serialize_origination(data, xml, fragments)
     unless data.creators_and_sources.nil?
       data.creators_and_sources.each do |link|
@@ -187,7 +187,7 @@ class EADSerializer < ASpaceExport::Serializer
       end
     end
   end
-  
+
   def serialize_eadheader(data, xml, fragments)
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
@@ -210,7 +210,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.titlestmt {
 
           titleproper = ""
-          titleproper += "#{data.finding_aid_title} " if data.finding_aid_title 
+          titleproper += "#{data.finding_aid_title} " if data.finding_aid_title
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
           #REMOVE title proper <num> tag
           #titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
@@ -229,11 +229,11 @@ class EADSerializer < ASpaceExport::Serializer
         end
 
         xml.publicationstmt {
-	
+
 		  val = Date.today.strftime("%Y") + " The Regents of the University of Nevada. All rights reserved."
 		  xml.publisher { sanitize_mixed_content(val, xml, fragments) }
 		  # add publisher
-          xml.publisher { sanitize_mixed_content(data.repo.name.strip ,xml, fragments) } 
+          xml.publisher { sanitize_mixed_content(data.repo.name.strip ,xml, fragments) }
 
           if data.repo.image_url
             xml.p ( { "id" => "logostmt" } ) {
@@ -313,32 +313,49 @@ class EADSerializer < ASpaceExport::Serializer
       end
     }
   end
-  
+
   def serialize_container(inst, xml, fragments)
-    containers = []
-    @parent_id = nil
-    (1..3).each do |n|
+    atts = {}
+
+    sub = inst['sub_container']
+    top = sub['top_container']['_resolved']
+
+    atts[:id] = prefix_id(SecureRandom.hex)
+    last_id = atts[:id]
+
+    atts[:type] = top['type']
+    text = top['indicator']
+
+    atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",
+                          prettify_missing_enumeration(inst['instance_type']))
+    atts[:label] << " [#{top['barcode']}]" if top['barcode']
+
+    if (cp = top['container_profile'])
+      atts[:altrender] = cp['_resolved']['url'] || cp['_resolved']['name']
+    end
+
+    xml.container(atts) {
+      sanitize_mixed_content(text, xml, fragments)
+    }
+
+    (2..3).each do |n|
       atts = {}
-      next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
-      @container_id = prefix_id(SecureRandom.hex)
 
-      atts[:parent] = @parent_id unless @parent_id.nil?
-      atts[:id] = @container_id
-      @parent_id = @container_id
-      atts[:type] = inst['container']["type_#{n}"]
+      next unless sub["type_#{n}"]
 
-      text = inst['container']["indicator_#{n}"]
-      if n == 1 && inst['instance_type']
-        atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => prettify_missing_enumeration(inst['instance_type']))
-        if inst['container']["barcode_1"]
-          atts[:label] << " (#{inst['container']['barcode_1']})"
-        end
-      end
+      atts[:id] = prefix_id(SecureRandom.hex)
+      atts[:parent] = last_id
+      last_id = atts[:id]
+
+      atts[:type] = sub["type_#{n}"]
+      text = sub["indicator_#{n}"]
+
       xml.container(atts) {
-         sanitize_mixed_content(text, xml, fragments)
+        sanitize_mixed_content(text, xml, fragments)
       }
     end
   end
+
   def serialize_note_content(note, xml, fragments)
       return if note["publish"] === false && !@include_unpublished
       audatt = note["publish"] === false ? {:audience => 'internal'} : {}
