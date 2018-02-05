@@ -7,6 +7,11 @@
 #Date: 8/9/2016
 #https://rsdoiel.github.io
 
+# Updated By: Seth Shaw
+# Date Updated: 2/5/2018
+# Updated to work with ArchivesSpace 2.2.0
+# Requires Python 3
+
 from xml.etree.ElementTree import ElementTree
 import xml.etree.ElementTree as ET
 import configparser 
@@ -126,18 +131,10 @@ def search_identifer(api_url,auth_token, repo_id, identifier):
     '''This function uses the search function and the id_1_u_sstr cusom facet to find the system resource id'''
     
     logging.info("Performing id search for: %s" % identifier);
-    identifier = identifier.split('-')
-    if(len(identifier) == 2):
-        #Get params to use the id_1_u_sstr facet for the identifier 
-        params =  urllib.parse.urlencode({'page': '1',
-                                          "filter_term[]" : 
-                                          '{"primary_type":"resource","id_0_u_sstr":"%s","id_1_u_sstr":"%s"}' % (str(identifier[0]),str(identifier[1])) } )
-    else:
-        print("%s is not a valid identifier" % identifier)
-        print("Check the program log for more information")
-        logging.error("Not a valid identifier: please use the collection classifier seperated by the collection identifier using a '-' ")
-        logging.error('(i.e) MS-00747, OH-3402 ')
-        return None
+
+    params =  urllib.parse.urlencode({'page': '1',
+                                      "aq" :
+                                      '{"query":{"field":"identifier","value":"%s","jsonmodel_type":"field_query"}}'  % (identifier) })
     url = api_url+'/repositories/' + str(repo_id) + '/search?%s' % params
     data = None
     headers = {'X-ArchivesSpace-Session': auth_token}
