@@ -12,15 +12,24 @@ class EADSerializer < ASpaceExport::Serializer
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
+    @include_daos = data.include_daos?
     @use_numbered_c_tags = data.use_numbered_c_tags?
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       begin
 
-      xml.ead(                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
-                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink') {
+      ead_attributes = {
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
+        'xmlns:xlink' => 'http://www.w3.org/1999/xlink'
+      }
+
+      if data.publish === false
+        ead_attributes['audience'] = 'internal'
+      end
+
+      xml.ead( ead_attributes ) {
 
         xml.text (
           @stream_handler.buffer { |xml, new_fragments|
@@ -28,20 +37,9 @@ class EADSerializer < ASpaceExport::Serializer
           })
 
         atts = {:level => data.level, :otherlevel => data.other_level}
-
-        if data.publish === false
-          if @include_unpublished
-            atts[:audience] = 'internal'
-          else
-            return
-          end
-        end
-
         atts.reject! {|k, v| v.nil?}
 
         xml.archdesc(atts) {
-
-
 
           xml.did {
 
@@ -69,6 +67,12 @@ class EADSerializer < ASpaceExport::Serializer
             #change period to dash
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-')
 
+            if @include_unpublished
+              data.external_ids.each do |exid|
+                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+              end
+            end
+
             serialize_extents(data, xml, @fragments)
 
             serialize_dates(data, xml, @fragments)
@@ -76,12 +80,12 @@ class EADSerializer < ASpaceExport::Serializer
             serialize_did_notes(data, xml, @fragments)
 
             data.instances_with_sub_containers.each do |instance|
-               serialize_container(instance, xml, @fragments)
-             end
+              serialize_container(instance, xml, @fragments)
+            end
 
-             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
+            EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
-           }# </did>
+          }# </did>
 
            data.digital_objects.each do |dob|
                  serialize_digital_object(dob, xml, @fragments)
