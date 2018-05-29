@@ -10,6 +10,8 @@ en:
         binder: Binder
         slide_tray: Slide Tray
         sheet: Sheet
+     date_label:
+       collected: Collected
      extent_extent_type:
         cm: cm
         items: Items
@@ -25,5 +27,6 @@ en:
         hanging_folders: Hanging Folders
         u_matic_videotapes: U-Matic Videotapes
         vhs_tapes: VHS Tapes
+        websites: Websites
      name_source:
        lcnaf: NACO Authority File
