@@ -31,7 +31,7 @@ class MARCModel < ASpaceExport::ExportModel
     marc.leader_string[7] = obj.level == 'item' ? 'm' : 'c'
 
   #check 008 controlfield value
-  if(MarcExportSettings.m_export_settings['tag_008']) then marc.controlfield_string = assemble_controlfield_string(obj) end
+    if(MarcExportSettings.m_export_settings['tag_008']) then marc.controlfield_string = assemble_controlfield_string(obj) end
 
     marc
   end
@@ -47,18 +47,18 @@ class MARCModel < ASpaceExport::ExportModel
       code = date['date_type'] == 'bulk' ? 'g' : 'f'
       val = nil
       if date['expression'] && date['date_type'] != 'bulk'
-      val = date['expression']
+        val = date['expression']
       elsif date['date_type'] == 'single'
-      val = date['begin']
+        val = date['begin']
       else
-      val = "#{date['begin']} - #{date['end']}"
+        val = "#{date['begin']} - #{date['end']}"
       end
       if(code == 'f') #check settings for enabling tag subfield code f
-      if(MarcExportSettings.m_export_settings['tag_245_sc_f']) then df('245', '1', '0').with_sfs([code, val]) end
+        if(MarcExportSettings.m_export_settings['tag_245_sc_f']) then df('245', '1', '0').with_sfs([code, val]) end
       elsif (code == 'g')#check settings for enabling tag subfield code g
-      if(MarcExportSettings.m_export_settings['tag_245_sc_g']) then df('245', '1', '0').with_sfs([code, val]) end
+        if(MarcExportSettings.m_export_settings['tag_245_sc_g']) then df('245', '1', '0').with_sfs([code, val]) end
       else
-      df('245', '1', '0').with_sfs([code, val])
+        df('245', '1', '0').with_sfs([code, val])
       end
     end
   end
@@ -148,69 +148,69 @@ class MARCModel < ASpaceExport::ExportModel
 
       #check special setting 4 (Add agent notes)
       if(MarcExportSettings.m_export_settings['tag_ss_4'])
-      handle_agent_notes(notes)
+        handle_agent_notes(notes)
       end
       case subject['agent_type']
 
       when 'agent_corporate_entity'
-      code = '610'
-      ind1 = '2'
-      #check special setting 610 (combine name and qualifier)
-      if(MarcExportSettings.m_export_settings['tag_610_sc_a_ss_1'] && !name['qualifier'].nil?)
-        sfs = [
-            ['a', name['primary_name'] + ' (' + name['qualifier'] + ')'],
-            ['b', name['subordinate_name_1']],
-            ['b', name['subordinate_name_2']],
-            ['n', name['number']],
-            ]
-      else
-        sfs = [
-            ['a', name['primary_name'] ],
-            ['b', name['subordinate_name_1']],
-            ['b', name['subordinate_name_2']],
-            ['n', name['number']],
-            ['g', name['qualifier']],
-            ]
+        code = '610'
+        ind1 = '2'
+        #check special setting 610 (combine name and qualifier)
+        if(MarcExportSettings.m_export_settings['tag_610_sc_a_ss_1'] && !name['qualifier'].nil?)
+          sfs = [
+              ['a', name['primary_name'] + ' (' + name['qualifier'] + ')'],
+              ['b', name['subordinate_name_1']],
+              ['b', name['subordinate_name_2']],
+              ['n', name['number']],
+              ]
+        else
+          sfs = [
+              ['a', name['primary_name'] ],
+              ['b', name['subordinate_name_1']],
+              ['b', name['subordinate_name_2']],
+              ['n', name['number']],
+              ['g', name['qualifier']],
+              ]
       end
       when 'agent_person'
-      joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-      name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-      ind1 = name['name_order'] == 'direct' ? '0' : '1'
-      code = '600'
-      sfs = [
-          ['a', name_parts],
-          ['b', name['number']],
-          ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-          ['q', name['fuller_form']],
-          ['d', name['dates']],
-          ['g', name['qualifier']],
-          ]
+        joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
+        name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
+        ind1 = name['name_order'] == 'direct' ? '0' : '1'
+        code = '600'
+        sfs = [
+            ['a', name_parts],
+            ['b', name['number']],
+            ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
+            ['q', name['fuller_form']],
+            ['d', name['dates']],
+            ['g', name['qualifier']],
+            ]
 
       when 'agent_family'
-      code = '600'
-      ind1 = '3'
-      sfs = [
-          ['a', name['family_name']],
-          ['c', name['prefix']],
-          ['d', name['dates']],
-          ['g', name['qualifier']],
-          ]
+        code = '600'
+        ind1 = '3'
+        sfs = [
+            ['a', name['family_name']],
+            ['c', name['prefix']],
+            ['d', name['dates']],
+            ['g', name['qualifier']],
+            ]
 
       end
 
       terms.each do |t|
-      tag = case t['term_type']
-        when 'uniform_title'; 't'
-        when 'genre_form', 'style_period'; 'v'
-        when 'topical', 'cultural_context'; 'x'
-        when 'temporal'; 'y'
-        when 'geographic'; 'z'
-        end
-      sfs << [(tag), t['term']]
+        tag = case t['term_type']
+          when 'uniform_title'; 't'
+          when 'genre_form', 'style_period'; 'v'
+          when 'topical', 'cultural_context'; 'x'
+          when 'temporal'; 'y'
+          when 'geographic'; 'z'
+          end
+        sfs << [(tag), t['term']]
       end
 
       if ind2 == '7'
-      sfs << ['2', subject['source']]
+        sfs << ['2', subject['source']]
       end
 
       df(code, ind1, ind2, i).with_sfs(*sfs)
@@ -228,11 +228,11 @@ class MARCModel < ASpaceExport::ExportModel
       role = link['role']
 
       if relator
-      relator_sf = ['4', relator]
+        relator_sf = ['4', relator]
       elsif role == 'source'
-      relator_sf =  ['e', 'former owner']
+        relator_sf =  ['e', 'former owner']
       else
-      relator_sf = ['e', 'creator']
+        relator_sf = ['e', 'creator']
       end
 
       ind2 = ' '
@@ -240,46 +240,46 @@ class MARCModel < ASpaceExport::ExportModel
       case creator['agent_type']
 
       when 'agent_corporate_entity'
-      code = '710'
-      ind1 = '2'
-      sfs = [
-          ['a', name['primary_name']],
-          ['b', name['subordinate_name_1']],
-          ['b', name['subordinate_name_2']],
-          ['n', name['number']],
-          ['g', name['qualifier']],
-          ]
+        code = '710'
+        ind1 = '2'
+        sfs = [
+            ['a', name['primary_name']],
+            ['b', name['subordinate_name_1']],
+            ['b', name['subordinate_name_2']],
+            ['n', name['number']],
+            ['g', name['qualifier']],
+            ]
 
       when 'agent_person'
-      joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-      name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-      ind1 = name['name_order'] == 'direct' ? '0' : '1'
-      code = '700'
-      sfs = [
-          ['a', name_parts],
-          ['b', name['number']],
-          ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-          ['q', name['fuller_form']],
-          ['d', name['dates']],
-          ['g', name['qualifier']],
-          ]
+        joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
+        name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
+        ind1 = name['name_order'] == 'direct' ? '0' : '1'
+        code = '700'
+        sfs = [
+            ['a', name_parts],
+            ['b', name['number']],
+            ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
+            ['q', name['fuller_form']],
+            ['d', name['dates']],
+            ['g', name['qualifier']],
+            ]
 
       when 'agent_family'
-      ind1 = '3'
-      code = '700'
-      sfs = [
-          ['a', name['family_name']],
-          ['c', name['prefix']],
-          ['d', name['dates']],
-          ['g', name['qualifier']],
-          ]
+        ind1 = '3'
+        code = '700'
+        sfs = [
+            ['a', name['family_name']],
+            ['c', name['prefix']],
+            ['d', name['dates']],
+            ['g', name['qualifier']],
+            ]
       end
 
       sfs << relator_sf
       df!(code, ind1, ind2).with_sfs(*sfs)
     end
 
-    end
+  end
 
   #export the agent notes
   def handle_agent_notes(notes)
@@ -368,9 +368,9 @@ class MARCModel < ASpaceExport::ExportModel
         end
       end
     end
-    end
+  end
 
-    def handle_id(*ids)
+  def handle_id(*ids)
     ids.reject!{|i| i.nil? || i.empty?}
 
     #connect using a hyphen instead of period
@@ -416,10 +416,10 @@ class MARCModel < ASpaceExport::ExportModel
               when 'scopecontent'
               ['520', '2', ' ', 'a']
               when 'abstract'
-            #check settings for enabling tag 520 and indicator 3
-            if(MarcExportSettings.m_export_settings['tag_520_ind1_3'])
-              ['520', '3', ' ', 'a']
-            end
+              #check settings for enabling tag 520 and indicator 3
+              if(MarcExportSettings.m_export_settings['tag_520_ind1_3'])
+                ['520', '3', ' ', 'a']
+              end
               when 'prefercite'
               ['524', ' ', ' ', 'a']
               when 'acqinfo'
@@ -465,7 +465,7 @@ class MARCModel < ASpaceExport::ExportModel
           if( MarcExportSettings.m_export_settings['tag_506_sc_a_ss_1'])
             urls = text.scan(/(?:http|https):\/\/[a-z0-9]+(?:[\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(?:(?::[0-9]{1,5})?\/[^\s]*)?/ix)
             unless urls.empty?
-                text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
+              text = text.gsub(/(\. )[\s\S]*/, '. This collection has been digitized and is available online.')
               ead_text = if MarcExportSettings.m_export_settings['tag_ss_3'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_ss_3'] end
               df('856', '4', '0').with_sfs(
                   ['z', ead_text],
@@ -481,34 +481,34 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
   def handle_ead_loc(ead_loc)
-  if( MarcExportSettings.m_export_settings['tag_555'])
-    text = if MarcExportSettings.m_export_settings['tag_555_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_555_ss_1'] end
-    df('555', '8', ' ').with_sfs(
-                ['a', text],
-                ['u', ead_loc]
-                )
-  end
-  if( MarcExportSettings.m_export_settings['tag_856'])
-    text = if MarcExportSettings.m_export_settings['tag_856_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_856_ss_1'] end
-    df('856', '4', '2').with_sfs(
-                ['z', text],
-                ['u', ead_loc]
-                )
-  end
+    if( MarcExportSettings.m_export_settings['tag_555'])
+      text = if MarcExportSettings.m_export_settings['tag_555_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_555_ss_1'] end
+      df('555', '8', ' ').with_sfs(
+                  ['a', text],
+                  ['u', ead_loc]
+                  )
+    end
+    if( MarcExportSettings.m_export_settings['tag_856'])
+      text = if MarcExportSettings.m_export_settings['tag_856_ss_1'].nil? then "Finding aid online:" else MarcExportSettings.m_export_settings['tag_856_ss_1'] end
+      df('856', '4', '2').with_sfs(
+                  ['z', text],
+                  ['u', ead_loc]
+                  )
+    end
   end
 
   #Checks if there is a setting for the exporting tag
   #If there is and that tag is off don't export
   #else let the tag export
   def handle_settings(marc_args)
-  export = true
-  tag = 'tag_' + marc_args[0]
-  if ( MarcExportSettings.m_export_settings.include? tag)
-    if (!MarcExportSettings.m_export_settings[tag])
-      export = false
+    export = true
+    tag = 'tag_' + marc_args[0]
+    if ( MarcExportSettings.m_export_settings.include? tag)
+      if (!MarcExportSettings.m_export_settings[tag])
+        export = false
+      end
     end
-  end
-  return export;
+    return export;
   end
 
 end
