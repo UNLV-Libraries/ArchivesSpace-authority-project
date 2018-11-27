@@ -511,4 +511,19 @@ class MARCModel < ASpaceExport::ExportModel
     return export;
   end
 
+  # Preserves the older handle_extents before subfield f was introduced
+  # Could make this configurable, later.
+  def handle_extents(extents)
+    extents.each do |ext|
+      e = ext['number']
+      e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
+
+      if ext['container_summary']
+        e << " (#{ext['container_summary']})"
+      end
+
+      df!('300').with_sfs(['a', e])
+    end
+  end
+
 end
