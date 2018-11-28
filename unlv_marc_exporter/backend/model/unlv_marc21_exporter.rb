@@ -21,7 +21,6 @@ class MARCModel < ASpaceExport::ExportModel
     :subjects => :handle_subjects,
     :extents => :handle_extents,
     :language => df_handler('lang', '041', '0', ' ', 'a'),
-    :dates => :handle_dates,
   }
 
   def self.from_resource(obj, opts = {})
@@ -34,33 +33,6 @@ class MARCModel < ASpaceExport::ExportModel
     if(MarcExportSettings.m_export_settings['tag_008']) then marc.controlfield_string = assemble_controlfield_string(obj) end
 
     marc
-  end
-
-  def handle_dates(dates)
-    return false if dates.empty?
-
-    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
-      dates.find {|date| types.include? date['date_type'] }
-    }.compact
-
-    dates.each do |date|
-      code = date['date_type'] == 'bulk' ? 'g' : 'f'
-      val = nil
-      if date['expression'] && date['date_type'] != 'bulk'
-        val = date['expression']
-      elsif date['date_type'] == 'single'
-        val = date['begin']
-      else
-        val = "#{date['begin']} - #{date['end']}"
-      end
-      if(code == 'f') #check settings for enabling tag subfield code f
-        if(MarcExportSettings.m_export_settings['tag_245_sc_f']) then df('245', '1', '0').with_sfs([code, val]) end
-      elsif (code == 'g')#check settings for enabling tag subfield code g
-        if(MarcExportSettings.m_export_settings['tag_245_sc_g']) then df('245', '1', '0').with_sfs([code, val]) end
-      else
-        df('245', '1', '0').with_sfs([code, val])
-      end
-    end
   end
 
   def handle_repo_code(repository, langcode)
@@ -523,6 +495,49 @@ class MARCModel < ASpaceExport::ExportModel
       end
 
       df!('300').with_sfs(['a', e])
+    end
+  end
+
+  # Newer marc21 models discontinue the handle_dates function.
+  # We need to handle dates in handle_title now.
+  def handle_title(title, linked_agents, dates)
+    creator = linked_agents.find{|a| a['role'] == 'creator'}
+    date_codes = []
+
+    # process dates first, if defined.
+    unless dates.empty?
+      dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
+        dates.find {|date| types.include? date['date_type'] }
+      }.compact
+
+      dates.each do |date|
+        code, val = nil
+        code = date['date_type'] == 'bulk' ? 'g' : 'f'
+        if date['expression']
+          val = date['expression']
+        elsif date['end']
+          val = "#{date['begin']} - #{date['end']}"
+        else
+          val = "#{date['begin']}"
+        end
+
+        if(code == 'f') #check settings for enabling tag subfield code f
+          if(MarcExportSettings.m_export_settings['tag_245_sc_f']) then date_codes.push([code, val]) end
+        elsif (code == 'g') #check settings for enabling tag subfield code g
+          if(MarcExportSettings.m_export_settings['tag_245_sc_g']) then date_codes.push([code, val]) end
+        else
+          date_codes.push([code, val])
+        end
+      end
+    end
+
+    ind1 = creator.nil? ? "0" : "1"
+    if date_codes.length > 0
+      # we want to pass in all our date codes as separate subfield tags
+      # e.g., with_sfs(['a', title], [code1, val1], [code2, val2]... [coden, valn])
+      df('245', ind1, '0').with_sfs(['a', title + ","], *date_codes)
+    else
+      df('245', ind1, '0').with_sfs(['a', title])
     end
   end
 
