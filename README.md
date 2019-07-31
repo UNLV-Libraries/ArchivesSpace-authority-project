@@ -75,7 +75,7 @@ UNLV Custom Reports Plugin facilitates export of customized reports (e.g. sorted
 
 # Place 
 
-**Under Construction 
+**Under Construction**
 
 Place is a ArchivesSpace plugin to be able to add places to an agent.
 
@@ -87,3 +87,6 @@ Plugin Settings is a test to implement settings for a plugin following the struc
 
 [Plugin Settings](https://github.com/l3mus/ArchivesSpace-authority-project/tree/master/plugin_settings).
 
+# XACT
+
+XACT is used to transform an Excel spreadsheet collection inventory into an EAD for import into ArchivesSpace.
