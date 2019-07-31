@@ -321,7 +321,7 @@
                    <xsl:value-of select="unique_identifer"/>
                 </unitid>
             </xsl:if>
-            <xsl:if test="date_expression ne ''">
+            <xsl:if test="date_expression ne '' or date_begin ne ''or date_end ne ''">
                 <xsl:call-template name="unitdate"/>
             </xsl:if>
             
@@ -352,36 +352,89 @@
     <!-- unitdate template -->
     <xsl:template name="unitdate">
         <unitdate>
-          <xsl:choose>
-              <xsl:when test="date_type/text()">
-                  <xsl:attribute name="type"><xsl:value-of select="date_type/text()"/></xsl:attribute>
-              </xsl:when>
-              <xsl:otherwise>
-                  <xsl:attribute name="type"><xsl:value-of select="$dateType"/></xsl:attribute>
-              </xsl:otherwise> 
-          </xsl:choose>
-          <xsl:choose>
-              <xsl:when test="date_begin/text() != '' and date_end/text() != ''">  
-                  <xsl:attribute name="normal"><xsl:value-of select="date_begin"/><xsl:text>/</xsl:text><xsl:value-of select="date_end"/></xsl:attribute>
-              </xsl:when>
-              <xsl:when test="date_begin/text() != ''">  
-                  <xsl:attribute name="normal"><xsl:value-of select="date_begin"/><xsl:text>/</xsl:text><xsl:value-of select="date_begin"/></xsl:attribute>
-              </xsl:when>
-              <xsl:when test="date_end/text() != ''">  
-                  <xsl:attribute name="normal"><xsl:value-of select="date_end"/><xsl:text>/</xsl:text><xsl:value-of select="date_end"/></xsl:attribute>
-              </xsl:when>
-              <xsl:otherwise>
-                  <xsl:attribute name="normal"><xsl:value-of select="date_expression"/></xsl:attribute>
-              </xsl:otherwise> 
-          </xsl:choose>
-          <xsl:choose>
-              <xsl:when test="date_expression/text()">
-                   <xsl:value-of select="date_expression"/>
-              </xsl:when>
-              <xsl:otherwise>
-                   <xsl:value-of select="$dateExpression"/>
-              </xsl:otherwise> 
-          </xsl:choose>
+            <!-- Date type -->
+            <xsl:choose>
+                <xsl:when test="date_type/text()">
+                    <xsl:attribute name="type">
+                        <xsl:value-of select="date_type/text()"/>
+                    </xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="type">
+                        <xsl:value-of select="$dateType"/>
+                    </xsl:attribute>
+                </xsl:otherwise>
+            </xsl:choose>
+            <!-- Normal form -->
+            <xsl:choose>
+                <xsl:when test="date_begin/text() != '' and date_end/text() != ''">
+                    <xsl:attribute name="normal">
+                        <xsl:value-of select="normalize-space(date_begin)"/>
+                        <xsl:text>/</xsl:text>
+                        <xsl:value-of select="normalize-space(date_end)"/>
+                    </xsl:attribute>
+                </xsl:when>
+                <xsl:when test="date_begin/text() != ''">
+                    <xsl:attribute name="normal">
+                        <xsl:value-of select="normalize-space(date_begin)"/>
+                        <xsl:text>/</xsl:text>
+                        <xsl:value-of select="normalize-space(date_begin)"/>
+                    </xsl:attribute>
+                </xsl:when>
+                <xsl:when test="date_end/text() != ''">
+                    <xsl:attribute name="normal">
+                        <xsl:value-of select="normalize-space(date_end)"/>
+                        <xsl:text>/</xsl:text>
+                        <xsl:value-of select="normalize-space(date_end)"/>
+                    </xsl:attribute>
+                </xsl:when>
+            </xsl:choose>
+            <!-- Certainty attribute -->
+            <xsl:choose>
+                <xsl:when test="date_certainty/text() != ''">
+                    <xsl:attribute name="certainty">
+                        <xsl:value-of select="normalize-space(date_certainty)"/>
+                    </xsl:attribute>
+                </xsl:when>
+            </xsl:choose>
+            <!-- Date expression -->
+            <xsl:choose>
+                <xsl:when test="date_expression/text()">
+                    <xsl:value-of select="date_expression"/>
+                </xsl:when>
+                <xsl:when test="date_certainty/text() != ''">
+                    <xsl:choose>
+                        <xsl:when test="date_certainty = 'approximate'">
+                            <xsl:text>approximately </xsl:text>
+                        </xsl:when>
+                        <xsl:when test="date_certainty = 'questionable'">
+                            <xsl:text>possibly </xsl:text>
+                        </xsl:when>
+                        <xsl:when test="date_certainty = 'inferred'">
+                            <xsl:text>probably </xsl:text>
+                        </xsl:when>
+                    </xsl:choose>
+                    <xsl:choose>
+                        <xsl:when test="date_begin/text() != '' and date_end/text() != ''">
+                            <xsl:value-of select="normalize-space(date_begin)"/>
+                            <xsl:text>-</xsl:text>
+                            <xsl:value-of select="normalize-space(date_end)"/>
+                        </xsl:when>
+                        <xsl:when test="date_begin/text() != ''">
+                            <xsl:value-of select="normalize-space(date_begin)"/>
+                        </xsl:when>
+                        <xsl:when test="date_end/text() != ''">
+                            <xsl:value-of select="normalize-space(date_end)"/>
+                        </xsl:when>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:when test="date_begin/text() != '' or date_end/text() != ''">
+                    <!-- Leave empty. ArchivesSpace will take care of it.-->
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$dateExpression"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </unitdate>
     </xsl:template>
     <!--end  unitdate template -->
