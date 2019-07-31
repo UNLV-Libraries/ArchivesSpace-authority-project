@@ -22,7 +22,7 @@ You begin with the XACT template in Excel. The template can be used for only one
 
 ## <a name=""></a>Spreadsheet Data Entry
 
-From this link, download [the XACT template](xcel2xml.xsl) to the appropriate collection file on the L drive.
+From this link, download [the XACT template](template_withexamples.xlsx) to the appropriate collection file on the L drive.
 
 > *Please note:* There are three tabs on this spreadsheet. Only add data to the template tab. Delete the introduction and example tabs before opening the spreadsheet in oXygen.
 
