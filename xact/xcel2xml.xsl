@@ -386,6 +386,7 @@
                     <xsl:value-of select="unique_identifer"/>
                 </unitid>
             </xsl:if>
+            <xsl:call-template name="dao"/>
             <xsl:if test="date_expression ne '' or date_begin ne ''or date_end ne ''">
                 <xsl:call-template name="unitdate"/>
             </xsl:if>
@@ -505,7 +506,22 @@
     </xsl:template>
     <!--end  unitdate template -->
 
-
+    <!-- dao template -->
+    <xsl:template name="dao">
+        <xsl:if test="Object_Archival_Resource_Key ne ''">
+            <dao xlink:actuate="onRequest" xlink:show="new" xlink:type="simple">
+                <xsl:attribute name="href" namespace="http://www.w3.org/1999/xlink">
+                    <xsl:value-of select="Object_Archival_Resource_Key/text()"/>
+                </xsl:attribute>
+                <xsl:if test="title ne ''">
+                    <xsl:attribute name="title" namespace="http://www.w3.org/1999/xlink">
+                        <xsl:value-of select="title/text()"/>
+                    </xsl:attribute>
+                </xsl:if>
+            </dao>
+        </xsl:if>
+    </xsl:template>
+    
     <!-- extent template -->
     <xsl:template name="extent">
         <xsl:if test="extent_number ne ''">
