@@ -443,15 +443,6 @@
                 <xsl:when test="date_begin/text() != ''">
                     <xsl:attribute name="normal">
                         <xsl:value-of select="normalize-space(date_begin)"/>
-                        <xsl:text>/</xsl:text>
-                        <xsl:value-of select="normalize-space(date_begin)"/>
-                    </xsl:attribute>
-                </xsl:when>
-                <xsl:when test="date_end/text() != ''">
-                    <xsl:attribute name="normal">
-                        <xsl:value-of select="normalize-space(date_end)"/>
-                        <xsl:text>/</xsl:text>
-                        <xsl:value-of select="normalize-space(date_end)"/>
                     </xsl:attribute>
                 </xsl:when>
             </xsl:choose>
