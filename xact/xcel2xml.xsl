@@ -2,7 +2,7 @@
 <!-- This spreadsheet has been created in order to ease the transition from spreadsheet to ead
      and into ArchivesSpace. -->
 <xsl:transform xmlns="urn:isbn:1-931666-22-9" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:tns="http://tnsnamespace" xmlns:saxon="http://saxon.sf.net/"
+    xmlns:tns="http://tnsnamespace" xmlns:saxon="http://saxon.sf.net/" xmlns:xlink="http://www.w3.org/1999/xlink"
     extension-element-prefixes="saxon" version="2.0">
 
     <!--<saxon:import-query href="sample-functions.xql"/>-->
