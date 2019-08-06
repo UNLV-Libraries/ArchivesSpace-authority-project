@@ -481,9 +481,6 @@
                         <xsl:when test="date_begin/text() != ''">
                             <xsl:value-of select="normalize-space(date_begin)"/>
                         </xsl:when>
-                        <xsl:when test="date_end/text() != ''">
-                            <xsl:value-of select="normalize-space(date_end)"/>
-                        </xsl:when>
                     </xsl:choose>
                 </xsl:when>
                 <xsl:when test="date_begin/text() != '' or date_end/text() != ''">
