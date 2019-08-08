@@ -172,7 +172,8 @@
                     <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt"
                         mode="coverPage"/>
                     <xsl:if test="/ead:ead/ead:eadheader/ead:eadid/@url">
-                        <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:eadid" mode="coverPage"/>
+                        <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:eadid"
+                            mode="coverPage"/>
                     </xsl:if>
                 </fo:flow>
             </fo:page-sequence>
@@ -1347,6 +1348,36 @@
             <xsl:value-of select="$linkTitle"/>
         </fo:basic-link>
     </xsl:template>
+    <xsl:template match="ead:dao" mode="list">
+        <xsl:variable name="linkTitle">
+            <xsl:choose>
+                <xsl:when test="child::*">
+                    <xsl:apply-templates/>
+                </xsl:when>
+                <xsl:when test="@*:title">
+                    <xsl:value-of select="@*:title"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@*:href"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <fo:list-item>
+            <fo:list-item-label end-indent="label-end()">
+                <fo:block>&#x2022;</fo:block>
+            </fo:list-item-label>
+            <fo:list-item-body start-indent="body-start()" text-indent="-12pt">
+                <fo:block>
+                    <xsl:value-of select="$linkTitle"/>
+                    <xsl:text> (</xsl:text>
+                    <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
+                        <xsl:text>view online</xsl:text>
+                    </fo:basic-link>
+                    <xsl:text>)</xsl:text>
+                </fo:block>
+            </fo:list-item-body>
+        </fo:list-item>
+    </xsl:template>
     <xsl:template match="ead:daogrp">
         <fo:block>
             <xsl:apply-templates/>
@@ -1621,7 +1652,7 @@
             </xsl:when>
             <!-- Groups instances by label attribute, the way they are grouped in ArchivesSpace -->
             <xsl:when test="ead:did/ead:container[@label]">
-                <fo:table-row border-top="1px solid #9e9c9c" keep-with-next.within-page="always">
+                <fo:table-row border-top="1px solid #cccccc" keep-with-next.within-page="always">
                     <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt"
                         number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
                         <xsl:if test="not(ead:did/ead:container)">
@@ -1661,7 +1692,7 @@
             </xsl:when>
             <!-- For finding aids with no @label attribute, only accounts for three containers -->
             <xsl:otherwise>
-                <fo:table-row border-top="1px solid #ccc">
+                <fo:table-row border-top="1px solid #9c9c9c">
                     <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt"
                         number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
                         <xsl:apply-templates select="ead:did" mode="dsc"/>
@@ -1770,11 +1801,40 @@
     <!-- Unittitles and all other clevel elements -->
     <xsl:template match="ead:did" mode="dsc">
         <fo:block margin-bottom="0">
+<!--
+            <xsl:choose>
+                <xsl:when test="ead:dao/@*:href">
+                    <fo:basic-link external-destination="url('{ead:dao/@*:href}')" xsl:use-attribute-sets="ref" >
+                    <xsl:apply-templates select="ead:unittitle"/>
+                    <xsl:if test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
+                    <xsl:apply-templates select="ead:unitdate" mode="did"/>
+                    </fo:basic-link>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="ead:unittitle"/>
+                    <xsl:if test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
+                    <xsl:apply-templates select="ead:unitdate" mode="did"/>
+                </xsl:otherwise>
+            </xsl:choose>
+-->
             <xsl:apply-templates select="ead:unittitle"/>
-            <xsl:if
-                test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)"
-                >, </xsl:if>
+            <xsl:if test="(string-length(ead:unittitle[1]) &gt; 0) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
             <xsl:apply-templates select="ead:unitdate" mode="did"/>
+            <xsl:apply-templates select="ead:unitid" mode="did" />
+            <xsl:choose>
+                <xsl:when test="count(ead:dao) = 1">
+                    <xsl:text> (</xsl:text>
+                    <fo:basic-link external-destination="url('{ead:dao/@*:href}')" xsl:use-attribute-sets="ref" >
+                        <xsl:text>view online</xsl:text>
+                    </fo:basic-link>
+                    <xsl:text>)</xsl:text>
+                </xsl:when>
+                <xsl:when test="count(ead:dao) > 1">
+                    <fo:list-block space-before="3mm">
+                        <xsl:apply-templates select="ead:dao" mode="list" />
+                    </fo:list-block>
+                </xsl:when>
+            </xsl:choose>
         </fo:block>
         <fo:block margin-bottom="4pt" margin-top="0">
             <xsl:apply-templates select="ead:repository" mode="dsc"/>
@@ -1782,8 +1842,10 @@
             <!-- <xsl:apply-templates select="ead:unitdate" mode="dsc"/>     -->
             <xsl:apply-templates select="ead:physdesc" mode="dsc"/>
             <xsl:apply-templates select="ead:physloc" mode="dsc"/>
+            <!--
             <xsl:apply-templates select="ead:dao" mode="dsc"/>
             <xsl:apply-templates select="ead:daogrp" mode="dsc"/>
+            -->
             <xsl:apply-templates select="ead:langmaterial" mode="dsc"/>
             <xsl:apply-templates select="ead:materialspec" mode="dsc"/>
             <xsl:apply-templates select="ead:abstract" mode="dsc"/>
@@ -1791,10 +1853,13 @@
         </fo:block>
     </xsl:template>
     <!-- Formats unitdates -->
-    <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did"> (<xsl:apply-templates/>) </xsl:template>
+    <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did"><fo:inline> (<xsl:apply-templates/>) </fo:inline></xsl:template>
     <xsl:template match="ead:unitdate" mode="did">
         <xsl:apply-templates/>
     </xsl:template>
+    
+    <!-- Formats unitid -->
+    <xsl:template match="ead:unitid" mode="did"> (<xsl:value-of select="."/>) </xsl:template>
 
     <!-- Special formatting for elements in the collection inventory list -->
     <xsl:template
