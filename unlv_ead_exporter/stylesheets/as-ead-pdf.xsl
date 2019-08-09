@@ -1771,10 +1771,27 @@
     <xsl:template match="ead:did" mode="dsc">
         <fo:block margin-bottom="0">
             <xsl:apply-templates select="ead:unittitle"/>
-            <xsl:if
-                test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)"
-                >, </xsl:if>
-            <xsl:apply-templates select="ead:unitdate" mode="did"/>
+            <!-- <xsl:if test="(string-length(ead:unittitle[1]) &gt; 0) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if> -->
+            <!-- <xsl:apply-templates select="ead:unitdate" mode="did"/>-->
+            <xsl:for-each select="ead:unitdate">
+                <xsl:text>, </xsl:text>
+                <xsl:apply-templates select="." mode="did" />
+            </xsl:for-each>
+            <xsl:apply-templates select="ead:unitid" mode="did" />
+            <xsl:choose>
+                <xsl:when test="count(ead:dao) = 1">
+                    <xsl:text> (</xsl:text>
+                    <fo:basic-link external-destination="url('{ead:dao/@*:href}')" xsl:use-attribute-sets="ref" >
+                        <xsl:text>view online</xsl:text>
+                    </fo:basic-link>
+                    <xsl:text>)</xsl:text>
+                </xsl:when>
+                <xsl:when test="count(ead:dao) > 1">
+                    <fo:list-block space-before="3mm">
+                        <xsl:apply-templates select="ead:dao" mode="list" />
+                    </fo:list-block>
+                </xsl:when>
+            </xsl:choose>
         </fo:block>
         <fo:block margin-bottom="4pt" margin-top="0">
             <xsl:apply-templates select="ead:repository" mode="dsc"/>
@@ -1790,8 +1807,9 @@
             <xsl:apply-templates select="ead:note" mode="dsc"/>
         </fo:block>
     </xsl:template>
+
     <!-- Formats unitdates -->
-    <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did"> (<xsl:apply-templates/>) </xsl:template>
+    <!-- <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did"><fo:inline> (<xsl:apply-templates/>) </fo:inline></xsl:template> -->
     <xsl:template match="ead:unitdate" mode="did">
         <xsl:apply-templates/>
     </xsl:template>
