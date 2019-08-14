@@ -2,7 +2,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns2="http://www.w3.org/1999/xlink"
     xmlns:local="http://www.yoursite.org/namespace" xmlns:ead="urn:isbn:1-931666-22-9"
-    xmlns:fo="http://www.w3.org/1999/XSL/Format" version="2.0" exclude-result-prefixes="#all">
+    xmlns:fn="http://function" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="2.0"
+    exclude-result-prefixes="#all">
     <!--
         *******************************************************************
         *                                                                 *
@@ -172,7 +173,8 @@
                     <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt"
                         mode="coverPage"/>
                     <xsl:if test="/ead:ead/ead:eadheader/ead:eadid/@url">
-                        <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:eadid" mode="coverPage"/>
+                        <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:eadid"
+                            mode="coverPage"/>
                     </xsl:if>
                 </fo:flow>
             </fo:page-sequence>
@@ -1536,7 +1538,7 @@
                     @level = 'recordgrp' or @level = 'subfonds' or @level = 'class'">
                 <fo:table-row background-color="#f0f0f0" border-bottom="1px dotted #ccc"
                     border-top="3pt solid #ccc" keep-with-next.within-page="always">
-                    <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt">
+                    <fo:table-cell padding-left="{$clevelMargin}" padding-top="4pt">
                         <xsl:if test="not(ead:did/ead:container)">
                             <xsl:attribute name="number-columns-spanned">4</xsl:attribute>
                         </xsl:if>
@@ -1566,7 +1568,7 @@
                     <xsl:choose>
                         <xsl:when test="ead:did/ead:container/@label">
                             <xsl:for-each-group select="ead:did/ead:container"
-                                group-starting-with=".[@label]">
+                                group-starting-with="ead:did/ead:container[@label]">
                                 <fo:table-row background-color="#f0f0f0"
                                     border-bottom="1px dotted #ccc" border-top="3pt solid #ccc"
                                     keep-with-next.within-page="always">
@@ -1622,7 +1624,7 @@
             <!-- Groups instances by label attribute, the way they are grouped in ArchivesSpace -->
             <xsl:when test="ead:did/ead:container[@label]">
                 <fo:table-row border-top="1px solid #9e9c9c" keep-with-next.within-page="always">
-                    <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt"
+                    <fo:table-cell padding-left="{$clevelMargin}" padding-top="4pt"
                         number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
                         <xsl:if test="not(ead:did/ead:container)">
                             <xsl:attribute name="number-columns-spanned">3</xsl:attribute>
@@ -1638,7 +1640,8 @@
                     </fo:table-cell>
                 </fo:table-row>
                 <!-- Groups instances by label attribute, the way they are grouped in ArchivesSpace -->
-                <xsl:for-each-group select="ead:did/ead:container" group-starting-with=".[@label]">
+                <xsl:for-each-group select="ead:did/ead:container"
+                    group-starting-with="ead:did/ead:container[@label]">
                     <fo:table-row keep-with-next.within-page="always">
                         <xsl:apply-templates select="current-group()"/>
                         <xsl:choose>
@@ -1662,7 +1665,7 @@
             <!-- For finding aids with no @label attribute, only accounts for three containers -->
             <xsl:otherwise>
                 <fo:table-row border-top="1px solid #ccc">
-                    <fo:table-cell margin-left="{$clevelMargin}" padding-top="4pt"
+                    <fo:table-cell padding-left="{$clevelMargin}" padding-top="4pt"
                         number-rows-spanned="{count(ead:did/ead:container[@label]) + 1}">
                         <xsl:apply-templates select="ead:did" mode="dsc"/>
                         <xsl:apply-templates mode="dsc"
@@ -1775,20 +1778,21 @@
             <!-- <xsl:apply-templates select="ead:unitdate" mode="did"/>-->
             <xsl:for-each select="ead:unitdate">
                 <xsl:text>, </xsl:text>
-                <xsl:apply-templates select="." mode="did" />
+                <xsl:apply-templates select="." mode="did"/>
             </xsl:for-each>
-            <xsl:apply-templates select="ead:unitid" mode="did" />
+            <xsl:apply-templates select="ead:unitid" mode="did"/>
             <xsl:choose>
                 <xsl:when test="count(ead:dao) = 1">
                     <xsl:text> (</xsl:text>
-                    <fo:basic-link external-destination="url('{ead:dao/@*:href}')" xsl:use-attribute-sets="ref" >
+                    <fo:basic-link external-destination="url('{ead:dao/@*:href}')"
+                        xsl:use-attribute-sets="ref">
                         <xsl:text>view online</xsl:text>
                     </fo:basic-link>
                     <xsl:text>)</xsl:text>
                 </xsl:when>
                 <xsl:when test="count(ead:dao) > 1">
                     <fo:list-block space-before="3mm">
-                        <xsl:apply-templates select="ead:dao" mode="list" />
+                        <xsl:apply-templates select="ead:dao" mode="list"/>
                     </fo:list-block>
                 </xsl:when>
             </xsl:choose>
@@ -1808,10 +1812,68 @@
         </fo:block>
     </xsl:template>
 
+    <xsl:function name="fn:get-month-name">
+        <xsl:param name="month"/>
+
+        <xsl:choose>
+            <xsl:when test="$month = '01'">January</xsl:when>
+            <xsl:when test="$month = '02'">February</xsl:when>
+            <xsl:when test="$month = '03'">March</xsl:when>
+            <xsl:when test="$month = '04'">April</xsl:when>
+            <xsl:when test="$month = '05'">May</xsl:when>
+            <xsl:when test="$month = '06'">June</xsl:when>
+            <xsl:when test="$month = '07'">July</xsl:when>
+            <xsl:when test="$month = '08'">August</xsl:when>
+            <xsl:when test="$month = '09'">September</xsl:when>
+            <xsl:when test="$month = '10'">October</xsl:when>
+            <xsl:when test="$month = '11'">November</xsl:when>
+            <xsl:when test="$month = '12'">December</xsl:when>
+            <xsl:otherwise>error: <xsl:value-of select="$month"/></xsl:otherwise>
+        </xsl:choose>
+
+    </xsl:function>
+
     <!-- Formats unitdates -->
     <!-- <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did"><fo:inline> (<xsl:apply-templates/>) </fo:inline></xsl:template> -->
     <xsl:template match="ead:unitdate" mode="did">
-        <xsl:apply-templates/>
+        <!-- <xsl:apply-templates/> -->
+        <xsl:choose>
+            <xsl:when test="matches(., '\d{4}-')">
+                <xsl:choose>
+                    <xsl:when test="@certainty = 'approximate'">
+                        <xsl:text>approximately </xsl:text>
+                    </xsl:when>
+                    <xsl:when test="@certainty = 'questionable'">
+                        <xsl:text>possibly </xsl:text>
+                    </xsl:when>
+                    <xsl:when test="@certainty = 'inferred'">
+                        <xsl:text>probably </xsl:text>
+                    </xsl:when>
+                </xsl:choose>
+                <!-- Matched a four-digit year and a hyphen, this date expression was probably auto-generated badly. Make our own. -->
+                <xsl:for-each select="distinct-values(tokenize(@normal, '/'))">
+                    <xsl:if test="(position() eq last()) and (position() > 1)">
+                        <xsl:text> to </xsl:text>
+                    </xsl:if>
+                    <xsl:analyze-string select="." regex="(\d+)-?(\d+)?-?(\d+)?">
+                        <xsl:matching-substring>
+                            <xsl:value-of select="regex-group(1)"/>
+                            <xsl:if test="regex-group(2)">
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="fn:get-month-name(regex-group(2))"/>
+                            </xsl:if>
+                            <xsl:if test="regex-group(3)">
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="regex-group(3)"/>
+                            </xsl:if>
+                        </xsl:matching-substring>
+                    </xsl:analyze-string>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <!-- Special formatting for elements in the collection inventory list -->
