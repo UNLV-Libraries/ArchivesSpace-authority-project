@@ -1805,8 +1805,6 @@
     <xsl:template match="ead:did" mode="dsc">
         <fo:block margin-bottom="0">
             <xsl:apply-templates select="ead:unittitle"/>
-            <!-- <xsl:if test="(string-length(ead:unittitle[1]) &gt; 0) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if> -->
-            <!-- <xsl:apply-templates select="ead:unitdate" mode="did"/>-->
             <xsl:for-each select="ead:unitdate">
                 <xsl:text>, </xsl:text>
                 <xsl:apply-templates select="." mode="did"/>
@@ -1834,8 +1832,10 @@
             <!-- <xsl:apply-templates select="ead:unitdate" mode="dsc"/>     -->
             <xsl:apply-templates select="ead:physdesc" mode="dsc"/>
             <xsl:apply-templates select="ead:physloc" mode="dsc"/>
+            <!--
             <xsl:apply-templates select="ead:dao" mode="dsc"/>
             <xsl:apply-templates select="ead:daogrp" mode="dsc"/>
+            -->
             <xsl:apply-templates select="ead:langmaterial" mode="dsc"/>
             <xsl:apply-templates select="ead:materialspec" mode="dsc"/>
             <xsl:apply-templates select="ead:abstract" mode="dsc"/>
@@ -1906,6 +1906,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+    <!-- Formats unitid -->
+    <xsl:template match="ead:unitid" mode="did"> (<xsl:value-of select="."/>) </xsl:template>
 
     <!-- Special formatting for elements in the collection inventory list -->
     <xsl:template
