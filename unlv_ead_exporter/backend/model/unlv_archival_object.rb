@@ -2,8 +2,6 @@ require 'securerandom'
 
 class ArchivalObject < Sequel::Model(:archival_object)
 
-# Exception (Unknown response: {"error":"undefined method `format_date_string' for ArchivalObject:Class"}
-
   def self.format_date_string(date)
     require 'date'
     new_date = ""
