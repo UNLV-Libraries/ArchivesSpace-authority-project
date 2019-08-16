@@ -1349,6 +1349,37 @@
             <xsl:value-of select="$linkTitle"/>
         </fo:basic-link>
     </xsl:template>
+    <xsl:template match="ead:dao" mode="list">
+        <xsl:variable name="linkTitle">
+            <xsl:choose>
+                <xsl:when test="child::*">
+                    <xsl:apply-templates/>
+                </xsl:when>
+                <xsl:when test="@*:title">
+                    <xsl:value-of select="@*:title"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@*:href"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <fo:list-item>
+            <fo:list-item-label end-indent="label-end()">
+                <fo:block>&#x2022;</fo:block>
+            </fo:list-item-label>
+            <fo:list-item-body start-indent="body-start()" text-indent="-12pt">
+                <fo:block>
+                    <xsl:value-of select="$linkTitle"/>
+                    <xsl:text> (</xsl:text>
+                    <fo:basic-link external-destination="url('{@*:href}')"
+                        xsl:use-attribute-sets="ref">
+                        <xsl:text>view online</xsl:text>
+                    </fo:basic-link>
+                    <xsl:text>)</xsl:text>
+                </fo:block>
+            </fo:list-item-body>
+        </fo:list-item>
+    </xsl:template>
     <xsl:template match="ead:daogrp">
         <fo:block>
             <xsl:apply-templates/>
