@@ -290,7 +290,7 @@
 
     <xsl:template name="description">
         <xsl:param name="series" select="//row[collection_level = 'series']"/>
-        <xsl:param name="files" select="//row[collection_level = 'file']"/>
+        <xsl:param name="files" select="//row[collection_level = 'file' or collection_level = 'item']"/>
         <xsl:param name="rows"
             select="//row[collection_level != 'collection' and collection_level != 'series']"/>
 
@@ -310,7 +310,7 @@
                 <xsl:for-each select="tokenize(files_reference, ',')">
                     <xsl:variable name="files_reference" select="."/>
                     <xsl:apply-templates
-                        select="$rows[association_id = normalize-space($files_reference) and collection_level = 'file']"
+                        select="$rows[association_id = normalize-space($files_reference) and (collection_level = 'file' or collection_level = 'item')]"
                         mode="files"> </xsl:apply-templates>
                 </xsl:for-each>
             </c01>
@@ -325,7 +325,7 @@
                     <xsl:for-each select="tokenize(files_reference, ',')">
                         <xsl:variable name="files_reference" select="."/>
                         <xsl:apply-templates
-                            select="$rows[association_id = normalize-space($files_reference) and collection_level = 'file']"
+                            select="$rows[association_id = normalize-space($files_reference) and (collection_level = 'file' or collection_level = 'item')]"
                             mode="files"> </xsl:apply-templates>
                     </xsl:for-each>
                 </c01>
@@ -358,7 +358,7 @@
     </xsl:template>
 
     <xsl:template match="row" mode="files">
-        <xsl:param name="rows" select="//row[collection_level = 'file']"/>
+        <xsl:param name="rows" select="//row[collection_level = 'file' or collection_level = 'item']"/>
         <xsl:param name="component_level"/>
         <xsl:element name="c">
             <xsl:attribute name="level">
@@ -368,7 +368,7 @@
             <xsl:for-each select="tokenize(files_reference, ',')">
                 <xsl:variable name="files_reference" select="."/>
                 <xsl:apply-templates
-                    select="$rows[association_id = normalize-space($files_reference) and collection_level = 'file']"
+                    select="$rows[association_id = normalize-space($files_reference) and (collection_level = 'file' or collection_level = 'item')]"
                     mode="files"> </xsl:apply-templates>
             </xsl:for-each>
         </xsl:element>
