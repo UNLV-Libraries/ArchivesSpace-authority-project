@@ -70,21 +70,23 @@ From this link, download [the XACT template](template_withexamples.xlsx) to the 
 
     ex. 47 hanging folders, 1 shared box of negatives, and 1 CD-ROM
 
-**\*Date expression:** Provide the range of dates for the collection. If you have both inclusive and bulk dates you can only select one type here. This tool can only import one. You’ll enter any remaining date expressions in ArchivesSpace once the EAD has been uploaded.
+**\*Date expression:** Only use the date expression if the combination of date begin, end, and certainty are insufficient to express the date. You can use this field to express multiple dates, but they should be fixed in ArchivesSpace after import.
 
-    ex. 1880-1990
+> *Other than use of color, do not use any special formatting in this field. Only "general" formatting is permitted.*
 
-> *Other than use of color, do not use any special formatting in this field. Only “general” formatting is permitted.*
-
-**\*Date type:** Use appropriate term from the following. Be sure to use all lowercase letters.
-
+**\*Date type:** Use appropriate term from the following. If you have both inclusive and bulk dates you will have to select one type to use here and add the additional date after importing into ArchivesSpace.
 *   inclusive
 *   bulk
 *   single
 
-**\*Date begin:** Enter the begin date of your date range from your date expression.
+**Date begin:** A single date, or the earliest date in a date range, in the format YYYY-MM-DD, YYYY-MM, or YYYY.
 
-**\*Date end:** Enter the end date of your date range from your date expression.
+**Date end:** Leave blank for a single date or the latest date in a date range, in the format YYYY-MM-DD, YYYY-MM, or YYYY.
+
+**Date certainty:** Leave blank if the dates are taken directly from the materials or folder labels. Otherwise, select one of the following terms:
+- approximate (if the materials date from 'around this time'),
+- questionable (possibly this date, but not certainly), or 
+- inferred (based on contextual clues).
 
 **Instance type:** Leave blank
 
@@ -172,18 +174,23 @@ See example below. Color coding is not required for import. It is used here to d
 
 **Extent summary:** This is the container summary.
 
-**\*Date expression:** Range of dates for the component. If you have both inclusive and bulk dates you will have to select one type to use here. This tool can only import one. You’ll have to enter any remaining extents in ArchivesSpace once the EAD has been uploaded.
+**\*Date expression:** Only use the date expression if the combination of date begin, end, and certainty are insufficient to express the date. You can use this field to express multiple dates, but they should be fixed in ArchivesSpace after import.
 
 > *Other than use of color, do not use any special formatting in this field. Only "general" formatting is permitted.*
 
-**\*Date type:** Use appropriate term from the following.
+**\*Date type:** Use appropriate term from the following. If you have both inclusive and bulk dates you will have to select one type to use here and add the additional date after importing into ArchivesSpace.
 *   inclusive
 *   bulk
 *   single
 
-**Date begin:** Complete with begin date of your date range from the date expression.
+**Date begin:** A single date, or the earliest date in a date range, in the format YYYY-MM-DD, YYYY-MM, or YYYY.
 
-**Date end:** Complete with end date of your date range from the date expression.
+**Date end:** Leave blank for a single date or the latest date in a date range, in the format YYYY-MM-DD, YYYY-MM, or YYYY.
+
+**Date certainty:** Leave blank if the dates are taken directly from the materials or folder labels. Otherwise, select one of the following terms:
+- approximate (if the materials date from 'around this time'),
+- questionable (possibly this date, but not certainly), or 
+- inferred (based on contextual clues).
 
 **Instance type:** Select appropriate term from the following. Be sure to use all lowercase letters.
 *   mixed_materials
@@ -360,17 +367,17 @@ For the inventory of the collection map the following DC fields to the following
 
 Title → title
 
-Please note that digital collections formats titles differently. Please evaluate them. We still want the title to be DACS compliant so modify as necessary.
+In most cases titles should be kept the same. Only change titles after checking with a supervisor.
 
-Date → date_expression
+Digital Collections uses a slash `/` to indicate date ranges. Use the date value before a slash for date_begin and the value after the slash for date_end. If no slash is present, enter the value in date_begin. Be sure to complete date_type, date_begin, and date_end as usual.
 
-Digital Collections does not use YYYY Month DD format so you may have to modify single dates. Be sure to complete date_type, date_being, and date_end as usual.
+Digital Collections dates also include certainty indicators. If a date includes a tilde `~` enter 'approximate' in date_certainty. If it includes a question mark `?` enter 'questionable' in date_certainty.
 
 Digital Identifier →  unique_identifier
 
 Object Archival Resource Key (ARK):
 
-You will need to create a new column. In row 1 column AG. To that cell add: Object Archival Resource Key
+You will need to create a new column. In the first blank column of row 1 add: Object Archival Resource Key.
 
 You can then add the ARKs in the column. This will facilitate linking directly to the online digital item.
 
