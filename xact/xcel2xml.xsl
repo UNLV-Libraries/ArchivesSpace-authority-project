@@ -455,41 +455,9 @@
                 </xsl:when>
             </xsl:choose>
             <!-- Date expression -->
-            <xsl:choose>
-                <xsl:when test="date_expression/text()">
-                    <xsl:value-of select="date_expression"/>
-                </xsl:when>
-                <!-- ArchivesSpace doesn't include certainty as part of dates in component titles, so we add a date expression that does. -->
-                <xsl:when test="date_certainty/text() != ''">
-                    <xsl:choose>
-                        <xsl:when test="date_certainty = 'approximate'">
-                            <xsl:text>approximately </xsl:text>
-                        </xsl:when>
-                        <xsl:when test="date_certainty = 'questionable'">
-                            <xsl:text>possibly </xsl:text>
-                        </xsl:when>
-                        <xsl:when test="date_certainty = 'inferred'">
-                            <xsl:text>probably </xsl:text>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:choose>
-                        <xsl:when test="date_begin/text() != '' and date_end/text() != ''">
-                            <xsl:value-of select="normalize-space(date_begin)"/>
-                            <xsl:text>-</xsl:text>
-                            <xsl:value-of select="normalize-space(date_end)"/>
-                        </xsl:when>
-                        <xsl:when test="date_begin/text() != ''">
-                            <xsl:value-of select="normalize-space(date_begin)"/>
-                        </xsl:when>
-                    </xsl:choose>
-                </xsl:when>
-                <xsl:when test="date_begin/text() != '' or date_end/text() != ''">
-                    <!-- Leave empty. ArchivesSpace will take care of it.-->
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="$dateExpression"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:if test="date_expression/text()">
+                <xsl:value-of select="date_expression"/>
+            </xsl:if>
         </unitdate>
     </xsl:template>
     <!--end  unitdate template -->
