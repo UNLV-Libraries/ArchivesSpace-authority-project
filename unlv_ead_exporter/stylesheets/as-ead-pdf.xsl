@@ -1804,6 +1804,22 @@
     <!-- Unittitles and all other clevel elements -->
     <xsl:template match="ead:did" mode="dsc">
         <fo:block margin-bottom="0">
+<!--
+            <xsl:choose>
+                <xsl:when test="ead:dao/@*:href">
+                    <fo:basic-link external-destination="url('{ead:dao/@*:href}')" xsl:use-attribute-sets="ref" >
+                    <xsl:apply-templates select="ead:unittitle"/>
+                    <xsl:if test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
+                    <xsl:apply-templates select="ead:unitdate" mode="did"/>
+                    </fo:basic-link>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="ead:unittitle"/>
+                    <xsl:if test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
+                    <xsl:apply-templates select="ead:unitdate" mode="did"/>
+                </xsl:otherwise>
+            </xsl:choose>
+-->
             <xsl:apply-templates select="ead:unittitle"/>
             <xsl:for-each select="ead:unitdate">
                 <xsl:text>, </xsl:text>
@@ -1906,6 +1922,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <!-- Formats unitid -->
+    <xsl:template match="ead:unitid" mode="did"> (<xsl:value-of select="."/>) </xsl:template>
 
     <!-- Formats unitid -->
     <xsl:template match="ead:unitid" mode="did"> (<xsl:value-of select="."/>) </xsl:template>
