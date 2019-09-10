@@ -1,4 +1,3 @@
-require_relative 'ead_converter'
 class UNLVEADConverter < EADConverter
 
   def self.configure
