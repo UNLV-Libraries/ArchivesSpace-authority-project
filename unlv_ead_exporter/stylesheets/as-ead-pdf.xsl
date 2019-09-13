@@ -1885,6 +1885,10 @@
     <xsl:template match="ead:unitdate" mode="did">
         <!-- <xsl:apply-templates/> -->
         <xsl:choose>
+            <!-- YYYY-YYYY is a common date expression we have; let's allow it. -->
+            <xsl:when test="matches(., '^\s*\d{4}-\d{4}\s*$')">
+                <xsl:value-of select="."/>
+            </xsl:when>
             <xsl:when test="matches(., '\d{4}-')">
                 <xsl:choose>
                     <xsl:when test="@certainty = 'approximate'">
