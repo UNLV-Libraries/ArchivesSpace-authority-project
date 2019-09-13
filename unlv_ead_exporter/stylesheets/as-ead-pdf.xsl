@@ -1883,7 +1883,9 @@
     <!-- Formats unitdates -->
     <!-- <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did"><fo:inline> (<xsl:apply-templates/>) </fo:inline></xsl:template> -->
     <xsl:template match="ead:unitdate" mode="did">
-        <!-- <xsl:apply-templates/> -->
+        <xsl:apply-templates/>
+        <!-- Section below is no longer needed as we handle date expressions in a plugin now. -->
+        <!-- Matched a four-digit year and a hyphen, this date expression was probably auto-generated badly. Make our own.
         <xsl:choose>
             <xsl:when test="matches(., '\d{4}-')">
                 <xsl:choose>
@@ -1897,7 +1899,6 @@
                         <xsl:text>probably </xsl:text>
                     </xsl:when>
                 </xsl:choose>
-                <!-- Matched a four-digit year and a hyphen, this date expression was probably auto-generated badly. Make our own. -->
                 <xsl:for-each select="distinct-values(tokenize(@normal, '/'))">
                     <xsl:if test="(position() eq last()) and (position() > 1)">
                         <xsl:text> to </xsl:text>
@@ -1921,6 +1922,7 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
+        -->
     </xsl:template>
     
     <!-- Formats unitid -->
