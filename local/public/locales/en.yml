@@ -1,32 +1,34 @@
 en:
   enumerations:
-     container_type:
-        oversized_box: Oversized Box
-        album: Album
-        item: Item
-        flat_file: Flat File
-        roll: Roll
-        digital_file: Digital File
-        binder: Binder
-        slide_tray: Slide Tray
-        sheet: Sheet
-     date_label:
-       collected: Collected
-     extent_extent_type:
-        cm: cm
-        items: Items
-        audio_cassettes: Audio Cassettes
-        betacam: Betacam
-        betacam_sp_videotapes: Betacam SP Videotapes
-        betamax_videotapes: Betamax Videotapes
-        digital_files: Digital Files
-        drawings: Drawings
-        floppy_disks: Floppy Disks
-        optical_discs: Optical Discs
-        photographic_negatives: Photographic Negatives
-        hanging_folders: Hanging Folders
-        u_matic_videotapes: U-Matic Videotapes
-        vhs_tapes: VHS Tapes
-        websites: Websites
-     name_source:
-       lcnaf: NACO Authority File
+    container_type:
+      oversized_box: Oversized Box
+      album: Album
+      item: Item
+      flat_file: Flat File
+      roll: Roll
+      digital_file: Digital File
+      binder: Binder
+      slide_tray: Slide Tray
+      sheet: Sheet
+    date_label:
+      collected: Collected
+    extent_extent_type:
+      cm: cm
+      items: Items
+      audio_cassettes: Audio Cassettes
+      betacam: Betacam
+      betacam_sp_videotapes: Betacam SP Videotapes
+      betamax_videotapes: Betamax Videotapes
+      digital_files: Digital Files
+      drawings: Drawings
+      floppy_disks: Floppy Disks
+      optical_discs: Optical Discs
+      photographic_negatives: Photographic Negatives
+      hanging_folders: Hanging Folders
+      u_matic_videotapes: U-Matic Videotapes
+      vhs_tapes: VHS Tapes
+      websites: Websites
+    name_source:
+      lcnaf: NACO Authority File
+    subject_source:
+      lcnaf: NACO Authority File (Geographic Names)
