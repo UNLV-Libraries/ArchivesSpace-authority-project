@@ -25,3 +25,5 @@ en:
         vhs_tapes: VHS Tapes
      name_source:
        lcnaf: NACO Authority File
+     subject_source:
+       geonames: GeoNames
