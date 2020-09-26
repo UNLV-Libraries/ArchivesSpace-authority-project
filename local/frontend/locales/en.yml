@@ -1,29 +1,76 @@
 en:
-  enumerations:
-     container_type:
-        oversized_box: Oversized Box
-        album: Album
-        item: Item
-        flat_file: Flat File
-        roll: Roll
-        digital_file: Digital File
-        binder: Binder
-        slide_tray: Slide Tray
-        sheet: Sheet
-     extent_extent_type:
-        cm: cm
-        items: Item
-        audio_cassettes: Audio Cassettes
-        betacam: Betacam
-        betacam_sp_videotapes: Betacam SP Videotapes
-        betamax_videotapes: Betamax Videotapes
-        digital_files: Digital Files
-        drawings: Drawings
-        floppy_disks: Floppy Disks
-        photographic_negatives: Photographic Negatives
-        u_matic videotapes: U-Matic Videotapes
-        vhs_tapes: VHS Tapes
-     name_source:
-       lcnaf: NACO Authority File
-     subject_source:
-       geonames: GeoNames
+  digital_object: &digital_object_attributes
+    digital_object_type: Digital Object Type
+    language: Language
+    language_tooltip: <p>The language for the digital content.</p>
+  instance_container:
+    barcode: Barcode
+  extent: &extent_attributes
+    portion_tooltip: |
+        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+        <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
+        <p>See DACS 2.5.7</p>
+    number_tooltip: |
+        <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
+        <p>See DACS 2.5</p>
+    extent_type_tooltip: &extent_type_tooltip |
+        <p>A term indicating the type of unit used to measure the extent of materials described.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
+        <p>See DACS 2.5</p>
+  preference: &preference_attributes
+    repo: User Preference Defaults
+    repo_message: Edit these values to set user preference defaults for the current repository. These values can be overridden by a user's own preferences.
+    user_global: My Global Preferences
+    user_global_message: Edit these values to set your system-wide user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
+    user_repo: My Repository Preferences
+    user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
+  defaults: &defaults_attributes
+    accession_browse_column_1: Column 1
+    accession_browse_column_1_tooltip: The field to show in column 1.
+    accession_browse_column_2: Column 2
+    accession_browse_column_2_tooltip: The field to show in column 2.
+    accession_browse_column_3: Column 3
+    accession_browse_column_3_tooltip: The field to show in column 3.
+    accession_browse_column_4: Column 4
+    accession_browse_column_4_tooltip: The field to show in column 4.
+    accession_browse_column_5: Column 5
+    accession_browse_column_5_tooltip: The field to show in column 5.
+    resource_browse_column_1: Column 1
+    resource_browse_column_1_tooltip: The field to show in column 1.
+    resource_browse_column_2: Column 2
+    resource_browse_column_2_tooltip: The field to show in column 2.
+    resource_browse_column_3: Column 3
+    resource_browse_column_3_tooltip: The field to show in column 3.
+    resource_browse_column_4: Column 4
+    resource_browse_column_4_tooltip: The field to show in column 4.
+    resource_browse_column_5: Column 5
+    resource_browse_column_5_tooltip: The field to show in column 5.
+    digital_object_browse_section: Digital_Object Browse Columns
+    digital_object_browse_column_1: Column 1
+    digital_object_browse_column_1_tooltip: The field to show in column 1.
+    digital_object_browse_column_2: Column 2
+    digital_object_browse_column_2_tooltip: The field to show in column 2.
+    digital_object_browse_column_3: Column 3
+    digital_object_browse_column_3_tooltip: The field to show in column 3.
+    digital_object_browse_column_4: Column 4
+    digital_object_browse_column_4_tooltip: The field to show in column 4.
+    digital_object_browse_column_5: Column 5
+    digital_object_browse_column_5_tooltip: The field to show in column 5.
+
+  reports:
+    CreatedAccessionsReport: Created Accessions
+    UnprocessedAccessionsReport: Unprocessed Accessions
+    LocationHoldingsReport: Location Holdings
+    location_holdings:
+      report_title: Report on containers shelved at one or more locations
+      repository_report_type: Repository
+      building_report_type: Building
+      single_location_report_type: Single Location
+      location_range_report_type: Range of Locations
+      search_range: Report on a range of locations
+      start_range: First location
+      end_range: Last location
+  formats:
+    xlsx: XLSX (Excel)
+  import_job:
+    filenames: Import Files
