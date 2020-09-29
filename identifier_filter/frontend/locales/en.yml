@@ -1,5 +1,8 @@
 en:
-  search_results:
-   filter:
-     id_0_u_sstr: Collection Classifier
-     id_1_u_sstr: Collection Identifier
+  search:
+    accession:
+      id_0_u_sstr: Collection Classifier
+      id_1_u_sstr: Collection Identifier
+    resource:
+      id_0_u_sstr: Collection Classifier
+      id_1_u_sstr: Collection Identifier
