@@ -295,7 +295,7 @@
             select="//row[collection_level != 'collection' and collection_level != 'series']"/>
 
         <xsl:for-each select="$series">
-            <c01>
+            <c>
                 <xsl:attribute name="level">
                     <xsl:value-of select="collection_level"/>
                 </xsl:attribute>
@@ -313,11 +313,11 @@
                         select="$rows[association_id = normalize-space($files_reference) and (collection_level = 'file' or collection_level = 'item')]"
                         mode="files"> </xsl:apply-templates>
                 </xsl:for-each>
-            </c01>
+            </c>
         </xsl:for-each>
         <xsl:for-each select="$files">
             <xsl:if test="not(association_id) or association_id = ''">
-                <c01>
+                <c>
                     <xsl:attribute name="level">
                         <xsl:value-of select="collection_level"/>
                     </xsl:attribute>
@@ -328,7 +328,7 @@
                             select="$rows[association_id = normalize-space($files_reference) and (collection_level = 'file' or collection_level = 'item')]"
                             mode="files"> </xsl:apply-templates>
                     </xsl:for-each>
-                </c01>
+                </c>
             </xsl:if>
         </xsl:for-each>
 
@@ -420,16 +420,11 @@
         <unitdate>
             <!-- Date type -->
             <xsl:choose>
-                <xsl:when test="date_type/text()">
+                <xsl:when test="date_type/text() = 'bulk' or date_type/text() = 'inclusive'">
                     <xsl:attribute name="type">
                         <xsl:value-of select="date_type/text()"/>
                     </xsl:attribute>
                 </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="type">
-                        <xsl:value-of select="$dateType"/>
-                    </xsl:attribute>
-                </xsl:otherwise>
             </xsl:choose>
             <!-- Normal form -->
             <xsl:choose>
