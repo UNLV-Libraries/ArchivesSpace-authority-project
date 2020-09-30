@@ -15,12 +15,12 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
   @archival_object_map = {
-    [:repository, :language] => :handle_repo_code,
+    [:repository, :finding_aid_language] => :handle_repo_code,
     [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
-    :language => df_handler('lang', '041', '0', ' ', 'a'),
+    :lang_materials => df_handler('lang', '041', '0', ' ', 'a'),
   }
 
   def self.from_resource(obj, opts = {})
