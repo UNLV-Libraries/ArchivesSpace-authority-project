@@ -11,8 +11,8 @@ Rails.application.config.after_initialize do
       values = accession.to_hash(:raw)
 
       repo_url = accession.repository["ref"]
-      Log.debug(repo_url)
-      Log.debug(repo_url.scan(/\d+$/).first)
+      Rails.logger.debug(repo_url)
+      Rails.logger.debug(repo_url.scan(/\d+$/).first)
       settings, global_repo_id = current_spawn_settings(repo_url.scan(/\d+$/).first)
       prefs = settings["repo"]["spawn_defaults"]
 
@@ -65,7 +65,7 @@ Rails.application.config.after_initialize do
       end
 
       if(prefs['accessrestrict_enable'] && !prefs['accessrestrict_text'].nil?)
-      Log.debug("accessrestrict_enable Enable")
+      Rails.logger.debug("accessrestrict_enable Enable")
         content = prefs['accessrestrict_text']
         #Self populate Conditions Governing Access note_multipart
         notes << JSONModel(:note_multipart).from_hash(:type => "accessrestrict",
@@ -113,7 +113,11 @@ Rails.application.config.after_initialize do
       self.level = "collection"
 
       #Add language (always English) use Enumeration value eng
-      self.language = "eng"
+      langscript = JSONModel(:language_and_script).new
+      langscript.language = 'eng'
+      lang = JSONModel(:lang_material).new
+      lang.language_and_script = langscript
+      self.lang_materials = [lang]
 
       #Enable Plubish?
       self.publish = true
@@ -155,7 +159,8 @@ Rails.application.config.after_initialize do
 
       #self.finding_aid_filing_title = accession.title
       self.finding_aid_description_rules = "dacs"
-      self.finding_aid_language = "English"
+      self.finding_aid_language = 'eng'
+      self.finding_aid_script = 'Zyyy'
       self.finding_aid_status = "in_progress"
 
       #IMPORTANT: classification and subjects set specifically for OH Oral Histories (id = 2 )

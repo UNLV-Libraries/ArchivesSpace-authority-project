@@ -10,14 +10,14 @@ class SpawnSettings < Sequel::Model(:spawn_settings)
 	
     if File.exists?(defs_file)
       found_defs_file = true
-      Log.info("Loading spawn defualts file at #{defs_file}")
+      Rails.logger.info("Loading spawn defualts file at #{defs_file}")
       spawn_defaults = eval(File.read(defs_file))
     end
 
     RequestContext.in_global_repo do
       filter = {:repo_id => Repository.global_repo_id, :spawn_user_id => nil}
       if self.filter(filter).count == 0
-        Log.info("Creating system spawn settings")
+        Rails.logger.info("Creating system spawn settings")
         SpawnSettings.create_from_json(JSONModel(:spawn_settings).from_hash({
                                                                        :spawn_user_id => nil,
                                                                        :spawn_defaults => spawn_defaults
@@ -25,7 +25,7 @@ class SpawnSettings < Sequel::Model(:spawn_settings)
                                     :repo_id => Repository.global_repo_id)
       else
         if found_defs_file
-          Log.info("Updating system spawn settings")
+          Rails.logger.info("Updating system spawn settings")
           pref = self.filter(filter).first
           pref.update_from_json(JSONModel(:spawn_settings).from_hash({:spawn_defaults => spawn_defaults}),
                                 :lock_version => pref.lock_version)
