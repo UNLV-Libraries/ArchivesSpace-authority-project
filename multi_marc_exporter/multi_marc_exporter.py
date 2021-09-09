@@ -134,7 +134,7 @@ def search_identifer(api_url,auth_token, repo_id, identifier):
 
     params =  urllib.parse.urlencode({'page': '1',
                                       "aq" :
-                                      '{"query":{"field":"identifier","value":"%s","jsonmodel_type":"field_query"}}'  % (identifier) })
+                                      '{"query":{"op":"AND","subqueries":[{"field":"identifier","value":"%s","jsonmodel_type":"field_query","negated":false,"literal":true},{"field":"primary_type","value":"resource","jsonmodel_type":"boolean_field_query"}],"jsonmodel_type":"boolean_query"},"jsonmodel_type":"advanced_query"}'  % (identifier) })
     url = api_url+'/repositories/' + str(repo_id) + '/search?%s' % params
     data = None
     headers = {'X-ArchivesSpace-Session': auth_token}
