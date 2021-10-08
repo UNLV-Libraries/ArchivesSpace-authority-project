@@ -1,3 +1,7 @@
+# Deprecation Notice
+
+This module will no longer be maintained as it is no longer in use @ UNLV and doesn't work with ArchivesSpace 3.x.
+
 # UNLV MARCXML Importer
 
 The UNLV MARCXML Importer allows ArchivesSpace users to import agent and subject records in MARCXML. 
