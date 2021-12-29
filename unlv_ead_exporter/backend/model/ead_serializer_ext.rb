@@ -218,7 +218,7 @@ class EADSerializer < ASpaceExport::Serializer
         languages = languages.map {|l| l['language_and_script']}.compact
         xml.langmaterial {
           languages.map {|language|
-            punctuation = language.equal?(languages.last) ? '.' : ', '
+            punctuation = language.equal?(languages.last) ? '' : ', '
             lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
             if language['script']
               xml.language(:langcode => language['language'], :scriptcode => language['script']) {
@@ -239,7 +239,7 @@ class EADSerializer < ASpaceExport::Serializer
       if !languages.empty?
         xml.langmaterial {
           languages.map {|language|
-            punctuation = language.equal?(languages.last) ? '.' : ', '
+            punctuation = language.equal?(languages.last) ? '' : ', '
             lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
             if language['script']
               xml.language(:langcode => language['language'], :scriptcode => language['script']) {
