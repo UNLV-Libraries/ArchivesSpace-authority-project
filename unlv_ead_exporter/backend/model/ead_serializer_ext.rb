@@ -353,7 +353,7 @@ class EADSerializer < ASpaceExport::Serializer
       }
 
       xml.profiledesc {
-        creation = "This finding aid was created by #{data.finding_aid_author} on <date>#{Time.now}</date>."
+        creation = "This finding aid was created by UNLV Special Collections and Archives staff. This copy was published on <date>#{Time.now}</date>. Please contact special.collections@unlv.edu for questions regarding this collection."
         xml.creation {  sanitize_mixed_content( creation, xml, fragments) }
 
         if (val = data.finding_aid_language)
