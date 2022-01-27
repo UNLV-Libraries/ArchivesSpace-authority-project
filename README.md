@@ -90,3 +90,17 @@ Plugin Settings is a test to implement settings for a plugin following the struc
 # XACT
 
 XACT is used to transform an Excel spreadsheet collection inventory into an EAD for import into ArchivesSpace.
+
+# Miscellaneous Scripts, Queries, and Transforms
+
+*Note: all scripts are for python2 because that was the default python installed on OS X.*
+
+- coll-mint: Used for adding ARKs to ArchivesSpace and exporting PDFs.
+- ead-numbered-components_to_tsv.xsl: An XSLT for creating a TSV file of container titles from an EAD with numbered components.
+- export-csv: Script to export Agents in a CSV via the API since the existing export is unusable.
+- sql: SQL queries for reporting
+- migrate-locations: Scripts used in exploring the option of moving from a locations management spreadsheet to the ArchivesSpace locations module. (2017)
+- cdm-update (Deprecated): Scripts to populate ArchivesSpace digital object instances based on CONTENTdm objects.
+  - cdm_update_as.py works by matching CDM object titles and a collection identifier to AS archival object titles and resource identifiers.
+  - cdm_update_as_pho.py works by taking an Image ID from a CDM object field and matching it to an AS archival object component ID. *Currently only produces a TSV file of matches and errors. Needs to be updated to use ARKs instead once ARKs are minted for these CDM objects.*
+  - csv_link_ref_id.py takes a CSV of ARKs, digital ids, titles, and ArchivesSpace ref_ids (usually from ead-numbered-components_to_tsv.xsl) to create digital object records in ArchivesSpace.

@@ -1,0 +1,14 @@
+[archivesspace]
+username = admin
+password = admin
+api-prefix = http://localhost:8089
+repository = 2
+
+[cdm]
+wsAPI-url = https://server00000.contentdm.oclc.org
+public-url = https://client0000.contentdm.oclc.org/digital/collection/%s/id/%d
+ark-field = accrub
+collid-field = sourca
+doid-field = digita
+date-single-field = format
+date-range-field = date

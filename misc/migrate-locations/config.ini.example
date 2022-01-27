@@ -1,0 +1,8 @@
+# Correct the fields below then remove the ".example" extension.
+# All fields are required.
+
+[archivesspace]
+username = admin
+password = admin
+api-prefix = http://localhost:8089
+repository = 2
