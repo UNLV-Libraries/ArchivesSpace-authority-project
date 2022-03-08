@@ -67,11 +67,13 @@ class EADSerializer < ASpaceExport::Serializer
             #change period to dash
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-')
 
-            if @include_unpublished
-              data.external_ids.each do |exid|
-                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
-              end
+            # Export unitid
+            audience = @include_unpublished ? "internal" : "external"
+
+            data.external_ids.each do |exid|
+              xml.unitid  ({ "audience" => audience, "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
             end
+
 
             serialize_extents(data, xml, @fragments)
 
