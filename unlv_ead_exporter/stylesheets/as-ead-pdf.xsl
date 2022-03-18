@@ -1928,9 +1928,6 @@
     <!-- Formats unitid -->
     <xsl:template match="ead:unitid" mode="did"> (<xsl:value-of select="."/>) </xsl:template>
 
-    <!-- Formats unitid -->
-    <xsl:template match="ead:unitid" mode="did"> (<xsl:value-of select="."/>) </xsl:template>
-
     <!-- Special formatting for elements in the collection inventory list -->
     <xsl:template
         match="
