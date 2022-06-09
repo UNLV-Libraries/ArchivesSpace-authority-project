@@ -1,5 +1,5 @@
 SELECT archival_object.ref_id, 
-       file_version.file_uri, 
+       file_version.file_uri AS ark, 
        Trim('\n' FROM digital_object.digital_object_id) AS digital_object_id 
 FROM   instance 
        RIGHT JOIN instance_do_link_rlshp 
