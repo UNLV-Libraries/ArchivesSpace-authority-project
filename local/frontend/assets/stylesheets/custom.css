@@ -10,8 +10,3 @@
     width: 12px;
     height: 12px;
 }
-.CodeMirror-scroll{
-	height: 100% !important;
-	overflow-y: hidden!important;
-	overflow-x: auto !important;
-}

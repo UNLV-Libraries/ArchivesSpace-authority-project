@@ -1,9 +1,3 @@
 <link href="<%= "#{@base_url}/assets/stylesheets/custom.css" %>" media="all" rel="stylesheet" type="text/css">
 
 <%= javascript_include_tag "#{@base_url}/assets/mixed_content.config.js" %>
-<% if controller.controller_name == 'resources'%>
-	<%= javascript_include_tag "#{@base_url}/assets/local.js" %>
-	<%= stylesheet_link_tag    "https://cdn.jsdelivr.net/codemirror.spell-checker/latest/spell-checker.min.css" %>
-    <%= javascript_include_tag "https://cdn.jsdelivr.net/codemirror.spell-checker/latest/spell-checker.min.js"  %>
-    <%= javascript_include_tag "https://codemirror.net/addon/mode/overlay.js"  %>
-<% end %>
