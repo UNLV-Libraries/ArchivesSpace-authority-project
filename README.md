@@ -95,7 +95,7 @@ XACT is used to transform an Excel spreadsheet collection inventory into an EAD 
 
 *Note: all scripts are for python2 because that was the default python installed on OS X.*
 
-- coll-mint: Used for adding ARKs to ArchivesSpace and exporting PDFs.
+- coll-mint (Deprecated in favor of minting in Airtable): Used for adding ARKs to ArchivesSpace and exporting PDFs.
 - ead-numbered-components_to_tsv.xsl: An XSLT for creating a TSV file of container titles from an EAD with numbered components.
 - export-csv: Script to export Agents in a CSV via the API since the existing export is unusable.
 - sql: SQL queries for reporting
