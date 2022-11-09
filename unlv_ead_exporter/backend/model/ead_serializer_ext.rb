@@ -67,11 +67,13 @@ class EADSerializer < ASpaceExport::Serializer
             #change period to dash
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('-')
 
-            if @include_unpublished
-              data.external_ids.each do |exid|
-                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
-              end
+            # Export unitid
+            audience = @include_unpublished ? "internal" : "external"
+
+            data.external_ids.each do |exid|
+              xml.unitid  ({ "audience" => audience, "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
             end
+
 
             serialize_extents(data, xml, @fragments)
 
@@ -353,7 +355,7 @@ class EADSerializer < ASpaceExport::Serializer
       }
 
       xml.profiledesc {
-        creation = "This finding aid was created by #{data.finding_aid_author} on <date>#{Time.now}</date>."
+        creation = "This finding aid was created by UNLV Special Collections and Archives staff. This copy was published on <date>#{Time.now}</date>. Please contact special.collections@unlv.edu for questions regarding this collection."
         xml.creation {  sanitize_mixed_content( creation, xml, fragments) }
 
         if (val = data.finding_aid_language)
